@@ -1,0 +1,165 @@
+@use "sass:map";
+@import "./theme";
+@import "./responsive";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  max-width: 1220px;
+  width: 100%;
+  padding: 0 15px;
+  margin: auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 1200px) {
+  .col-xl-12 {
+    -ms-flex: 0 0 100%;
+    padding-left: 8px;
+    padding-right: 8px;
+    // min-width: 1200px;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.col-xl-7 {
+  -ms-flex: 0 0 58.333333%;
+  flex: 0 0 58.333333%;
+  max-width: 58.333333%;
+}
+
+.col-xl-5 {
+  -ms-flex: 0 0 41.666667%;
+  flex: 0 0 41.666667%;
+  max-width: 41.666667%;
+}
+
+.col-xl-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.col-sm-12 {
+  position: relative;
+  width: 100%;
+}
+.col-lg-12 {
+  width: 100%;
+}
+
+.col-12 {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.col-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.col-lg-3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.col-lg-4 {
+  flex: 0 0 35%;
+  max-width: 35%;
+}
+
+.col-lg-7 {
+  flex: 0 0 65%;
+  max-width: 65%;
+}
+
+.col-lg-9 {
+  flex: 0 0 75%;
+  max-width: 75%;
+}
+
+.col-lg-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+@include Responsive($DESKTOP) {
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  .col-xl-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@include Responsive($TABLE_DEVICE) {
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .col-xl-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@include Responsive($MEDIUM_DEVICE) {
+  .col-lg-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  .footer .footer-info .footer-qr {
+    overflow: hidden;
+    opacity: 0;
+  }
+}
+
+@include Responsive($WIDE_MOBILE) {
+  .col-sm-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .col-sm-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .footer .footer-info .footer-qr {
+    overflow: hidden;
+    opacity: 0;
+  }
+}
+
+@include Responsive($SMALL_DEVICE) {
+  .col-xs-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .footer .footer-info .footer-qr {
+    overflow: hidden;
+    opacity: 0;
+  }
+}

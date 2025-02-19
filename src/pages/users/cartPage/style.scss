@@ -1,0 +1,40 @@
+@use "sass:map";
+@import "../../../styles/pages/theme.scss";
+@import "../../../styles/pages/responsive";
+
+.cart-container {
+  min-height: 80vh;
+  .no-emty {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 50px;
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    margin-bottom: 20px;
+
+    img {
+      height: 200px;
+      text-align: center;
+    }
+
+    p {
+      padding: 20px;
+    }
+    button {
+      border-radius: 5px;
+      border: 0;
+      padding: 10px;
+      color: white;
+      background-color: map.get($theme-color, "button-color");
+      &:hover {
+        cursor: pointer;
+        background: darken(map.get($theme-color, "button-color"), 10%);
+      }
+      &:focus {
+        box-shadow: 0 0 8px rgba(map.get($theme-color, "main-color"), 0.4);
+      }
+    }
+  }
+}
