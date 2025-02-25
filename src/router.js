@@ -10,6 +10,8 @@ import CartPage from "./pages/users/cartPage";
 import LookupPage from "./pages/users/lookupPage";
 import Dashboard from "./pages/admin/dashboard";
 import AdminLayout from "./pages/admin/theme/adminLayout";
+import VerifyOTP from "./pages/general/auth/verifyOTP";
+import CreateProduct from "./pages/admin/createProduct";
 
 const RouterCustom = () => {
   return (
@@ -20,9 +22,14 @@ const RouterCustom = () => {
         <Route path={ROUTERS.USERS.FORGET_PASSWORD} element={<ForgetPass />} />
         <Route path={ROUTERS.USERS.CART} element={<CartPage />} />
         <Route path={ROUTERS.USERS.LOOKUP} element={<LookupPage />} />
+        <Route path={ROUTERS.USERS.VERIFY} element={<VerifyOTP />} />
       </Route>
       <Route element={<AdminLayout />}>
         <Route path={ROUTERS.ADMIN.DASHBOARD} element={<Dashboard />} />
+        <Route
+          path={ROUTERS.ADMIN.CREATE_PRODUCT}
+          element={<CreateProduct />}
+        />
       </Route>
     </Routes>
   );

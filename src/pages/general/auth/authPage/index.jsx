@@ -6,7 +6,7 @@ import { apiLink } from "../../../../config/api";
 import { useNavigate } from "react-router-dom";
 import { ROUTERS } from "../../../../utils";
 const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const navigator = useNavigate();
   const [formDataLogin, setFormDataLogin] = useState({
     email: "",
@@ -15,6 +15,7 @@ const AuthPage = () => {
   const [formDataSignup, setFormDataSignup] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: ""
   });
@@ -44,6 +45,7 @@ const AuthPage = () => {
         body: JSON.stringify({
           name: formDataSignup.name,
           email: formDataSignup.email,
+          phone: formDataSignup.phone,
           password: formDataSignup.password,
           confirmPassword: formDataSignup.confirmPassword
         })
@@ -52,6 +54,9 @@ const AuthPage = () => {
         alert("Đăng ký không thành công! Vui lòng kiểm tra lại thông tin.");
         return;
       }
+      navigator(ROUTERS.USERS.VERIFY, {
+        state: { email: formDataSignup.email }
+      });
     } catch (error) {
       alert("Đã xảy ra lỗi khi đăng ký!");
     }
@@ -74,6 +79,8 @@ const AuthPage = () => {
       }
       const dataUser = await response.json();
       console.log(dataUser);
+      sessionStorage.setItem("dataUser", JSON.stringify(dataUser));
+      navigator(ROUTERS.USERS.HOME);
     } catch (error) {
       alert("Đã xảy ra lỗi khi đăng nhập!");
     }
@@ -145,7 +152,6 @@ const AuthPage = () => {
         <div className="auth-side register-side">
           <div className="content">
             <h2>Đăng ký</h2>
-
             <input
               type="text"
               placeholder="Họ và tên"
@@ -153,6 +159,18 @@ const AuthPage = () => {
               value={formDataSignup.name}
               required
               onChange={handleSignupChange}
+            />
+            <input
+              type="tel"
+              placeholder="Số điện thoại"
+              name="phone"
+              value={formDataSignup.phone}
+              onChange={handleSignupChange}
+              onInput={(e) =>
+                (e.target.value = e.target.value.replace(/\D/g, ""))
+              }
+              maxLength={10}
+              required
             />
             <input
               type="email"
