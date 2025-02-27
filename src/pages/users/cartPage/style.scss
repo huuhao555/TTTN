@@ -2,8 +2,9 @@
 @import "../../../styles/pages/theme.scss";
 @import "../../../styles/pages/responsive";
 
-.cart-container {
-  min-height: 80vh;
+.container {
+  max-width: 1220px;
+  width: 100%;
   .no-emty {
     display: flex;
     align-items: center;

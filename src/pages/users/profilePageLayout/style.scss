@@ -1,0 +1,52 @@
+@use "sass:map";
+@import "../../../styles/pages/theme.scss";
+@import "../../../styles/pages/responsive";
+
+
+
+.container{
+    .logoutBtn {
+            padding: 0 25px;
+            margin-top: 20px;
+            .layoutBox {
+                align-items: center;
+                    background: #ffe97d;
+                    border-radius: 10px;
+                    display: flex;
+                    height: 80px;
+                    justify-content: center;
+                    overflow: hidden;
+                    padding: 25px;
+                    position: relative;
+                    width: 100%;
+                    .btn {
+                            font-size: 14px;
+                            font-weight: 600;
+                            display: inline-flex;
+                            cursor: pointer;
+                            font-weight: 500;
+                            line-height: 1.75;
+                            letter-spacing: 0.02857em;
+                            // text-transform: uppercase;
+                            min-width: 64px;
+                            color: rgb(0, 0, 0);
+                            background-color: #ffd500;
+                            box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+                            outline: 0px;
+                            border-width: 0px;
+                            margin: 0px;
+                            padding: 6px 16px;
+                            border-radius: 4px;
+                    span {
+                            font-size: 14px;
+                            font-weight: 600;
+                            margin-right: 5px;
+                        }
+                    }
+              
+            }
+                       
+        }
+
+
+}

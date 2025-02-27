@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 const CartPage = () => {
   const navigator = useNavigate();
   return (
-    <div className="cart-container">
+    <div className="container">
       <div className="no-emty">
         <img
-          src={require("../../../assets/users/empty_cart.png")}
+          src="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
           alt="not-found-product-cart"
         />
         <p>Không có sản phẩm trong giỏ hàng.</p>

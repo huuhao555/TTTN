@@ -6,7 +6,16 @@ export const ROUTERS = {
     FORGET_PASSWORD: "/quen-mat-khau",
     CART: "/gio-hang",
     LOOKUP: "/tra-cuu",
-    VERIFY: "/xac-thuc-tai-khoan"
+    VERIFY: "/xac-thuc-tai-khoan",
+    PRODUCT_DETAIL: "/chi-tiet-san-pham",
+    PAYMENT: "/thanh-toan",
+    ORDER: "/don-hang",
+    ORDER_DETAIL: "/chi-tiet-don-hang",
+    PROFILE_PAGE: "/thong-tin-ca-nhan",
+    ORDER_MANAGEMENT: "/quan-ly-don-hang-ca-nhan",
+    VIEW_PRODUCT: "/lich-su-san-pham-da-xem",
+    ADRESS_BOOK:"/so-dia-chi"
+
   },
   ADMIN: {
     DASHBOARD: "/admin",
