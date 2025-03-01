@@ -1,0 +1,27 @@
+@use "sass:map";
+@import "../../../styles/pages/theme.scss";
+@import "../../../styles/pages/responsive";
+
+.product-name {
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.box-main {
+    margin-top: 20px;
+    padding-top: 10px;
+    background-color: #fff;
+    border-radius: 12px;
+
+    .box-left {
+        border-right: 1px solid #ddd;
+        img{
+            width: 100%;
+            height: 50%;
+        }
+    }
+
+    .box-right {
+    }
+}

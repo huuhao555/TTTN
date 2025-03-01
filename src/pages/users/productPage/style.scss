@@ -1,0 +1,53 @@
+@use "sass:map";
+@import "../../../styles/pages/theme.scss";
+@import "../../../styles/pages/responsive";
+
+
+  
+  .product-page {
+    margin-top: 10vh;
+    padding: 20px 0;
+        // height: 80vh;
+        background: rgba(255, 255, 255, 1);
+        border-radius:8px;
+
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+
+      .product-item {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+          width: 50%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 4px;
+          margin-bottom: 10px;
+        }
+
+        h3 {
+          margin: 10px 0;
+          font-size: 18px;
+        }
+
+        p {
+          color: #ffd500;
+          font-weight: bold;
+          font-size: 16px;
+        }
+      }
+    }
+  }

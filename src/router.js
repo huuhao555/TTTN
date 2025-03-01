@@ -18,6 +18,8 @@ import OrderManagement from "./pages/general/profilePageLayout/orderManagement";
 import ViewHistories from "./pages/general/profilePageLayout/viewHistories";
 import AddressBook from "./pages/general/profilePageLayout/adressBook";
 import CreateCategory from "./pages/admin/createCategoris";
+import ProductPage from "./pages/users/productPage";
+import ProductDetails from "./pages/users/detailsPage";
 
 const RouterCustom = () => {
   return (
@@ -29,6 +31,8 @@ const RouterCustom = () => {
         <Route path={ROUTERS.USERS.CART} element={<CartPage />} />
         <Route path={ROUTERS.USERS.LOOKUP} element={<LookupPage />} />
         <Route path={ROUTERS.USERS.VERIFY} element={<VerifyOTP />} />
+        <Route path={ROUTERS.USERS.PRODUCT} element={<ProductPage />} />
+       < Route path={ROUTERS.USERS.PRODUCT_DETAIL} element={<ProductDetails />} />
       </Route>
       <Route element={<AdminLayout />}>
         <Route path={ROUTERS.ADMIN.DASHBOARD} element={<Dashboard />} />

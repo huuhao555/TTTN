@@ -7,6 +7,7 @@ export const ROUTERS = {
     CART: "/gio-hang",
     LOOKUP: "/tra-cuu",
     VERIFY: "/xac-thuc-tai-khoan",
+    PRODUCT:"/san-pham",
     PRODUCT_DETAIL: "/chi-tiet-san-pham",
     PAYMENT: "/thanh-toan",
     ORDER: "/don-hang",
