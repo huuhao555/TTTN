@@ -13,7 +13,7 @@ const ProfilePage = () => {
         return {
           name: user.dataUser.name || "N/A",
           email: user.dataUser.email || "N/A",
-          phone: user.dataUser.phone || "N/A",
+          phone: user.dataUser.phone || "N/A"
         };
       }
       return null;
@@ -26,18 +26,18 @@ const ProfilePage = () => {
     {
       key: "name",
       text: "Họ Tên",
-      value: getUserData()?.name,
+      value: getUserData()?.name
     },
     {
       key: "phone",
       text: "Số điện thoại",
-      value: getUserData()?.phone,
+      value: getUserData()?.phone
     },
     {
       key: "email",
       text: "Email",
-      value: getUserData()?.email,
-    },
+      value: getUserData()?.email
+    }
   ];
   const handleUpdate = async () => {
     // e.preventDefault();
@@ -46,8 +46,9 @@ const ProfilePage = () => {
       const res = await fetch(apiLink + `/api/user/update-user/${id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
+        body: JSON.stringify({})
       });
       if (res.ok) {
         const data = await res.json();

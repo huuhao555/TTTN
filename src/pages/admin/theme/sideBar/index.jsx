@@ -21,6 +21,11 @@ const menuItems = [
     label: "Thêm sản phẩm"
   },
   {
+    path: ROUTERS.ADMIN.CREATE_CATEGORY,
+    icon: <FaPlusCircle />,
+    label: "Thêm loại sản phẩm"
+  },
+  {
     path: "/admin/products/mobiles",
     icon: <FaMobileAlt />,
     label: "Điện thoại"

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Layout, Menu, Modal } from "antd";
-import Footer from "../theme/footer";
+import Footer from "../../../pages/users/theme/footer";
 import "./style.scss";
 // import header from "../theme/header";
 import {
@@ -9,9 +9,9 @@ import {
   ShoppingOutlined,
   EnvironmentOutlined,
   LogoutOutlined,
-  ShoppingCartOutlined,
+  ShoppingCartOutlined
 } from "@ant-design/icons";
-import Header from "../theme/header";
+import Header from "../../../pages/users/theme/header";
 import { UserProvider } from "../../../middleware/UserContext";
 
 const { Sider, Content } = Layout;
@@ -42,13 +42,13 @@ const ProfilePageLayout = () => {
       okButtonProps: {
         style: {
           backgroundColor: "#ffd500",
-          color: "black",
-        },
+          color: "black"
+        }
       },
       onOk: () => {
         sessionStorage.clear();
         navigate("/");
-      },
+      }
     });
   };
 
@@ -57,26 +57,26 @@ const ProfilePageLayout = () => {
       key: "1",
       icon: <UserOutlined />,
       label: "Thông tin người dùng",
-      onClick: () => navigate("/thong-tin-ca-nhan"),
+      onClick: () => navigate("/thong-tin-ca-nhan")
     },
     {
       key: "2",
       icon: <ShoppingOutlined />,
       label: "Quản lí đơn hàng",
-      onClick: () => navigate("/quan-ly-don-hang-ca-nhan"),
+      onClick: () => navigate("/quan-ly-don-hang-ca-nhan")
     },
     {
       key: "3",
       icon: <EnvironmentOutlined />,
       label: "Sổ địa chỉ",
-      onClick: () => navigate("/so-dia-chi"),
+      onClick: () => navigate("/so-dia-chi")
     },
     {
       key: "4",
       icon: <ShoppingCartOutlined />,
       label: "Lịch sử sản phẩm đã xem",
-      onClick: () => navigate("/lich-su-san-pham-da-xem"),
-    },
+      onClick: () => navigate("/lich-su-san-pham-da-xem")
+    }
   ];
 
   return (
@@ -85,7 +85,7 @@ const ProfilePageLayout = () => {
       <div style={{ marginTop: "50px" }} className="container">
         <Layout
           style={{
-            minHeight: "100vh",
+            minHeight: "100vh"
           }}
         >
           <Sider width={250} theme="light">
