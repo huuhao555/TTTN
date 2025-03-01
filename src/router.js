@@ -36,10 +36,6 @@ const RouterCustom = () => {
           path={ROUTERS.ADMIN.CREATE_PRODUCT}
           element={<CreateProduct />}
         />
-        <Route
-          path={ROUTERS.ADMIN.CREATE_CATEGORY}
-          element={<CreateCategory />}
-        />
       </Route>
       <Route element={<ProfilePageLayout />}>
         <Route path={ROUTERS.USERS.PROFILE_PAGE} element={<ProfilePage />} />
@@ -53,4 +49,5 @@ const RouterCustom = () => {
     </Routes>
   );
 };
+
 export default memo(RouterCustom);
