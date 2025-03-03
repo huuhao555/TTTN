@@ -1,69 +1,67 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-// import { NotificationContext } from "../../../middleware/NotificationContext";
 import { apiLink } from "../../../config/api";
-// import SuccessAnimation from "../../general/Success";
 
 const CreateCategory = () => {
-  // const { addNotification } = useContext(NotificationContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ name: "" });
   const [iconUrl, setIconUrl] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, name: e.target.value });
   };
 
   const handleImageChange = (e) => {
-    setIconUrl(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setIconUrl(file);
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const data = new FormData();
-
-      data.append("name", formData.name);
-
+      data.append("name", formData.name); // Gửi name dưới dạng text
       if (iconUrl) {
-        data.append("icon", iconUrl);
+        data.append("icon", iconUrl); // Gửi file ảnh
       }
 
-      const response = await fetch(apiLink + "/api/category/create", {
+      const response = await fetch(`${apiLink}/api/category/create`, {
         method: "POST",
         body: data
       });
 
       if (!response.ok) {
-        alert(
-          "Thêm sản phẩm không thành công! Vui lòng kiểm tra lại thông tin."
-        );
+        alert("Thêm loại sản phẩm không thành công! Vui lòng kiểm tra lại.");
         return;
       }
-      setTrigger(true);
 
+      setTrigger(true);
       setMessage("Thêm loại sản phẩm thành công");
-      // addNotification(`${formData.name} được thêm vào danh sách sản phẩm.`);
+
       setTimeout(() => {
         setTrigger(false);
-
-        navigate("/admin/quan-ly-san-pham");
+        // navigate("/admin/quan-ly-san-pham");
       }, 1000);
+
       setFormData({ name: "" });
       setIconUrl(null);
+      setPreview(null);
     } catch (error) {
-      console.error(error);
+      console.error("Lỗi khi gửi yêu cầu:", error);
     }
   };
 
   return (
     <div className="simple-create-product">
       <h1>Tạo Loại Sản Phẩm</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
           <label>Tên loại sản phẩm:</label>
           <input
@@ -77,9 +75,9 @@ const CreateCategory = () => {
         <div>
           <label>Icon loại sản phẩm:</label>
           <input type="file" accept="image/*" onChange={handleImageChange} />
-          {iconUrl && (
+          {preview && (
             <img
-              src={URL.createObjectURL(iconUrl)}
+              src={preview}
               alt="Product Preview"
               style={{ maxWidth: "200px", marginTop: "10px" }}
             />
@@ -87,7 +85,6 @@ const CreateCategory = () => {
         </div>
         <button type="submit">Thêm loại sản phẩm</button>
       </form>
-      {/* <SuccessAnimation message={message} trigger={trigger} /> */}
     </div>
   );
 };

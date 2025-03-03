@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import "./style.scss";
 import { Link } from "react-router-dom";
 import {
@@ -20,6 +20,7 @@ import {
 } from "react-icons/bs";
 import { ROUTERS } from "../../../../utils";
 import { FaChessKing } from "react-icons/fa";
+import { apiLink } from "../../../../config/api";
 
 const Header = () => {
   const menuCategories = [
@@ -32,6 +33,24 @@ const Header = () => {
     { id: 7, name: "Loa, Micro", icon: <BsSpeaker /> },
     { id: 8, name: "Phụ kiện", icon: <BsPlug /> }
   ];
+  const [categories, setCategories] = useState([]);
+  console.log(categories);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(apiLink + "/api/category/getAll");
+        if (!response.ok) {
+          console.error("Error fetching categories");
+          return;
+        }
+        const data = await response.json();
+        setCategories(Array.isArray(data.data) ? data.data : []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCategories();
+  }, []);
   return (
     <div className="header">
       <div className="container">

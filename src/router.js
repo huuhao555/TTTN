@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { Route, Routes } from "react-router-dom";
-
 import { ROUTERS } from "./utils/index";
 import HomePage from "./pages/users/homePage";
 import UserLayout from "./pages/users/theme/userLayout";
@@ -35,6 +34,10 @@ const RouterCustom = () => {
         <Route
           path={ROUTERS.ADMIN.CREATE_PRODUCT}
           element={<CreateProduct />}
+        />
+        <Route
+          path={ROUTERS.ADMIN.CREATE_CATEGORY}
+          element={<CreateCategory />}
         />
       </Route>
       <Route element={<ProfilePageLayout />}>

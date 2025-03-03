@@ -48,10 +48,7 @@ const Footer = () => {
           </div>
 
           <div className="footer__bottom">
-            <p>
-              © 2025. Công ty cổ phần Thế Giới Di Động. Địa chỉ... Email:
-              nhom5.tttn@vaa.edu.vn
-            </p>
+            <p>© 2025. Địa chỉ... Email: nhom5.tttn@vaa.edu.vn</p>
           </div>
         </div>
       </div>

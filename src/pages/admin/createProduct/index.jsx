@@ -1,19 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import { apiLink } from "../../../config/api";
 
 const CreateProduct = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-    quantityStock: "",
-    prices: "",
-    discount: ""
-  });
+  const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
   const [imageFiles, setImageFiles] = useState([]);
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    quantityInStock: "",
+    prices: "",
+    discount: "",
+    categoryId: "",
+    description: ""
+  });
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(apiLink + "/api/category/getAll");
+        if (!response.ok) {
+          console.error("Error fetching categories");
+          return;
+        }
+        const data = await response.json();
+        setCategories(Array.isArray(data.data) ? data.data : []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +43,7 @@ const CreateProduct = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImageFiles((prev) => [...prev, ...files]);
+    setImageFiles((prev) => [...prev, ...files]); // Thêm ảnh mới vào danh sách
   };
 
   const removeImage = (index) => {
@@ -53,17 +74,20 @@ const CreateProduct = () => {
         );
         return;
       }
-      setMessage("Thêm sản phẩm thành công");
+
       setTrigger(true);
+      setMessage("Thêm sản phẩm thành công");
       setTimeout(() => {
-        navigate("/admin/quan-ly-san-pham");
         setTrigger(false);
       }, 1000);
+
       setFormData({
         name: "",
-        quantityStock: "",
+        quantityInStock: "",
         prices: "",
-        discount: ""
+        discount: "",
+        categoryId: "",
+        description: ""
       });
       setImageFiles([]);
     } catch (error) {
@@ -73,7 +97,7 @@ const CreateProduct = () => {
 
   return (
     <div className="create-product-admin">
-      <h1>Thêm Sản Phẩm</h1>
+      <h1>Tạo Sản Phẩm</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Tên sản phẩm:</label>
@@ -86,14 +110,28 @@ const CreateProduct = () => {
           />
         </div>
         <div>
+          <label>Loại sản phẩm:</label>
+          <select
+            name="categoryId"
+            value={formData.categoryId}
+            onChange={handleChange}
+          >
+            <option value="">Chọn loại sản phẩm</option>
+            {categories.map((cat) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
           <label>Số lượng trong kho:</label>
           <input
             type="number"
-            name="quantityStock"
-            value={formData.quantityStock}
+            name="quantityInStock"
+            value={formData.quantityInStock}
             onChange={handleChange}
             required
-            min={0}
           />
         </div>
         <div>
@@ -104,7 +142,6 @@ const CreateProduct = () => {
             value={formData.prices}
             onChange={handleChange}
             required
-            min={0}
           />
         </div>
         <div>
@@ -117,8 +154,16 @@ const CreateProduct = () => {
             min={0}
           />
         </div>
-        <div className="image">
-          <label>Ảnh sản phẩm:</label>
+        <div>
+          <label>Mô tả sản phẩm:</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <div>
+          <label>Hình ảnh sản phẩm:</label>
           <input
             type="file"
             accept="image/*"
@@ -127,18 +172,14 @@ const CreateProduct = () => {
           />
           <div className="image-preview">
             {imageFiles.map((file, index) => (
-              <div key={index} className="image-container">
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="Preview"
-                  className="preview-img"
-                />
+              <div key={index} className="image-item">
+                <img src={URL.createObjectURL(file)} alt="Product Preview" />
                 <button
                   type="button"
                   className="remove-btn"
                   onClick={() => removeImage(index)}
                 >
-                  ✖
+                  X
                 </button>
               </div>
             ))}
