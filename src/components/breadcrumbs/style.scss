@@ -1,0 +1,21 @@
+.breadcrumbs-container {
+  padding: 16px 0;
+  background-color: #fff;
+  
+  .ant-breadcrumb {
+    font-size: 14px;
+    
+    a {
+      color: rgba(0, 0, 0, 0.45);
+      
+      &:hover {
+        color: #ffd500;
+      }
+    }
+    
+    .ant-breadcrumb-separator {
+      margin: 0 8px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+  }
+}
