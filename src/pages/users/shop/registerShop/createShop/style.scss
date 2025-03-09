@@ -1,0 +1,90 @@
+@use "sass:map";
+@import "../../../../../styles/pages/theme.scss";
+@import "../../../../../styles/pages/responsive";
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.auth-wrapper {
+  display: flex;
+  width: 700px;
+  height: 500px;
+  border-radius: 20px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+
+  .auth-side {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #343a40;
+    }
+
+    form {
+      width: 100%;
+      max-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.3s;
+
+        &:focus {
+          border-color: map.get($theme-color, "main-color");
+          box-shadow: 0 0 8px rgba(map.get($theme-color, "main-color"), 0.4);
+        }
+      }
+
+      button {
+        padding: 12px;
+        background: map.get($theme-color, "button-color");
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          background: darken(map.get($theme-color, "button-color"), 10%);
+        }
+      }
+    }
+  }
+
+  .cover {
+    width: 50%;
+    background: linear-gradient(135deg, #fff, darken(#fff, 2%));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+
+    img {
+      width: 300px;
+      object-fit: contain;
+    }
+  }
+}

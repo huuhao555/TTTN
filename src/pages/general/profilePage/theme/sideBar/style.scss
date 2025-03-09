@@ -1,0 +1,125 @@
+.left-sidebar {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+
+  .sidebar-avatar {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+
+    .avatar-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      .icon {
+        width: 48px;
+        height: 48px;
+        background: #f5f5f5;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .info {
+        .customer-name {
+          font-weight: 500;
+          color: #333;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .tab {
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #eee;
+      }
+
+      a,
+      .button-bottom {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        color: #666;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        width: 100%;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 0.95rem;
+
+        .icon {
+          display: flex;
+          align-items: center;
+          color: #666;
+          font-size: 1.1rem;
+        }
+
+        &:hover {
+          color: #ffd500;
+          // background-color: rgba(227, 0, 25, 0.1);
+
+          .icon {
+            color: #ffd500;
+          }
+        }
+      }
+
+      &.active {
+        a {
+          color: #ffd500;
+          // background-color: rgba(227, 0, 25, 0.1);
+          font-weight: 500;
+
+          .icon {
+            color: #ffd500;
+          }
+        }
+      }
+
+      .logout-button {
+        color: #666;
+
+        &:hover {
+          color: #ffd500;
+          background-color: rgba(227, 0, 25, 0.1);
+
+          .icon {
+            color: #ffd500;
+          }
+        }
+      }
+    }
+    .tab-admin {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 992px) {
+  .left-sidebar {
+    margin-bottom: 20px;
+  }
+}

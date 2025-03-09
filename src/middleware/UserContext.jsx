@@ -4,34 +4,33 @@ import { memo } from "react";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [dataUser, setDataUser] = useState(null);
+  const [dataUser, setDataUser] = useState(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem("dataUser")) || null;
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+      return null;
+    }
+  });
+
   const [countCart, setCountCart] = useState(0);
 
-  // Kiểm tra user khi load trang
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-    if (storedUser) {
-      try {
-        setDataUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-        sessionStorage.removeItem("user");
-      }
+    if (dataUser) {
+      sessionStorage.setItem("dataUser", JSON.stringify(dataUser));
+    } else {
+      sessionStorage.removeItem("dataUser");
     }
-  }, []);
+  }, [dataUser]);
 
-  // Cập nhật số lượng sản phẩm trong giỏ hàng
   const updateCartCount = useCallback((newCount) => {
     setCountCart(newCount);
   }, []);
 
-  // Cập nhật thông tin user
-  const updateUser = useCallback((dataUser) => {
-    setDataUser(dataUser);
-    sessionStorage.setItem("user", JSON.stringify(dataUser));
+  const updateUser = useCallback((newDataUser) => {
+    setDataUser(newDataUser);
   }, []);
 
-  // Xử lý đăng xuất
   const logout = useCallback(() => {
     sessionStorage.clear();
     setDataUser(null);

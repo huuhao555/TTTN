@@ -11,14 +11,17 @@ import Dashboard from "./pages/admin/dashboard";
 import AdminLayout from "./pages/admin/theme/adminLayout";
 import VerifyOTP from "./pages/general/auth/verifyOTP";
 import CreateProduct from "./pages/admin/createProduct";
-import ProfilePageLayout from "./pages/general/profilePageLayout/index";
-import ProfilePage from "./pages/general/profilePageLayout/profilePage";
-import OrderManagement from "./pages/general/profilePageLayout/orderManagement";
-import ViewHistories from "./pages/general/profilePageLayout/viewHistories";
-import AddressBook from "./pages/general/profilePageLayout/adressBook";
+import OrderManagement from "./pages/general/profilePage/orderManagement";
+import ViewHistories from "./pages/general/profilePage/viewHistories";
+import AddressBook from "./pages/general/profilePage/adressBook";
 import CreateCategory from "./pages/admin/createCategoris";
 import ProductPage from "./pages/users/productPage";
 import ProductDetails from "./pages/users/detailsPage";
+import ProfileLayout from "./pages/general/profilePage/theme/profileLayout";
+import InfoUserPage from "./pages/general/profilePage/infoUser";
+import VerifyShop from "./pages/users/shop/registerShop/verifyShop";
+import CreateShop from "./pages/users/shop/registerShop/createShop";
+import AcceptRoles from "./pages/admin/acceptRoles";
 
 const RouterCustom = () => {
   return (
@@ -31,7 +34,11 @@ const RouterCustom = () => {
         <Route path={ROUTERS.USERS.LOOKUP} element={<LookupPage />} />
         <Route path={ROUTERS.USERS.VERIFY} element={<VerifyOTP />} />
         <Route path={ROUTERS.USERS.PRODUCT} element={<ProductPage />} />
-       < Route path={ROUTERS.USERS.PRODUCT_DETAIL} element={<ProductDetails />} />
+
+        <Route
+          path={ROUTERS.USERS.PRODUCT_DETAIL}
+          element={<ProductDetails />}
+        />
       </Route>
       <Route element={<AdminLayout />}>
         <Route path={ROUTERS.ADMIN.DASHBOARD} element={<Dashboard />} />
@@ -43,11 +50,17 @@ const RouterCustom = () => {
           path={ROUTERS.ADMIN.CREATE_CATEGORY}
           element={<CreateCategory />}
         />
+        <Route path={ROUTERS.ADMIN.ACCEPT_ROLES} element={<AcceptRoles />} />
       </Route>
-      <Route element={<ProfilePageLayout />}>
-        <Route path={ROUTERS.USERS.PROFILE_PAGE} element={<ProfilePage />} />
+      <Route element={<ProfileLayout />}>
+        <Route path={ROUTERS.SHOP.VERIFY_SHOP} element={<VerifyShop />} />
+        <Route path={ROUTERS.SHOP.CREATE_SHOP} element={<CreateShop />} />
         <Route
-          path={ROUTERS.USERS.ORDER_MANAGEMENT}
+          path={ROUTERS.USERPROFILE.ACCOUNT_INFO}
+          element={<InfoUserPage />}
+        />
+        <Route
+          path={ROUTERS.USERPROFILE.ORDER_MANAGERMENT}
           element={<OrderManagement />}
         />
         <Route path={ROUTERS.USERS.VIEW_PRODUCT} element={<ViewHistories />} />

@@ -26,9 +26,9 @@ const menuItems = [
     label: "Thêm loại sản phẩm"
   },
   {
-    path: ROUTERS.ADMIN.ACCEPT_ROLES,
-    icon: <FaUsers />,
-    label: "Xác thực người bán hàng"
+    path: "/admin/products/mobiles",
+    icon: <FaMobileAlt />,
+    label: "Điện thoại"
   },
   { path: "/admin/products/tvs", icon: <FaTv />, label: "Tivi" },
   {

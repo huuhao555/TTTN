@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import "./style.scss";
 import { Link } from "react-router-dom";
 import {
@@ -21,8 +21,18 @@ import {
 import { ROUTERS } from "../../../../utils";
 import { FaChessKing } from "react-icons/fa";
 import { apiLink } from "../../../../config/api";
+import { UserContext } from "../../../../middleware/UserContext";
 
 const Header = () => {
+  const { dataUser } = useContext(UserContext);
+  const [nameUser, setNameUser] = useState("");
+
+  useEffect(() => {
+    if (dataUser?.dataUser?.name) {
+      setNameUser(dataUser.dataUser.name);
+    }
+  }, [dataUser]);
+
   const menuCategories = [
     { id: 1, name: "Điện thoại", icon: <BsPhone /> },
     { id: 2, name: "Laptop", icon: <AiOutlineLaptop /> },
@@ -34,7 +44,7 @@ const Header = () => {
     { id: 8, name: "Phụ kiện", icon: <BsPlug /> }
   ];
   const [categories, setCategories] = useState([]);
-  console.log(categories);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -74,10 +84,20 @@ const Header = () => {
           </div>
 
           <div className="col-lg-6 header__top__user">
-            <Link to={ROUTERS.USERS.LOGIN} className="user-option">
-              <AiOutlineUser />
-              <span>Đăng nhập</span>
-            </Link>
+            {dataUser ? (
+              <Link
+                to={ROUTERS.USERPROFILE.ACCOUNT_INFO}
+                className="user-option"
+              >
+                <AiOutlineUser />
+                <span>{nameUser}</span>
+              </Link>
+            ) : (
+              <Link to={ROUTERS.USERS.LOGIN} className="user-option">
+                <AiOutlineUser />
+                <span>Đăng nhập</span>
+              </Link>
+            )}
 
             <Link to={ROUTERS.USERS.CART} className="user-option">
               <AiOutlineShoppingCart />

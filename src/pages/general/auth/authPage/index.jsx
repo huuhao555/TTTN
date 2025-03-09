@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./style.scss";
 import { FaFacebook, FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { apiLink } from "../../../../config/api";
 import { useNavigate } from "react-router-dom";
 import { ROUTERS } from "../../../../utils";
+import { UserContext } from "../../../../middleware/UserContext";
 const AuthPage = () => {
+  const { updateUser } = useContext(UserContext);
   const [isLogin, setIsLogin] = useState(false);
   const navigator = useNavigate();
   const [formDataLogin, setFormDataLogin] = useState({
@@ -78,8 +80,8 @@ const AuthPage = () => {
         return;
       }
       const dataUser = await response.json();
-      console.log(dataUser);
       sessionStorage.setItem("dataUser", JSON.stringify(dataUser));
+      updateUser(dataUser);
       navigator(ROUTERS.USERS.HOME);
     } catch (error) {
       alert("Đã xảy ra lỗi khi đăng nhập!");
