@@ -10,13 +10,12 @@ import {
   FaCogs,
   FaPlusCircle
 } from "react-icons/fa";
-import "./style.scss";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { ROUTERS } from "../../../../utils";
+import { ROUTERS } from "../../../../../../utils";
+
 const menuItems = [
-  { path: "/admin/dashboard", icon: <FaChartBar />, label: "Dashboard" },
+  { path: ROUTERS.SHOP.DASHBOARD, icon: <FaChartBar />, label: "Dashboard" },
   {
-    path: ROUTERS.ADMIN.CREATE_PRODUCT,
+    path: ROUTERS.SHOP.CREATE_PRODUCT_SHOP,
     icon: <FaPlusCircle />,
     label: "Thêm sản phẩm"
   },

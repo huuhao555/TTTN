@@ -108,9 +108,9 @@ const Header = () => {
               <AiOutlineFileSearch />
               <span>Tra cứu</span>
             </Link>
-            <Link to={ROUTERS.ADMIN.DASHBOARD} className="user-option">
+            <Link to={ROUTERS.USERS.GET_SHOP} className="user-option">
               <AiOutlineBorderlessTable />
-              <span>Admin</span>
+              <span>Cửa hàng</span>
             </Link>
           </div>
         </div>

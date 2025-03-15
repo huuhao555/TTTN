@@ -8,7 +8,8 @@ import {
   FaShoppingCart,
   FaChartBar,
   FaCogs,
-  FaPlusCircle
+  FaPlusCircle,
+  FaShoppingBag
 } from "react-icons/fa";
 import "./style.scss";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -30,7 +31,11 @@ const menuItems = [
     icon: <FaUsers />,
     label: "Xác thực người bán hàng"
   },
-  { path: "/admin/products/tvs", icon: <FaTv />, label: "Tivi" },
+  {
+    path: ROUTERS.ADMIN.ACCEPT_SHOPS,
+    icon: <FaShoppingBag />,
+    label: "Xác thực shop"
+  },
   {
     path: "/admin/products/applewatch",
     icon: <FaApple />,

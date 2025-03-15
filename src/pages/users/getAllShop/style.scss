@@ -1,0 +1,75 @@
+.shopsPage {
+  padding: 40px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #222;
+  }
+
+  .shopsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    justify-content: center;
+
+    .shopCard {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .shopLogo {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 15px;
+      }
+
+      .shopInfo {
+        .shopName {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #333;
+        }
+
+        .shopDescription {
+          font-size: 0.9rem;
+          color: #666;
+          margin: 10px 0;
+        }
+
+        .visitButton {
+          background: linear-gradient(135deg, #ff7eb3, #ff758c);
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: 0.3s;
+
+          &:hover {
+            background: linear-gradient(135deg, #ff758c, #ff585d);
+          }
+        }
+      }
+    }
+  }
+}

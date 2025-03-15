@@ -15,17 +15,21 @@ export const ROUTERS = {
     PROFILE_PAGE: "/thong-tin-ca-nhan",
     ORDER_MANAGEMENT: "/quan-ly-don-hang-ca-nhan",
     VIEW_PRODUCT: "/lich-su-san-pham-da-xem",
-    ADRESS_BOOK: "/so-dia-chi"
+    ADRESS_BOOK: "/so-dia-chi",
+    GET_SHOP: "/kenh-nguoi-ban"
   },
   SHOP: {
     CREATE_SHOP: "/tao-kenh-nguoi-ban",
-    VERIFY_SHOP: "/xac-minh-kenh-nguoi-ban"
+    VERIFY_SHOP: "/xac-minh-kenh-nguoi-ban",
+    DASHBOARD: "/shop-cua-toi",
+    CREATE_PRODUCT_SHOP: "/shop-cua-toi-them-san-pham"
   },
   ADMIN: {
     DASHBOARD: "/admin",
     CREATE_PRODUCT: "/admin/them-san-pham",
     CREATE_CATEGORY: "/admin/them-loai-san-pham",
-    ACCEPT_ROLES: "/duyet-trang-thai-kenh-nguoi-ban"
+    ACCEPT_ROLES: "/duyet-trang-thai-kenh-nguoi-ban",
+    ACCEPT_SHOPS: "/duyet-shop-kenh-nguoi-ban"
   },
   USERPROFILE: {
     ACCOUNT_INFO: "/thong-tin-ca-nhan",

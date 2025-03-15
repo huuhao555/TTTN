@@ -1,0 +1,94 @@
+.accept-shop {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+    thead {
+      background: #f4f4f4;
+
+      tr {
+        th {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 2px solid #ddd;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+
+          .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+
+            &.approved {
+              background: #d4edda;
+              color: #155724;
+            }
+
+            &.rejected {
+              background: #f8d7da;
+              color: #721c24;
+            }
+
+            &.pending {
+              background: #fff3cd;
+              color: #856404;
+            }
+          }
+        }
+
+        &:hover {
+          background: #f9f9f9;
+        }
+      }
+    }
+  }
+
+  .btn {
+    padding: 6px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+
+    &.approve {
+      background: #28a745;
+      color: #fff;
+
+      &:disabled {
+        background: #c3e6cb;
+        cursor: not-allowed;
+      }
+    }
+
+    &.reject {
+      background: #dc3545;
+      color: #fff;
+
+      &:disabled {
+        background: #f5c6cb;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

@@ -20,9 +20,9 @@ const InfoUserPage = () => {
   useEffect(() => {
     if (dataUser?.dataUser) {
       setFormData({
-        name: dataUser?.dataUser.name || "",
-        phone: dataUser?.dataUser.phone || "",
-        email: dataUser?.dataUser.email || ""
+        name: dataUser?.dataUser?.name || "",
+        phone: dataUser?.dataUser?.phone || "",
+        email: dataUser?.dataUser?.email || ""
       });
     }
   }, [dataUser]);

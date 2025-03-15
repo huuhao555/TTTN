@@ -1,0 +1,78 @@
+// Variables
+$form-padding: 20px;
+$form-bg-color: #f9f9f9;
+$form-border-radius: 8px;
+$form-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+$input-height: 40px;
+$button-bg-color: #007bff;
+$button-color: white;
+$button-hover-bg-color: #0056b3;
+
+.simple-create-product {
+  background-color: $form-bg-color;
+  border-radius: $form-border-radius;
+  box-shadow: $form-box-shadow;
+  padding: $form-padding;
+  max-width: 400px;
+  margin: auto;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    div {
+      margin-bottom: 15px;
+
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+        display: block;
+      }
+
+      input[type="text"],
+      input[type="file"] {
+        height: $input-height;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        transition: border 0.3s;
+
+        &:focus {
+          border-color: $button-bg-color;
+          outline: none;
+        }
+      }
+
+      img {
+        margin-top: 10px;
+        border: 1px dashed #ccc;
+        border-radius: 4px;
+        width: 200px;
+        height: auto;
+      }
+    }
+
+    button {
+      background-color: $button-bg-color;
+      color: $button-color;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $button-hover-bg-color;
+      }
+    }
+  }
+}

@@ -122,11 +122,7 @@ const SideBarProfile = () => {
               currentPath === ROUTERS.ADMIN.DASHBOARD ? "active" : ""
             }`}
             onClick={() => {
-              if (dataUser && dataUser?.dataUser?.roles === 2) {
-                navigate(ROUTERS.SHOP.CREATE_SHOP);
-              } else if (dataUser && dataUser?.dataUser?.roles === 1) {
-                navigate("admin-nguoi-dung");
-              }
+              navigate(ROUTERS.SHOP.CREATE_SHOP);
             }}
           >
             <Link

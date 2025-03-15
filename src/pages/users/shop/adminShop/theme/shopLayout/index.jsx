@@ -1,18 +1,21 @@
 import { memo } from "react";
 import { Outlet } from "react-router-dom";
 import SideBar from "../sidebar/index";
-const AdminLayout = (props) => {
+import { UserProvider } from "../../../../../../middleware/UserContext";
+const ShopLayout = (props) => {
   return (
-    <div {...props}>
-      <div className="row">
-        <div className="col-lg-3">
-          <SideBar />
-        </div>
-        <div className="col-lg-9">
-          <Outlet />
+    <UserProvider>
+      <div {...props}>
+        <div className="row">
+          <div className="col-lg-3">
+            <SideBar />
+          </div>
+          <div className="col-lg-9">
+            <Outlet />
+          </div>
         </div>
       </div>
-    </div>
+    </UserProvider>
   );
 };
-export default memo(AdminLayout);
+export default memo(ShopLayout);

@@ -5,15 +5,14 @@ import { UserContext } from "../../../middleware/UserContext";
 
 const UpgradeRequests = () => {
   const [users, setUsers] = useState([]);
-  const { dataUser, logout } = useContext(UserContext);
+  const { dataUser } = useContext(UserContext);
 
-  console.log(dataUser);
   useEffect(() => {
     const fetchUpgradeRequests = async () => {
       try {
         const response = await fetch(`${apiLink}/api/user/get-pending-sellers`);
         const result = await response.json();
-        console.log(result);
+
         if (result.status === "OK") {
           setUsers(result.users);
         }
@@ -30,8 +29,9 @@ const UpgradeRequests = () => {
       const response = await fetch(`${apiLink}/api/user/upgrade-role`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: dataUser?.dataUser?.id })
+        body: JSON.stringify({ userId })
       });
+
       const result = await response.json();
 
       if (result.status === "OK") {
