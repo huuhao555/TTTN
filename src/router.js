@@ -23,7 +23,7 @@ import VerifyShop from "./pages/users/shop/registerShop/verifyShop";
 import CreateShop from "./pages/users/shop/registerShop/createShop";
 import AcceptRoles from "./pages/admin/acceptRoles";
 import AcceptShop from "./pages/admin/acceptShop";
-import ShopsPage from "./pages/users/getAllShop";
+import GetAllShopsPage from "./pages/users/getAllShop";
 import ShopLayout from "./pages/users/shop/adminShop/theme/shopLayout";
 import InfoShop from "./pages/users/shop/adminShop/infoShop";
 import CreateProductShop from "./pages/users/shop/adminShop/createProduct";
@@ -38,11 +38,14 @@ const RouterCustom = () => {
         <Route path={ROUTERS.USERS.CART} element={<CartPage />} />
         <Route path={ROUTERS.USERS.LOOKUP} element={<LookupPage />} />
         <Route path={ROUTERS.USERS.VERIFY} element={<VerifyOTP />} />
-        <Route path={ROUTERS.USERS.PRODUCT} element={<ProductPage />} />
-        <Route path={ROUTERS.USERS.GET_SHOP} element={<ShopsPage />} />
+        <Route
+          path={`${ROUTERS.USERS.PRODUCT}/:idCategory`}
+          element={<ProductPage />}
+        />
+        <Route path={ROUTERS.USERS.GET_SHOP} element={<GetAllShopsPage />} />
 
         <Route
-          path={ROUTERS.USERS.PRODUCT_DETAIL}
+          path={`${ROUTERS.USERS.PRODUCT_DETAIL}/:id`}
           element={<ProductDetails />}
         />
       </Route>

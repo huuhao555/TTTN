@@ -1,6 +1,6 @@
 import { memo, useContext, useEffect, useState } from "react";
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AiOutlineSearch,
   AiOutlineUser,
@@ -9,6 +9,7 @@ import {
   AiOutlineLaptop,
   AiOutlineBorderlessTable
 } from "react-icons/ai";
+import { FaChessKing } from "react-icons/fa";
 import {
   BsSmartwatch,
   BsMouse2,
@@ -19,13 +20,18 @@ import {
   BsPlug
 } from "react-icons/bs";
 import { ROUTERS } from "../../../../utils";
-import { FaChessKing } from "react-icons/fa";
 import { apiLink } from "../../../../config/api";
 import { UserContext } from "../../../../middleware/UserContext";
 
 const Header = () => {
   const { dataUser } = useContext(UserContext);
   const [nameUser, setNameUser] = useState("");
+  const navigate = useNavigate();
+  const handleCategoryClick = (idCategory) => {
+    navigate(`${ROUTERS.USERS.PRODUCT}/${idCategory}`, {
+      state: { idCategory }
+    });
+  };
 
   useEffect(() => {
     if (dataUser?.dataUser?.name) {
@@ -33,34 +39,53 @@ const Header = () => {
     }
   }, [dataUser]);
 
+  // Danh sách category có icon
   const menuCategories = [
-    { id: 1, name: "Điện thoại", icon: <BsPhone /> },
-    { id: 2, name: "Laptop", icon: <AiOutlineLaptop /> },
-    { id: 3, name: "Chuột", icon: <BsMouse2 /> },
-    { id: 4, name: "Bàn phím", icon: <BsKeyboard /> },
-    { id: 5, name: "Smartwatch", icon: <BsSmartwatch /> },
-    { id: 6, name: "PC, Màn hình", icon: <BsPcDisplay /> },
-    { id: 7, name: "Loa, Micro", icon: <BsSpeaker /> },
-    { id: 8, name: "Phụ kiện", icon: <BsPlug /> }
+    { name: "Điện Thoại", icon: <BsPhone /> },
+    { name: "Laptop", icon: <AiOutlineLaptop /> },
+    { name: "Chuột", icon: <BsMouse2 /> },
+    { name: "Bàn Phím", icon: <BsKeyboard /> },
+    { name: "Smartwatch", icon: <BsSmartwatch /> },
+    { name: "PC, Màn hình", icon: <BsPcDisplay /> },
+    { name: "Loa,micro", icon: <BsSpeaker /> },
+    { name: "Phụ kiện", icon: <BsPlug /> }
   ];
+
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(apiLink + "/api/category/getAll");
+        const response = await fetch(`${apiLink}/api/category/get-parents`);
         if (!response.ok) {
           console.error("Error fetching categories");
           return;
         }
         const data = await response.json();
-        setCategories(Array.isArray(data.data) ? data.data : []);
+        console.log(data);
+        if (Array.isArray(data.data)) {
+          setCategories(data.data);
+        }
       } catch (error) {
         console.error(error);
       }
     };
     fetchCategories();
   }, []);
+
+  // Kết hợp danh mục API với icon
+  const mergedCategories = categories.map((category) => {
+    const matchedCategory = menuCategories.find(
+      (item) => item.name === category.name
+    );
+    return {
+      id: category._id,
+      name: category.name,
+      icon: matchedCategory ? matchedCategory.icon : <FaChessKing /> // Icon mặc định nếu không có trong danh sách
+    };
+  });
+  console.log(mergedCategories);
+
   return (
     <div className="header">
       <div className="container">
@@ -117,8 +142,8 @@ const Header = () => {
 
         <div className="header__main">
           <ul className="menu-categories">
-            {menuCategories.map((item) => (
-              <li key={item.id}>
+            {mergedCategories.map((item) => (
+              <li key={item.id} onClick={() => handleCategoryClick(item.id)}>
                 {item.icon}
                 <span>{item.name}</span>
               </li>

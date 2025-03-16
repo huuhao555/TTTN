@@ -1,0 +1,101 @@
+.productsPage,
+.shopsPage {
+  padding: 30px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #222;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .productsGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    width: 100%;
+    max-width: 1200px;
+
+    .productCard {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .productImage {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .productInfo {
+        .productName {
+          font-size: 1rem;
+          font-weight: bold;
+          color: #333;
+          margin-bottom: 6px;
+        }
+
+        .productPrice {
+          font-size: 0.9rem;
+          color: #ff585d;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .loadMoreButton {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #ff758c, #ff585d);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &:hover {
+      background: linear-gradient(135deg, #ff585d, #ff3b4a);
+      transform: scale(1.05);
+    }
+  }
+}
+
+.shopSection {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 30px;
+
+  .shopTitle {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 15px;
+  }
+}

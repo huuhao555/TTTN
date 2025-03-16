@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import { apiLink } from "../../../../../config/api";
+import { UserContext } from "../../../../../middleware/UserContext";
+import SuccessAnimation from "../../../../../components/Success";
 
 const CreateProductShop = () => {
   const [categories, setCategories] = useState([]);
@@ -11,16 +13,18 @@ const CreateProductShop = () => {
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
 
+  const { dataUser } = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     name: "",
     quantityInStock: "",
     prices: "",
     discount: "",
     categoryId: "",
-    categoryIdChild: "",
-    description: ""
+    categoryIdParent: "",
+    description: "",
+    shopId: dataUser?.dataUser?.shopId
   });
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -38,17 +42,16 @@ const CreateProductShop = () => {
     fetchCategories();
   }, []);
 
-  // Fetch danh mục con khi categoryId thay đổi
   useEffect(() => {
-    if (!formData.categoryId) {
-      setCategoriesChild([]); // Reset danh mục con nếu chưa chọn cha
+    if (!formData.categoryIdParent) {
+      setCategoriesChild([]);
       return;
     }
 
     const fetchCategoriesChild = async () => {
       try {
         const response = await fetch(
-          `${apiLink}/api/category/get-subcategories/${formData.categoryId}`
+          `${apiLink}/api/category/get-subcategories/${formData.categoryIdParent}`
         );
         if (!response.ok) {
           console.error("Error fetching subcategories");
@@ -61,14 +64,13 @@ const CreateProductShop = () => {
       }
     };
     fetchCategoriesChild();
-  }, [formData.categoryId]);
+  }, [formData.categoryIdParent]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Nếu đổi categoryId, reset categoryIdChild
-    if (name === "categoryId") {
-      setFormData({ ...formData, categoryId: value, categoryIdChild: "" });
+    if (name === "categoryIdParent") {
+      setFormData({ ...formData, categoryIdParent: value, categoryId: "" });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -100,6 +102,7 @@ const CreateProductShop = () => {
         method: "POST",
         body: data
       });
+      console.log(response);
 
       if (!response.ok) {
         alert(
@@ -107,21 +110,21 @@ const CreateProductShop = () => {
         );
         return;
       }
-
       setTrigger(true);
       setMessage("Thêm sản phẩm thành công");
-      setTimeout(() => {
-        setTrigger(false);
-      }, 1000);
-
       setFormData({
         name: "",
         quantityInStock: "",
         prices: "",
         discount: "",
         categoryId: "",
+        categoryIdParent: "",
         description: ""
       });
+      setTimeout(() => {
+        setTrigger(false);
+      }, 1000);
+
       setImageFiles([]);
     } catch (error) {
       console.error(error);
@@ -145,8 +148,8 @@ const CreateProductShop = () => {
         <div>
           <label>Loại sản phẩm:</label>
           <select
-            name="categoryId"
-            value={formData.categoryId}
+            name="categoryIdParent"
+            value={formData.categoryIdParent}
             onChange={handleChange}
           >
             <option value="">Chọn loại sản phẩm</option>
@@ -160,8 +163,8 @@ const CreateProductShop = () => {
         <div>
           <label>Loại sản phẩm con:</label>
           <select
-            name="categoryIdChild"
-            value={formData.categoryIdChild}
+            name="categoryId"
+            value={formData.categoryId}
             onChange={handleChange}
           >
             <option value="">Chọn loại sản phẩm con</option>
@@ -235,6 +238,7 @@ const CreateProductShop = () => {
         </div>
         <button type="submit">Thêm sản phẩm</button>
       </form>
+      <SuccessAnimation message={message} trigger={trigger} />
     </div>
   );
 };

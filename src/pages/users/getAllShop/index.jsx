@@ -5,7 +5,7 @@ import { apiLink } from "../../../config/api";
 const getRandomShopImage = () =>
   `https://picsum.photos/200?random=${Math.random()}`;
 
-const ShopsPage = () => {
+const GetAllShopsPage = () => {
   const [shops, setShops] = useState([]);
 
   useEffect(() => {
@@ -44,4 +44,4 @@ const ShopsPage = () => {
   );
 };
 
-export default ShopsPage;
+export default GetAllShopsPage;
