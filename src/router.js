@@ -27,6 +27,12 @@ import GetAllShopsPage from "./pages/users/getAllShop";
 import ShopLayout from "./pages/users/shop/adminShop/theme/shopLayout";
 import InfoShop from "./pages/users/shop/adminShop/infoShop";
 import CreateProductShop from "./pages/users/shop/adminShop/createProduct";
+// import ProductTable from "./pages/users/shop/adminShop/showProduct/showProduct";
+// import OrderManager from "./pages/users/shop/adminShop/orderManager";
+import DetailShop from "./pages/users/shop/detailShop";
+import OrderPage from "./pages/users/paymentPage";
+import PaymentDetailPage from "./pages/users/PaymentDetailPage";
+import OrderStorage from "./pages/users/shop/orderManagement";
 
 const RouterCustom = () => {
   return (
@@ -39,11 +45,16 @@ const RouterCustom = () => {
         <Route path={ROUTERS.USERS.LOOKUP} element={<LookupPage />} />
         <Route path={ROUTERS.USERS.VERIFY} element={<VerifyOTP />} />
         <Route
-          path={`${ROUTERS.USERS.PRODUCT}/:idCategory`}
+          path={`${ROUTERS.USERS.PRODUCT}/:id`}
           element={<ProductPage />}
         />
         <Route path={ROUTERS.USERS.GET_SHOP} element={<GetAllShopsPage />} />
-
+        <Route path={ROUTERS.USERS.ORDER_DETAIL} element={<OrderPage />} />
+        <Route path={ROUTERS.USERS.DETAIL_SHOP} element={<DetailShop />} />
+        <Route
+          path={ROUTERS.USERS.PAYMENT_DETAIL}
+          element={<PaymentDetailPage />}
+        />
         <Route
           path={`${ROUTERS.USERS.PRODUCT_DETAIL}/:id`}
           element={<ProductDetails />}
@@ -62,12 +73,20 @@ const RouterCustom = () => {
         <Route path={ROUTERS.ADMIN.ACCEPT_ROLES} element={<AcceptRoles />} />
         <Route path={ROUTERS.ADMIN.ACCEPT_SHOPS} element={<AcceptShop />} />
       </Route>
+
       <Route element={<ShopLayout />}>
         <Route path={ROUTERS.SHOP.DASHBOARD} element={<InfoShop />} />
+        <Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderStorage />} />
+
         <Route
           path={ROUTERS.SHOP.CREATE_PRODUCT_SHOP}
           element={<CreateProductShop />}
         />
+        {/* <Route
+          path={ROUTERS.SHOP.ALL_PRODUCT_SHOP}
+          element={<ProductTable />}
+        />
+        <Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderManager />} /> */}
       </Route>
       <Route element={<ProfileLayout />}>
         <Route path={ROUTERS.SHOP.VERIFY_SHOP} element={<VerifyShop />} />

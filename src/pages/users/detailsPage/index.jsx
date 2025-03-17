@@ -12,7 +12,7 @@ const ProductDetails = () => {
   const location = useLocation();
   const { pathname } = location;
   const { id } = useParams();
-
+  console.log(id);
   const getDetails = async () => {
     try {
       setLoading(true);

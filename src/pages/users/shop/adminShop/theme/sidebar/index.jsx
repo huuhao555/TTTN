@@ -20,24 +20,10 @@ const menuItems = [
     label: "Thêm sản phẩm"
   },
   {
-    path: ROUTERS.ADMIN.CREATE_CATEGORY,
-    icon: <FaPlusCircle />,
-    label: "Thêm loại sản phẩm"
-  },
-  {
-    path: "/admin/products/mobiles",
-    icon: <FaMobileAlt />,
-    label: "Điện thoại"
-  },
-  { path: "/admin/products/tvs", icon: <FaTv />, label: "Tivi" },
-  {
-    path: "/admin/products/applewatch",
-    icon: <FaApple />,
-    label: "Apple Watch"
-  },
-  { path: "/admin/orders", icon: <FaShoppingCart />, label: "Đơn hàng" },
-  { path: "/admin/users", icon: <FaUsers />, label: "Người dùng" },
-  { path: "/admin/settings", icon: <FaCogs />, label: "Cài đặt" }
+    path: ROUTERS.SHOP.ORDER_MANAGER,
+    icon: <FaShoppingCart />,
+    label: "Quản lý đơn hàng"
+  }
 ];
 
 const AdminSidebar = () => {

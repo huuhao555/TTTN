@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import "./style.scss";
 import { apiLink } from "../../../config/api";
+import { useNavigate } from "react-router-dom";
+import { ROUTERS } from "../../../utils";
 
 const getRandomShopImage = () =>
   `https://picsum.photos/200?random=${Math.random()}`;
 
 const GetAllShopsPage = () => {
   const [shops, setShops] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchShops = async () => {
       try {
@@ -35,7 +37,16 @@ const GetAllShopsPage = () => {
             <div className="shopInfo">
               <h2 className="shopName">{shop.name}</h2>
               <p className="shopDescription">{shop.description}</p>
-              <button className="visitButton">Xem cửa hàng</button>
+              <button
+                className="visitButton"
+                onClick={() => {
+                  navigate(ROUTERS.USERS.DETAIL_SHOP, {
+                    state: { shopId: shop?._id }
+                  });
+                }}
+              >
+                Xem cửa hàng
+              </button>
             </div>
           </div>
         ))}

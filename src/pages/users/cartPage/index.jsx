@@ -1,124 +1,385 @@
-import { memo, useContext, useEffect, useState } from "react";
 import "./style.scss";
-import { ROUTERS } from "../../../utils";
-import { useNavigate } from "react-router-dom";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { UserContext } from "../../../middleware/UserContext";
+import { useLocation, useNavigate } from "react-router-dom";
+
+// import LoadingSpinner from "../../../component/general/LoadingSpinner";
+// import SuccessAnimation from "../../../component/general/Success";
+// import look from "../../../../src/assets/empty_cart.png";
 import { apiLink } from "../../../config/api";
+import { ROUTERS } from "../../../utils";
 
 const CartPage = () => {
-  const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { dataUser } = useContext(UserContext);
+  const [cart, setCart] = useState(null);
 
-  // Gọi API lấy giỏ hàng
-  useEffect(() => {
-    fetchCart();
-  }, []);
+  const [message, setMessage] = useState("");
+  const [trigger, setTrigger] = useState(false);
 
-  const fetchCart = async () => {
+  const { dataUser, updateCartCount } = useContext(UserContext);
+  console.log(dataUser);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const navigator = useNavigate();
+  const { pathname } = useLocation();
+  useEffect(
+    () => {
+      if (cart && cart.products) {
+        const allProductIds = cart.products.map((item) => item?.productId._id);
+        setSelectedProducts(allProductIds);
+      }
+      window.scrollTo(0, 0);
+    },
+
+    [cart],
+    [pathname]
+  );
+
+  const getAllCart = useCallback(async () => {
+    if (!dataUser || !dataUser.dataUser) return;
+
     try {
       const response = await fetch(
         apiLink + `/api/cart/get-cart/${dataUser?.dataUser?.id}`
       );
-      if (!response.ok) throw new Error("Không thể lấy giỏ hàng!");
-      const data = await response.json();
-      setCartItems(data.products || []);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      if (!response.ok) throw new Error(response.statusText);
+      const dataCart = await response.json();
+      console.log(dataCart);
+      setCart(dataCart);
+    } catch (error) {
+      console.error("Failed to fetch count for users:", error);
     }
+  }, [dataUser]);
+
+  useEffect(() => {
+    getAllCart();
+  }, [getAllCart]);
+  const paymentCart = async (selectedProducts) => {
+    navigator(ROUTERS.USERS.ORDER_DETAIL, {
+      state: { selectedProducts }
+    });
   };
 
-  // Xoá sản phẩm khỏi giỏ hàng
-  const handleDeleteItem = async (productId) => {
+  const removeFromCart = async (productId, userID) => {
     try {
-      await fetch(apiLink + `/api/cart/delete-item`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: dataUser?.dataUser?.id, productId })
-      });
-      setCartItems(
-        cartItems.filter((item) => item.productId._id !== productId)
+      const response = await fetch(
+        apiLink +
+          `/api/cart/delete-product-cart/${userID}/product/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
       );
-    } catch (err) {
-      console.error("Lỗi khi xoá sản phẩm:", err);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      setMessage("Xoá sản phẩm thành công");
+      setTrigger(true);
+      await getAllCart();
+      const dataProduct = await response.json();
+
+      // updateCartCount(dataProduct.data.products.length);
+      setTimeout(() => {
+        setTrigger(false);
+      }, 1000);
+    } catch (error) {
+      console.error("Failed to delete product from cart:", error);
     }
   };
 
-  // Xoá toàn bộ giỏ hàng
-  const handleClearCart = async () => {
+  const clearCart = async (userID) => {
+    if (!window.confirm("Bạn có chắc chắn muốn giỏ hàng?")) {
+      return;
+    }
     try {
-      await fetch(apiLink + `/api/cart/clear-cart/${dataUser?.dataUser?.id}`, {
-        method: "DELETE"
-      });
-      setCartItems([]);
-    } catch (err) {
-      console.error("Lỗi khi xoá giỏ hàng:", err);
+      const response = await fetch(
+        apiLink + `/api/cart/delete-cart/${userID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      await response.json();
+      setMessage("Xoá giỏ hành thành công");
+      setTrigger(true);
+      setCart("");
+      updateCartCount(0);
+    } catch (error) {
+      console.error("Failed to delete product from cart:", error);
     }
   };
 
+  const handleIncrease = async ({ id }) => {
+    if (!dataUser) {
+      alert("Vui lòng đăng nhập");
+      return;
+    }
+
+    try {
+      const response = await fetch(apiLink + "/api/cart/add-update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          userId: dataUser.dataUser.id,
+          productId: id,
+          quantity: 1
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const dataCart = await response.json();
+
+      // const updatedCount = dataCart.data.products.length;
+      // updateCartCount(updatedCount);
+      setCart(dataCart?.data);
+    } catch (error) {
+      console.error("Failed to add product to cart:", error);
+    }
+  };
+
+  const handleDecrease = async (id) => {
+    try {
+      const response = await fetch(apiLink + "/api/cart/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          userId: dataUser?.dataUser.id,
+          productId: id,
+          quantity: 1
+        })
+      });
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const dataCart = await response.json();
+
+      // const updatedCount = dataCart.data.products.length;
+      // updateCartCount(updatedCount);
+      setCart(dataCart?.data);
+    } catch (error) {
+      console.error("Failed to add product to cart:", error);
+    }
+  };
+
+  // if (!user) {
+  //   return <LoadingSpinner />;
+  // }
+
+  const handleCheckboxChange = (productId) => {
+    setSelectedProducts((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const calculateTotal = () => {
+    if (!cart || !cart.products) return 0;
+    return cart.products
+      .filter((item) => selectedProducts.includes(item?.productId._id))
+      .reduce(
+        (total, item) =>
+          total + item?.productId.promotionPrice * item?.quantity,
+        0
+      );
+  };
   return (
-    <div className="cart-container">
-      {loading ? (
-        <p className="loading">Đang tải giỏ hàng...</p>
-      ) : error ? (
-        <p className="error">{error}</p>
-      ) : cartItems.length > 0 ? (
-        <div className="cart-content">
-          <h2>Giỏ hàng của bạn</h2>
-          <div className="cart-items">
-            {cartItems.map((item) => {
-              console.log(item);
-              return (
-                <div key={item._id} className="cart-item">
-                  <img
-                    src={item?.productId?.imageUrls?.[0]}
-                    alt={item?.productId?.name}
+    <div className="cart-page">
+      {cart && cart?.products?.length > 0 ? (
+        <div className="cart-container">
+          <table className="cart-table">
+            <thead>
+              <tr>
+                <th>Chọn</th>
+                <th>STT</th>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Tổng tiền</th>
+                <th>Chức năng</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.products.map((item, key) => {
+                return (
+                  <tr key={item?._id}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={selectedProducts.includes(item?.productId._id)}
+                        onChange={() =>
+                          handleCheckboxChange(item?.productId._id)
+                        }
+                      />
+                    </td>
+                    <td>{key + 1}</td>
+                    <td>{`${item?.productId.name}`}</td>
+                    <td>
+                      {" "}
+                      {parseInt(item?.productId?.prices) ==
+                      item?.productId?.promotionPrice ? (
+                        <div className="grp-price">
+                          <p className="prices">
+                            {`${parseInt(
+                              item?.productId?.prices
+                            ).toLocaleString("vi-VN")} ₫`}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="grp-price">
+                          <p className="price-old">
+                            {`${parseInt(
+                              item?.productId?.prices
+                            ).toLocaleString("vi-VN")} ₫`}
+                          </p>
+                          <div className="grp-price-new">
+                            <p className="price-new">
+                              {`${parseInt(
+                                item?.productId?.promotionPrice
+                              ).toLocaleString("vi-VN")}
+                               ₫`}
+                            </p>
+                            <p className="discount">
+                              {`-${item?.productId?.discount}%`}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </td>
+
+                    <td>
+                      <div className="handle-quantity">
+                        <span
+                          onClick={() => handleDecrease(item?.productId._id)}
+                          className="button-decrease"
+                        >
+                          –
+                        </span>
+                        <div>{item?.quantity}</div>
+                        <span
+                          onClick={() =>
+                            handleIncrease({
+                              id: item?.productId._id
+                            })
+                          }
+                          className="button-increase"
+                        >
+                          +
+                        </span>
+                      </div>
+                    </td>
+                    <td
+                      style={{
+                        fontWeight: "bold",
+                        color: "#ffd500",
+                        fontSize: "16px"
+                      }}
+                    >
+                      {`${parseInt(
+                        item?.productId?.promotionPrice * item?.quantity
+                      ).toLocaleString("vi-VN")} ₫`}
+                    </td>
+
+                    <td>
+                      <button
+                        className="remove-button"
+                        onClick={() =>
+                          removeFromCart(
+                            item?.productId._id,
+                            dataUser?.dataUser.id
+                          )
+                        }
+                      >
+                        <RiDeleteBin5Line /> Xoá
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+              <tr>
+                <td
+                  colSpan="1"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <input
+                    style={{
+                      marginRight: "5px",
+                      cursor: "pointer"
+                    }}
+                    onClick={() => {
+                      setSelectedProducts([]);
+                    }}
+                    type="checkbox"
                   />
-                  <div className="cart-details">
-                    <h3>{item?.productId?.name}</h3>
-                    <p>Giá: {item?.productId?.prices.toLocaleString()} đ</p>
-                    <p>Số lượng: {item.quantity}</p>
-                  </div>
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDeleteItem(item.productId._id)}
-                  >
-                    ❌
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-          <div className="cart-actions">
-            <button className="clear-cart" onClick={handleClearCart}>
-              Xoá toàn bộ giỏ hàng
-            </button>
-            <button
-              className="checkout"
-              onClick={() => navigate(ROUTERS.USERS.CHECKOUT)}
-            >
-              Thanh toán
-            </button>
-          </div>
+                  <span style={{ cursor: "pointer" }}>Bỏ chọn</span>
+                </td>
+
+                <td
+                  colSpan="4"
+                  style={{ textAlign: "right", fontWeight: "bold" }}
+                >
+                  Tổng tiền:
+                </td>
+                <td
+                  colSpan="2"
+                  style={{
+                    textAlign: "left",
+                    fontWeight: "bold",
+                    color: "#ffd500",
+                    fontSize: "18px"
+                  }}
+                >
+                  {parseInt(calculateTotal()).toLocaleString("vi-VN")} ₫
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <button
+            className="clear-cart"
+            onClick={() => clearCart(dataUser?.dataUser.id)}
+          >
+            Xoá giỏ hàng
+          </button>
+          <button
+            className="payment-cart"
+            onClick={() => {
+              paymentCart(selectedProducts);
+            }}
+          >
+            Thanh toán
+          </button>
         </div>
       ) : (
-        <div className="empty-cart">
-          <img
-            src="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-            alt="not-found-product-cart"
-          />
+        <div className="no-emty">
+          {/* <img src={look} alt="not-found-product-cart" /> */}
           <p>Không có sản phẩm trong giỏ hàng.</p>
-          <button onClick={() => navigate(ROUTERS.USERS.HOME)}>
+          <button onClick={() => navigator(ROUTERS.USER.HOME)}>
             Mua Sắm Ngay
           </button>
         </div>
       )}
+      {/* <SuccessAnimation message={message} trigger={trigger} /> */}
     </div>
   );
 };
 
-export default memo(CartPage);
+export default CartPage;
