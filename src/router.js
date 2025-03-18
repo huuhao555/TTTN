@@ -33,6 +33,7 @@ import DetailShop from "./pages/users/shop/detailShop";
 import OrderPage from "./pages/users/paymentPage";
 import PaymentDetailPage from "./pages/users/PaymentDetailPage";
 import OrderStorage from "./pages/users/shop/orderManagement";
+import ProductTable from "./pages/users/shop/adminShop/showProduct";
 
 const RouterCustom = () => {
   return (
@@ -82,11 +83,11 @@ const RouterCustom = () => {
           path={ROUTERS.SHOP.CREATE_PRODUCT_SHOP}
           element={<CreateProductShop />}
         />
-        {/* <Route
+         <Route
           path={ROUTERS.SHOP.ALL_PRODUCT_SHOP}
           element={<ProductTable />}
         />
-        <Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderManager />} /> */}
+       { /*<Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderManager />} /> */}
       </Route>
       <Route element={<ProfileLayout />}>
         <Route path={ROUTERS.SHOP.VERIFY_SHOP} element={<VerifyShop />} />

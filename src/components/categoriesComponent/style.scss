@@ -1,0 +1,55 @@
+@use "sass:map";
+@import "../../styles/pages/theme.scss";
+@import "../../styles/pages/responsive";
+
+.cate-main {
+    margin-top: 50px;
+    background-color: #fff;
+    // border-radius: 2px;
+    border-radius: 8px;
+
+    .title {
+        border-bottom: 1px solid rgba(0, 0, 0, .05);
+        height: 3.75rem;
+        align-items: center;
+        display: flex;
+        padding: 0 1.25rem;
+        font-size: 24px;
+        font-weight: 500;
+        font-family: "Open Sans", sans-serif;
+    }
+
+    .slick-prev,
+    .slick-next {
+        &:before {
+            color: black;
+        }
+    }
+
+    .cate-list {
+        padding-top: 10px;
+        align-content: flex-start;
+
+        .cate-item {
+            height: max-content;
+            justify-items: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, .05);
+            border-right: 1px solid rgba(0, 0, 0, .05);
+            color: rgba(0, 0, 0, .87);
+            position: relative;
+            text-align: center;
+            -webkit-text-decoration: none;
+            text-decoration: none;
+            transition: transform .1s cubic-bezier(.4, 0, .6, 1), box-shadow .1s cubic-bezier(.4, 0, .6, 1);
+            padding-bottom: 20px;
+
+            .cate-image {
+                height: 15vh;
+                max-height: 100%;
+                max-width: 100%;
+                object-fit: contain;
+            }
+        }
+    }
+}

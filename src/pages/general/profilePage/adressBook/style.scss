@@ -1,0 +1,129 @@
+$primary-color: #d70018;
+$secondary-color: #ffffff;
+$border-color: #dddddd;
+$text-color: #333;
+$background-color: #f9f9f9;
+$hover-color: lighten($primary-color, 10%);
+
+.address-book {
+    padding: 20px;
+    background-color: $secondary-color;
+    // border-radius: 8px;
+    border-left: 1px solid #eee;
+
+
+    &__title {
+        font-size: 2rem;
+        text-align: center;
+        color: black;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    &__form {
+        margin-bottom: 30px;
+
+        .form-group {
+            margin-bottom: 15px;
+
+            label {
+                display: block;
+                font-size: 1rem;
+                margin-bottom: 5px;
+                color: $text-color;
+            }
+
+            .form-input,
+            .form-textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid $border-color;
+                border-radius: 5px;
+                font-size: 1rem;
+                color: $text-color;
+                background-color: $background-color;
+
+                &:focus {
+                    border-color: $primary-color;
+                    outline: none;
+                    box-shadow: 0 0 5px $primary-color;
+                }
+            }
+
+            .form-textarea {
+                resize: none;
+                height: 80px;
+            }
+        }
+
+        .grp-form-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .form-button {
+                background-color: #ffe14c;
+                color: $secondary-color;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+                font-size: 1.2rem;
+                cursor: pointer;
+                font-weight: bold;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #1c6300;
+                }
+            }
+        }
+    }
+
+    &__subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: #000;
+        font-weight: bold;
+    }
+}
+
+.no-address {
+    text-align: center;
+    font-size: 1rem;
+    color: $text-color;
+    margin-top: 20px;
+}
+
+.address-list {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid $border-color;
+    }
+
+    th {
+        background-color: black;
+        color: #ffe14c;
+        font-size: 1rem;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    tr:hover {
+        cursor: pointer;
+        background-color: #e7e7e7;
+    }
+
+    td {
+        font-size: 1rem;
+        color: $text-color;
+    }
+
+    .delete-icon {
+        cursor: pointer;
+    }
+}

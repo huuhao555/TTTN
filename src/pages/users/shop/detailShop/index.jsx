@@ -7,7 +7,7 @@ import {
   FaUsers,
   FaStar,
   FaUserCheck,
-  FaCommentDots
+  FaCommentDots,
 } from "react-icons/fa";
 
 const DetailShop = () => {
@@ -28,6 +28,7 @@ const DetailShop = () => {
         );
         const shopData = await shopRes.json();
         setShop(shopData);
+        console.log(shopData);
 
         const productsRes = await fetch(
           `http://localhost:3001/api/product/getAllByShop/${shopId}`
@@ -56,8 +57,8 @@ const DetailShop = () => {
             />
           </div>
           <div className="shop-details">
-            <h2>{shop?.name}</h2>
-            <p>{shop?.description || "Chưa có mô tả"}</p>
+            <h2>{shop?.data?.name}</h2>
+            <p>{shop?.data?.description || "Chưa có mô tả"}</p>
           </div>
         </div>
       </div>

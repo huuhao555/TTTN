@@ -21,6 +21,7 @@ const ProductDetails = () => {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
+      console.log(data.data);
       setProduct(data?.data);
       setSelectedImage(data?.data?.imageUrls?.[0] || img);
       setError(null);

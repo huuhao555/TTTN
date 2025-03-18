@@ -1,14 +1,9 @@
 import { Link } from "react-router-dom";
 import {
-  FaLaptop,
-  FaMobileAlt,
-  FaTv,
-  FaApple,
-  FaUsers,
   FaShoppingCart,
   FaChartBar,
-  FaCogs,
-  FaPlusCircle
+  FaPlusCircle,
+  FaAlignJustify,
 } from "react-icons/fa";
 import { ROUTERS } from "../../../../../../utils";
 
@@ -17,13 +12,18 @@ const menuItems = [
   {
     path: ROUTERS.SHOP.CREATE_PRODUCT_SHOP,
     icon: <FaPlusCircle />,
-    label: "Thêm sản phẩm"
+    label: "Thêm sản phẩm",
   },
   {
     path: ROUTERS.SHOP.ORDER_MANAGER,
     icon: <FaShoppingCart />,
-    label: "Quản lý đơn hàng"
-  }
+    label: "Quản lý đơn hàng",
+  },
+  {
+    path: ROUTERS.SHOP.ALL_PRODUCT_SHOP,
+    icon: <FaAlignJustify />,
+    label: "Tất cả sản phẩm",
+  },
 ];
 
 const AdminSidebar = () => {
