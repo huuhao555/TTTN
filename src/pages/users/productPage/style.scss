@@ -1,3 +1,7 @@
+@use "sass:map";
+@import "../../../styles/pages/responsive";
+@import "../../../styles/pages/theme";
+
 .product-container {
   max-width: 1200px;
   margin: 0 auto;

@@ -1,5 +1,6 @@
 export const ROUTERS = {
   USERS: {
+    CHAT: "/tin-nhan",
     HOME: "/",
     LOGIN: "/dang-nhap",
     SIGNUP: "/dang-ky",

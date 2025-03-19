@@ -4,7 +4,8 @@ import GetAllShopsPage from "../getAllShop/index";
 import ProductAllComponent from "../../../components/products";
 import ProductByShopComponent from "../../../components/productShop";
 import CategoriesComponent from "../../../components/categoriesComponent";
-
+import HistoriesProductSlide from "../../../components/historiesComponent";
+import ChatRealtimeComponent from "../../../components/chatRealtime";
 const HomePage = () => {
   return (
     <div>
@@ -12,6 +13,8 @@ const HomePage = () => {
       <CategoriesComponent />
       <GetAllShopsPage />
       <ProductAllComponent />
+      <HistoriesProductSlide />
+      <ChatRealtimeComponent />
 
       {/* <ProductByShopComponent /> */}
     </div>

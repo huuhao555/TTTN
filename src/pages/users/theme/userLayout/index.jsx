@@ -4,9 +4,11 @@ import Header from "../header/index";
 import Footer from "../footer/index";
 import { UserProvider } from "../../../../middleware/UserContext";
 import Breadcrumbs from "../../../../components/breadcrumbs";
+import ChatbotWrapper from "../../../../components/ChatbotAsisstant";
 const UserLayout = (props) => {
   return (
     <UserProvider>
+      <ChatbotWrapper />
       <div {...props}>
         <Header />
         <Breadcrumbs />

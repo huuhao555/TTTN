@@ -34,11 +34,13 @@ import OrderPage from "./pages/users/paymentPage";
 import PaymentDetailPage from "./pages/users/PaymentDetailPage";
 import OrderStorage from "./pages/users/shop/orderManagement";
 import ProductTable from "./pages/users/shop/adminShop/showProduct";
+import ChatPage from "./pages/users/chat";
 
 const RouterCustom = () => {
   return (
     <Routes>
       <Route element={<UserLayout />}>
+        <Route path={`${ROUTERS.USERS.CHAT}/:receiverId?`} element={<ChatPage />} />
         <Route path={ROUTERS.USERS.HOME} element={<HomePage />} />
         <Route path={ROUTERS.USERS.LOGIN} element={<AuthPage />} />
         <Route path={ROUTERS.USERS.FORGET_PASSWORD} element={<ForgetPass />} />

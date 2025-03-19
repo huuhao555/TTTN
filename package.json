@@ -14,7 +14,9 @@
     "sass": "^1.84.0",
     "slick-carousel": "^1.8.1",
     "slugify": "^1.6.6",
-    "sweetalert2": "^11.17.2"
+    "socket.io-client": "^4.8.1",
+    "sweetalert2": "^11.17.2",
+    "v": "^0.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

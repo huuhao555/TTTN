@@ -15,7 +15,7 @@ const ProductPage = () => {
   const [selectedBrandId, setSelectedBrandId] = useState(null); // Thêm state brand đang chọn
   const [selectedOption, setSelectedOption] = useState("");
   const [activeFilter, setActiveFilter] = useState("popular");
-  const [visibleCount, setVisibleCount] = useState(20);
+  const [visibleCount, setVisibleCount] = useState(10);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,13 +29,13 @@ const ProductPage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token: `Bearer ${dataUser?.access_token}}`
+          token: `Bearer ${dataUser?.access_token}}`,
         },
         body: JSON.stringify({
           userId: dataUser?.dataUser?.id, // ID user (tuỳ chỉnh nếu cần)
           productId: product?._id,
-          quantity: 1 // Mặc định 1 sản phẩm
-        })
+          quantity: 1, // Mặc định 1 sản phẩm
+        }),
       });
 
       if (!response.ok) throw new Error("Lỗi khi thêm sản phẩm vào giỏ hàng!");
@@ -210,7 +210,7 @@ const ProductPage = () => {
       {!isLoading && !error && visibleCount < products.length && (
         <button
           className="load-more"
-          onClick={() => setVisibleCount((prev) => prev + 20)}
+          onClick={() => setVisibleCount((prev) => prev + 10)}
         >
           Xem thêm ({products.length - visibleCount} sản phẩm)
         </button>

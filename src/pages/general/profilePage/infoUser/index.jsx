@@ -5,6 +5,7 @@ import { apiLink } from "../../../../config/api";
 
 const InfoUserPage = () => {
   const { dataUser } = useContext(UserContext);
+  console.log(dataUser);
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -14,7 +15,7 @@ const InfoUserPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    email: ""
+    email: "",
   });
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const InfoUserPage = () => {
       setFormData({
         name: dataUser?.dataUser?.name || "",
         phone: dataUser?.dataUser?.phone || "",
-        email: dataUser?.dataUser?.email || ""
+        email: dataUser?.dataUser?.email || "",
       });
     }
   }, [dataUser]);
@@ -39,9 +40,9 @@ const InfoUserPage = () => {
       const response = await fetch(apiLink + `/api/user/update-user/${id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
