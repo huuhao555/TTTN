@@ -1,295 +1,142 @@
-@use "sass:map";
-@import "../../../styles/pages/_theme.scss";
-
-$bg-color: #f8f9fa;
-$form-bg-color: #ffffff;
-$summary-bg-color: #f3dfdf;
-$button-color: #ffd500;
-$button-hover-color: #c50017;
-$text-color: #333;
-$input-border-color: #dcdcdc;
-
 .payment-page {
-  margin-top: 100px !important;
   max-width: 900px;
   margin: auto;
+  background: #fff;
   padding: 20px;
-  background-color: $bg-color;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 
   h1 {
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 30px;
-    color: $text-color;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16px;
   }
 
   .payment-form {
-    background-color: $form-bg-color;
-    padding: 20px;
+    background: #f9f9f9;
+    padding: 16px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 
     h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: $text-color;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #222;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       padding: 10px;
-      margin: 8px 0;
-      font-size: 1rem;
-      border: 1px solid $input-border-color;
-      border-radius: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s ease-in-out;
 
       &:focus {
-        border-color: $button-color;
+        border-color: #ff9f00;
+        box-shadow: 0px 0px 5px rgba(255, 159, 0, 0.4);
         outline: none;
       }
     }
 
-    .complete-payment {
-      background-color: $button-color;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 15px;
-      margin-left: 40%;
-      width: 20%;
-      align-items: center;
-
-      &:hover {
-        background-color: $button-hover-color;
-      }
+    .select-container {
+      margin-top: 10px;
     }
+
     .address-suggestions {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      border: 1px solid #ccc;
       background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-top: 5px;
+      padding: 5px;
       max-height: 150px;
       overflow-y: auto;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 
       li {
-        padding: 10px;
+        padding: 8px;
         cursor: pointer;
+        transition: background 0.3s;
 
         &:hover {
-          background-color: #f1f1f1;
-        }
-      }
-    }
-    .select-container {
-      position: relative;
-      width: 100%;
-      max-width: 1000px;
-
-      select {
-        width: 100%;
-        padding: 10px 15px;
-        font-size: 16px;
-        font-weight: 400;
-        color: #333;
-        background-color: #f9f9f9;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        outline: none;
-        appearance: none;
-        cursor: pointer;
-
-        &:focus {
-          border-color: #007bff;
-          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-      }
-
-      &::after {
-        content: "▼";
-        font-size: 12px;
-        color: #555;
-        position: absolute;
-        top: 50%;
-        right: 15px;
-        transform: translateY(-50%);
-        pointer-events: none;
-      }
-
-      select > option {
-        font-size: 14px;
-        padding: 5px;
-        background-color: #ffffff;
-        color: #333;
-
-        &:hover {
-          background-color: #f1f1f1;
-        }
-      }
-    }
-  }
-
-  .payment-methods {
-    text-align: center;
-    margin-top: 30px;
-
-    h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-    }
-
-    .payment-icons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-
-      svg {
-        color: $button-color;
-        transition: transform 0.3s;
-
-        &:hover {
-          transform: scale(1.1);
+          background: #ff9f00;
+          color: white;
         }
       }
     }
   }
 
   .order-summary {
-    background-color: $summary-bg-color;
-    padding: 20px;
+    background: #f9f9f9;
+    padding: 16px;
     border-radius: 8px;
-    text-align: center;
-    margin-top: 30px;
 
     h2 {
-      text-align: left;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: $text-color;
-    }
-
-    .order-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      font-size: 1rem;
-    }
-
-    .total-price {
-      display: flex;
-      justify-content: space-between;
-      font-size: 1.2rem;
+      font-size: 18px;
       font-weight: bold;
-      color: $button-color;
-      margin-top: 10px;
+      margin-bottom: 12px;
+      color: #222;
     }
-    .order-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background-color: #f5f5f5;
 
-      .order-table {
-        width: 100%;
-        max-width: 800px;
-        border-collapse: collapse;
-        background-color: #ffffff;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
 
-        thead {
-          background-color: #ffd500;
-          color: #fff;
+      th {
+        background: #ff9f00;
+        color: white;
+        padding: 10px;
+        text-align: left;
+      }
 
-          th {
-            padding: 12px;
-            text-align: left;
-            font-weight: bold;
-            font-size: 16px;
-          }
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .grp-price {
+        display: flex;
+        flex-direction: column;
+
+        .price-old {
+          text-decoration: line-through;
+          color: gray;
+          font-size: 14px;
         }
 
-        tbody {
-          tr {
-            &:nth-child(even) {
-              background-color: #f9f9f9;
-            }
-
-            &:hover {
-              background-color: #f3dfdf;
-            }
-
-            td {
-              padding: 12px;
-              text-align: left;
-              font-size: 15px;
-              border-bottom: 1px solid #ddd;
-
-              &:last-child {
-                font-weight: bold;
-                color: #333;
-              }
-            }
-          }
-        }
-        .voucher-code {
-          width: 150px;
-          padding: 10px;
+        .price-new {
           font-size: 16px;
-          text-align: center;
-          border: 2px solid #e93434;
-          border-radius: 5px;
           font-weight: bold;
-          &:focus {
-            cursor: progress;
-          }
+          color: #ff9f00;
         }
-        tr:last-child {
-          td {
-            font-weight: bold;
-            font-size: 16px;
-          }
-        }
-        .grp-price {
-          .prices {
-            color: map.get($theme-color, "main-color");
-            font-weight: bold;
-            font-size: 16px;
-          }
-          .price-old {
-            text-decoration: line-through;
-            color: #999;
-            margin-right: 5px;
-            font-size: 14px;
-          }
-          .grp-price-new {
-            display: flex;
-            justify-content: left;
-            align-items: center;
-            gap: 10px;
 
-            .price-new {
-              color: map.get($theme-color, "main-color");
-              font-weight: bold;
-              font-size: 16px;
-            }
-            .discount {
-              padding: 0 4px;
-              width: fit-content;
-              font-size: 16px;
-              color: map.get($theme-color, "main-color");
-              border: 1px solid map.get($theme-color, "main-color");
-              background-color: rgba(255, 210, 215, 0.384);
-              border-radius: 10%;
-            }
-          }
+        .discount {
+          font-size: 12px;
+          color: red;
         }
+      }
+    }
+
+    .complete-payment {
+      width: 100%;
+      background: #ff9f00;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background: #e68a00;
       }
     }
   }

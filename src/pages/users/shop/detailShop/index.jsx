@@ -7,8 +7,9 @@ import {
   FaUsers,
   FaStar,
   FaUserCheck,
-  FaCommentDots,
+  FaCommentDots
 } from "react-icons/fa";
+import { apiLink } from "../../../../config/api";
 
 const DetailShop = () => {
   const { dataUser } = useContext(UserContext);
@@ -17,7 +18,31 @@ const DetailShop = () => {
 
   const [shop, setShop] = useState(null);
   const [products, setProducts] = useState([]);
+  console.log(dataUser?.dataUser);
 
+  const handleAddToCart = async (product) => {
+    try {
+      const response = await fetch(`${apiLink}/api/cart/add-update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token: `Bearer ${dataUser?.access_token}}`
+        },
+        body: JSON.stringify({
+          userId: dataUser?.dataUser?.id, // ID user (tuỳ chỉnh nếu cần)
+          productId: product?._id,
+          quantity: 1 // Mặc định 1 sản phẩm
+        })
+      });
+
+      if (!response.ok) throw new Error("Lỗi khi thêm sản phẩm vào giỏ hàng!");
+
+      alert("Sản phẩm đã được thêm vào giỏ hàng!");
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
   useEffect(() => {
     if (!shopId) return;
 
@@ -115,7 +140,14 @@ const DetailShop = () => {
                 <p className="price">
                   {product?.prices?.toLocaleString("VN-vi")} đ
                 </p>
-                <button className="buy-btn">Mua ngay</button>
+                <button
+                  className="buy-btn"
+                  onClick={() => {
+                    handleAddToCart(product);
+                  }}
+                >
+                  Mua ngay
+                </button>
               </div>
             ))
           ) : (

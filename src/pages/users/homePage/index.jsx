@@ -1,20 +1,22 @@
 import { memo } from "react";
 import SlideHomePage from "../../../components/slideHome/index";
-import GetAllShopsPage from "../getAllShop/index";
-import ProductAllComponent from "../../../components/products";
+
+import ProductAllComponent from "../../../components/productsComponent";
 import ProductByShopComponent from "../../../components/productShop";
 import CategoriesComponent from "../../../components/categoriesComponent";
 import HistoriesProductSlide from "../../../components/historiesComponent";
 import ChatRealtimeComponent from "../../../components/chatRealtime";
+import GetAllShopsComponents from "../../../components/getShop";
 const HomePage = () => {
   return (
     <div>
       <SlideHomePage />
-      <CategoriesComponent />
-      <GetAllShopsPage />
-      <ProductAllComponent />
       <HistoriesProductSlide />
-      <ChatRealtimeComponent />
+      {/* <CategoriesComponent /> */}
+      <GetAllShopsComponents />
+      <ProductAllComponent />
+      {/* <HistoriesProductSlide />
+      <ChatRealtimeComponent /> */}
 
       {/* <ProductByShopComponent /> */}
     </div>

@@ -17,14 +17,14 @@ const CartPage = () => {
   const [trigger, setTrigger] = useState(false);
 
   const { dataUser, updateCartCount } = useContext(UserContext);
-  console.log(dataUser);
+
   const [selectedProducts, setSelectedProducts] = useState([]);
   const navigator = useNavigate();
   const { pathname } = useLocation();
   useEffect(
     () => {
       if (cart && cart.products) {
-        const allProductIds = cart.products.map((item) => item?.productId._id);
+        const allProductIds = cart?.products.map((item) => item?.productId._id);
         setSelectedProducts(allProductIds);
       }
       window.scrollTo(0, 0);
@@ -43,8 +43,9 @@ const CartPage = () => {
       );
       if (!response.ok) throw new Error(response.statusText);
       const dataCart = await response.json();
+
+      setCart(dataCart?.groupedByShop);
       console.log(dataCart);
-      setCart(dataCart);
     } catch (error) {
       console.error("Failed to fetch count for users:", error);
     }
@@ -198,24 +199,26 @@ const CartPage = () => {
       );
   };
   return (
-    <div className="cart-page">
-      {cart && cart?.products?.length > 0 ? (
-        <div className="cart-container">
-          <table className="cart-table">
-            <thead>
-              <tr>
-                <th>Chọn</th>
-                <th>STT</th>
-                <th>Sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Tổng tiền</th>
-                <th>Chức năng</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cart.products.map((item, key) => {
-                return (
+    <div>
+      {Object.entries(cart || {})?.map(([shopId, products]) => {
+        console.log(shopId, products);
+        return (
+          <div key={shopId} className="shop-section">
+            <h2 className="shop-title">Cửa hàng: {shopId}</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Chọn</th>
+                  <th>#</th>
+                  <th>Sản phẩm</th>
+                  <th>Giá</th>
+                  <th>Số lượng</th>
+                  <th>Tổng</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products?.map((item, key) => (
                   <tr key={item?._id}>
                     <td>
                       <input
@@ -227,40 +230,38 @@ const CartPage = () => {
                       />
                     </td>
                     <td>{key + 1}</td>
-                    <td>{`${item?.productId.name}`}</td>
+                    <td>{item?.productId.name}</td>
                     <td>
-                      {" "}
-                      {parseInt(item?.productId?.prices) ==
+                      {parseInt(item?.productId?.prices) ===
                       item?.productId?.promotionPrice ? (
-                        <div className="grp-price">
-                          <p className="prices">
-                            {`${parseInt(
-                              item?.productId?.prices
-                            ).toLocaleString("vi-VN")} ₫`}
-                          </p>
-                        </div>
+                        <p className="prices">
+                          {parseInt(item?.productId?.prices).toLocaleString(
+                            "vi-VN"
+                          )}{" "}
+                          ₫
+                        </p>
                       ) : (
                         <div className="grp-price">
                           <p className="price-old">
-                            {`${parseInt(
-                              item?.productId?.prices
-                            ).toLocaleString("vi-VN")} ₫`}
+                            {parseInt(item?.productId?.prices).toLocaleString(
+                              "vi-VN"
+                            )}{" "}
+                            ₫
                           </p>
                           <div className="grp-price-new">
                             <p className="price-new">
-                              {`${parseInt(
+                              {parseInt(
                                 item?.productId?.promotionPrice
-                              ).toLocaleString("vi-VN")}
-                               ₫`}
+                              ).toLocaleString("vi-VN")}{" "}
+                              ₫
                             </p>
                             <p className="discount">
-                              {`-${item?.productId?.discount}%`}
+                              -{item?.productId?.discount}%
                             </p>
                           </div>
                         </div>
                       )}
                     </td>
-
                     <td>
                       <div className="handle-quantity">
                         <span
@@ -272,9 +273,7 @@ const CartPage = () => {
                         <div>{item?.quantity}</div>
                         <span
                           onClick={() =>
-                            handleIncrease({
-                              id: item?.productId._id
-                            })
+                            handleIncrease({ id: item?.productId._id })
                           }
                           className="button-increase"
                         >
@@ -282,18 +281,12 @@ const CartPage = () => {
                         </span>
                       </div>
                     </td>
-                    <td
-                      style={{
-                        fontWeight: "bold",
-                        color: "#ffd500",
-                        fontSize: "16px"
-                      }}
-                    >
-                      {`${parseInt(
+                    <td className="total-price">
+                      {parseInt(
                         item?.productId?.promotionPrice * item?.quantity
-                      ).toLocaleString("vi-VN")} ₫`}
+                      ).toLocaleString("vi-VN")}{" "}
+                      ₫
                     </td>
-
                     <td>
                       <button
                         className="remove-button"
@@ -308,76 +301,27 @@ const CartPage = () => {
                       </button>
                     </td>
                   </tr>
-                );
-              })}
-              <tr>
-                <td
-                  colSpan="1"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <input
-                    style={{
-                      marginRight: "5px",
-                      cursor: "pointer"
-                    }}
-                    onClick={() => {
-                      setSelectedProducts([]);
-                    }}
-                    type="checkbox"
-                  />
-                  <span style={{ cursor: "pointer" }}>Bỏ chọn</span>
-                </td>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      })}
 
-                <td
-                  colSpan="4"
-                  style={{ textAlign: "right", fontWeight: "bold" }}
-                >
-                  Tổng tiền:
-                </td>
-                <td
-                  colSpan="2"
-                  style={{
-                    textAlign: "left",
-                    fontWeight: "bold",
-                    color: "#ffd500",
-                    fontSize: "18px"
-                  }}
-                >
-                  {parseInt(calculateTotal()).toLocaleString("vi-VN")} ₫
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <button
-            className="clear-cart"
-            onClick={() => clearCart(dataUser?.dataUser.id)}
-          >
-            Xoá giỏ hàng
-          </button>
-          <button
-            className="payment-cart"
-            onClick={() => {
-              paymentCart(selectedProducts);
-            }}
-          >
-            Thanh toán
-          </button>
-        </div>
-      ) : (
-        <div className="no-emty">
-          {/* <img src={look} alt="not-found-product-cart" /> */}
-          <p>Không có sản phẩm trong giỏ hàng.</p>
-          <button onClick={() => navigator(ROUTERS.USER.HOME)}>
-            Mua Sắm Ngay
-          </button>
-        </div>
-      )}
-      {/* <SuccessAnimation message={message} trigger={trigger} /> */}
+      <div className="cart-summary">
+        <button
+          className="clear-cart"
+          onClick={() => clearCart(dataUser?.dataUser.id)}
+        >
+          Xoá giỏ hàng
+        </button>
+        <button
+          className="payment-cart"
+          onClick={() => paymentCart(selectedProducts)}
+        >
+          Thanh toán
+        </button>
+      </div>
     </div>
   );
 };

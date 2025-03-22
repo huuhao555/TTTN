@@ -4,6 +4,7 @@ import productImage from "../../../assets/users/product/image.png";
 import { apiLink } from "../../../config/api";
 import "./style.scss";
 import { UserContext } from "../../../middleware/UserContext";
+import { ROUTERS } from "../../../utils";
 
 const ProductPage = () => {
   const location = useLocation();
@@ -29,13 +30,13 @@ const ProductPage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token: `Bearer ${dataUser?.access_token}}`,
+          token: `Bearer ${dataUser?.access_token}}`
         },
         body: JSON.stringify({
           userId: dataUser?.dataUser?.id, // ID user (tuỳ chỉnh nếu cần)
           productId: product?._id,
-          quantity: 1, // Mặc định 1 sản phẩm
-        }),
+          quantity: 1 // Mặc định 1 sản phẩm
+        })
       });
 
       if (!response.ok) throw new Error("Lỗi khi thêm sản phẩm vào giỏ hàng!");
@@ -185,7 +186,7 @@ const ProductPage = () => {
           {products.length > 0 ? (
             products.slice(0, visibleCount).map((item) => (
               <div key={item._id} className="product-item">
-                <Link to={`/chi-tiet-san-pham/${item._id}`}>
+                <Link to={`${ROUTERS.USERS.PRODUCT_DETAIL}/${item._id}`}>
                   <img
                     src={item.imageUrls?.[0] || productImage}
                     alt={item.name}

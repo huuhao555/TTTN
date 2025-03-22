@@ -1,45 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../../../middleware/UserContext";
+import { UserContext } from "../../../../middleware/UserContext";
 import "../style.scss";
 import { AiOutlineDownCircle } from "react-icons/ai";
-
-import { apiLink } from "../../../../../config/api";
-import SuccessAnimation from "../../../../../components/Success";
-
-const PendingOrders = () => {
+import { apiLink } from "../../../../config/api";
+const CancelledOrders = () => {
   const [orders, setOrders] = useState([]);
-  const { dataUser } = useContext(UserContext) || {};
-  const [message, setMessage] = useState("");
-  const [trigger, setTrigger] = useState(false);
+  const { user } = useContext(UserContext) || {};
+
   const [visibleOrders, setVisibleOrders] = useState({});
-  useEffect(() => {
-    const fetchPendingOrders = async () => {
-      const shopId = dataUser?.dataUser?.shopId;
-      console.log(shopId);
-      if (!shopId) {
-        console.error("User ID is not available");
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          apiLink + `/api/order/getAllByShop/${shopId}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch orders");
-        }
-
-        const data = await response.json();
-        console.log(data);
-        setOrders(data?.data.filter((order) => order.status === "Pending"));
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    };
-
-    fetchPendingOrders();
-  }, [dataUser]);
 
   const toggleOrderVisibility = (orderId) => {
     setVisibleOrders((prev) => ({
@@ -47,78 +15,31 @@ const PendingOrders = () => {
       [orderId]: !prev[orderId]
     }));
   };
-  const handleCancelOrder = async (id) => {
-    try {
-      const response = await fetch(apiLink + `/api/order/cancel`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ orderId: id })
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to cancel order");
-      }
-      setMessage("Huỷ đơn hàng thành công");
-      setTrigger(true);
-      await response.json();
-      setTimeout(() => {
-        setTrigger(false);
-      }, 1000);
-      const shopId = dataUser?.dataUser?.id;
-      const updatedOrdersResponse = await fetch(
-        apiLink + `/api/order/getAll/${shopId}`
-      );
-
-      if (!updatedOrdersResponse.ok) {
-        throw new Error("Failed to fetch updated orders");
+  useEffect(() => {
+    const fetchPendingOrders = async () => {
+      const userId = user?.dataUser?.id;
+      if (!userId) {
+        console.error("User ID is not available");
+        return;
       }
 
-      const updatedOrders = await updatedOrdersResponse.json();
-      setOrders(
-        updatedOrders?.data.filter((order) => order.status === "Pending")
-      );
-    } catch (error) {
-      console.error("Error cancelling order:", error);
-    }
-  };
-  const handleSubmitOrder = async (id) => {
-    try {
-      const response = await fetch(apiLink + `/api/order/cancel`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ orderId: id })
-      });
+      try {
+        const response = await fetch(apiLink + `/api/order/getAll/${userId}`);
 
-      if (!response.ok) {
-        throw new Error("Failed to cancel order");
+        if (!response.ok) {
+          throw new Error("Failed to fetch orders");
+        }
+
+        const data = await response.json();
+        setOrders(data?.data.filter((order) => order.status === "Cancelled"));
+      } catch (error) {
+        console.error("Error fetching orders:", error);
       }
-      setMessage("Huỷ đơn hàng thành công");
-      setTrigger(true);
-      await response.json();
-      setTimeout(() => {
-        setTrigger(false);
-      }, 1000);
-      const shopId = dataUser?.dataUser?.id;
-      const updatedOrdersResponse = await fetch(
-        apiLink + `/api/order/getAll/${shopId}`
-      );
+    };
 
-      if (!updatedOrdersResponse.ok) {
-        throw new Error("Failed to fetch updated orders");
-      }
+    fetchPendingOrders();
+  }, [user]);
 
-      const updatedOrders = await updatedOrdersResponse.json();
-      setOrders(
-        updatedOrders?.data.filter((order) => order.status === "Pending")
-      );
-    } catch (error) {
-      console.error("Error cancelling order:", error);
-    }
-  };
   return (
     <div className="orders-list">
       {orders.length > 0 ? (
@@ -128,23 +49,6 @@ const PendingOrders = () => {
               order.totalPrice + parseInt(order.VAT) + order.shippingFee;
             return (
               <div key={order._id} className="order">
-                <button
-                  className="btn-cancel"
-                  onClick={() => {
-                    handleCancelOrder(order._id);
-                  }}
-                >
-                  Huỷ đơn hàng
-                </button>
-                <button
-                  className="btn-submit"
-                  onClick={() => {
-                    handleSubmitOrder(order._id);
-                  }}
-                >
-                  Nhận đơn hàng
-                </button>
-
                 <h2>Thông tin người nhận hàng</h2>
                 <p>Tên người nhận: {order?.name}</p>
                 <p>Địa chỉ: {order?.shippingAddress}</p>
@@ -248,7 +152,7 @@ const PendingOrders = () => {
                               }}
                             >
                               {parseInt(
-                                item?.productId?.promotionPrice * item.quantity
+                                item?.productId?.promotionPrice * item?.quantity
                               ).toLocaleString("vi-VN")}{" "}
                               ₫
                             </td>
@@ -292,10 +196,10 @@ const PendingOrders = () => {
                     <p>
                       Voucher người dùng:
                       <span>
-                        {` (${(
+                        {` (-${(
                           (1 - order?.orderTotal / grandTotal) *
                           100
-                        )?.toLocaleString("vi-VN")}%) ${parseInt(
+                        )?.toLocaleString("vi-VN")}%) -${parseInt(
                           grandTotal - order?.orderTotal
                         )?.toLocaleString("vi-VN")}`}
                       </span>
@@ -324,9 +228,8 @@ const PendingOrders = () => {
       ) : (
         <p>Không có đơn hàng nào đang xử lý.</p>
       )}
-      <SuccessAnimation message={message} trigger={trigger} />
     </div>
   );
 };
 
-export default PendingOrders;
+export default CancelledOrders;

@@ -1,18 +1,21 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./style.scss";
 import {
   FaBox,
   FaUsers,
   FaStar,
   FaUserCheck,
-  FaCommentDots,
+  FaCommentDots
 } from "react-icons/fa";
 import { apiLink } from "../../../config/api";
 import img from "../../../assets/users/product/image.png";
 import { UserContext } from "../../../middleware/UserContext";
+import { ROUTERS } from "../../../utils";
 
 const ProductDetails = () => {
+  const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,16 +30,16 @@ const ProductDetails = () => {
     if (!product) return;
 
     try {
-      let history = JSON.parse(localStorage.getItem("viewedProducts")) || [];
+      let history = JSON.parse(sessionStorage.getItem("viewedProducts")) || [];
       history = history.filter((item) => item._id !== product._id);
       history.unshift({
         _id: product._id,
         name: product.name,
         imageUrl: product.imageUrls,
-        prices: product.prices,
+        prices: product.prices
       });
       history = history.slice(0, 10);
-      localStorage.setItem("viewedProducts", JSON.stringify(history));
+      sessionStorage.setItem("viewedProducts", JSON.stringify(history));
     } catch (error) {
       console.error("Error updating history:", error);
     }
@@ -82,20 +85,20 @@ const ProductDetails = () => {
         userId: dataUser?.dataUser?.id,
         productId: product?._id,
         quantity: 1,
-        prices: product?.prices,
+        prices: product?.prices
       });
 
       const response = await fetch(`${apiLink}/api/cart/add-update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token: `Bearer ${dataUser.access_token}`,
+          token: `Bearer ${dataUser.access_token}`
         },
         body: JSON.stringify({
           userId: dataUser?.dataUser?.id,
           productId: product?._id,
-          quantity: 1, // Đảm bảo đây là số
-        }),
+          quantity: 1 // Đảm bảo đây là số
+        })
       });
 
       if (!response.ok) {
@@ -110,7 +113,7 @@ const ProductDetails = () => {
       alert(error.message);
     }
   };
-
+  console.log(shop);
   return (
     <div className="container">
       <div className="product-details ">
@@ -166,7 +169,16 @@ const ProductDetails = () => {
           <p className="shop-status">Online 5 Giờ Trước</p>
           <div className="shop-actions">
             <button className="chat-button">💬 Chat Ngay</button>
-            <button className="view-shop-button">🏪 Xem Shop</button>
+            <button
+              className="view-shop-button"
+              onClick={() =>
+                navigate(ROUTERS.USERS.DETAIL_SHOP, {
+                  state: { shopId: product?.shopId?._id }
+                })
+              }
+            >
+              🏪 Xem Shop
+            </button>
           </div>
         </div>
         <div className="shop-stats">

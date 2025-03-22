@@ -16,7 +16,7 @@ import ViewHistories from "./pages/general/profilePage/viewHistories";
 import AddressBook from "./pages/general/profilePage/adressBook";
 import CreateCategory from "./pages/admin/createCategoris";
 import ProductPage from "./pages/users/productPage";
-import ProductDetails from "./pages/users/detailsPage";
+import ProductDetails from "./pages/users/productDetailsPage";
 import ProfileLayout from "./pages/general/profilePage/theme/profileLayout";
 import InfoUserPage from "./pages/general/profilePage/infoUser";
 import VerifyShop from "./pages/users/shop/registerShop/verifyShop";
@@ -35,12 +35,17 @@ import PaymentDetailPage from "./pages/users/PaymentDetailPage";
 import OrderStorage from "./pages/users/shop/orderManagement";
 import ProductTable from "./pages/users/shop/adminShop/showProduct";
 import ChatPage from "./pages/users/chat";
+import OrderStorageUser from "./pages/users/orderManagement";
+import ProductAll from "./pages/users/getAllproducts";
 
 const RouterCustom = () => {
   return (
     <Routes>
       <Route element={<UserLayout />}>
-        <Route path={`${ROUTERS.USERS.CHAT}/:receiverId?`} element={<ChatPage />} />
+        <Route
+          path={`${ROUTERS.USERS.CHAT}/:receiverId?`}
+          element={<ChatPage />}
+        />
         <Route path={ROUTERS.USERS.HOME} element={<HomePage />} />
         <Route path={ROUTERS.USERS.LOGIN} element={<AuthPage />} />
         <Route path={ROUTERS.USERS.FORGET_PASSWORD} element={<ForgetPass />} />
@@ -55,9 +60,14 @@ const RouterCustom = () => {
         <Route path={ROUTERS.USERS.ORDER_DETAIL} element={<OrderPage />} />
         <Route path={ROUTERS.USERS.DETAIL_SHOP} element={<DetailShop />} />
         <Route
+          path={ROUTERS.USERS.ORDER_MANAGER}
+          element={<OrderStorageUser />}
+        />
+        <Route
           path={ROUTERS.USERS.PAYMENT_DETAIL}
           element={<PaymentDetailPage />}
         />
+        <Route path={ROUTERS.USERS.PRODUCT_ALL} element={<ProductAll />} />
         <Route
           path={`${ROUTERS.USERS.PRODUCT_DETAIL}/:id`}
           element={<ProductDetails />}
@@ -85,11 +95,11 @@ const RouterCustom = () => {
           path={ROUTERS.SHOP.CREATE_PRODUCT_SHOP}
           element={<CreateProductShop />}
         />
-         <Route
+        <Route
           path={ROUTERS.SHOP.ALL_PRODUCT_SHOP}
           element={<ProductTable />}
         />
-       { /*<Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderManager />} /> */}
+        {/*<Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderManager />} /> */}
       </Route>
       <Route element={<ProfileLayout />}>
         <Route path={ROUTERS.SHOP.VERIFY_SHOP} element={<VerifyShop />} />

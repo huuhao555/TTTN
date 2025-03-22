@@ -11,8 +11,9 @@ const OrderPage = () => {
 
   const location = useLocation();
   const { selectedProducts } = location.state || {};
-  const [voucher, setVoucher] = useState(null);
   console.log(selectedProducts);
+  const [voucher, setVoucher] = useState(null);
+
   const { dataUser } = useContext(UserContext) || {};
   const userId = dataUser?.dataUser?.id;
 
@@ -26,35 +27,48 @@ const OrderPage = () => {
     shippingAddress: ""
   });
   const [suggestions, setSuggestions] = useState([]);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   const handleVoucherSelection = (selectedVoucher) => {
-    console.log(selectedVoucher);
     setVoucher(selectedVoucher);
   };
   const getAllCart = useCallback(async () => {
     if (!dataUser || !dataUser.dataUser) return;
-    const id = dataUser?.dataUser.id;
+
     try {
-      const response = await fetch(apiLink + `/api/cart/get-cart/${id}`);
+      const response = await fetch(
+        apiLink + `/api/cart/get-cart/${dataUser?.dataUser?.id}`
+      );
       if (!response.ok) throw new Error(response.statusText);
+
       const data = await response.json();
-      setCartId(data?._id);
-      const filteredData = data.products.filter((product) =>
-        selectedProducts.includes(product.productId._id)
+      console.log(data);
+
+      setCartId(data?.cartId);
+
+      // Chuyển object `groupedByShop` thành mảng sản phẩm
+      const allProducts = Object.values(data?.groupedByShop || {}).flat(); // Loại bỏ mảng lồng nhau, tạo danh sách sản phẩm
+
+      console.log(allProducts);
+
+      // Lọc sản phẩm theo `selectedProducts`
+      const filteredData = allProducts.filter(
+        (product) =>
+          product?.productId?._id &&
+          selectedProducts.includes(product.productId._id)
       );
 
       setDataOrder({ ...data, products: filteredData });
     } catch (error) {
       console.error("Failed to fetch cart data:", error);
     }
-  }, [dataUser]);
-  console.log(dataUser);
+  }, [dataUser, selectedProducts]);
+
   useEffect(() => {
     getAllCart();
   }, [getAllCart]);
+
   const fetchAddressOptions = async () => {
     try {
       const response = await fetch(`${apiLink}/api/address/list/${userId}`);
@@ -100,7 +114,6 @@ const OrderPage = () => {
     setSuggestions([]);
   };
   const handleAddressSelect = (selectedAddress) => {
-    console.log(selectedAddress);
     if (selectedAddress) {
       setPaymentDetails((prevDetails) => ({
         ...prevDetails,
@@ -127,7 +140,7 @@ const OrderPage = () => {
             ...paymentDetails,
             userId: dataUser?.dataUser?.id,
             shopId: dataUser?.dataUser?.shopId,
-            productId: selectedProducts,
+            productIds: selectedProducts,
             cartId: cartId,
             voucherCode: voucher?.code || 0
           })
@@ -160,7 +173,6 @@ const OrderPage = () => {
       });
       if (!response.ok) throw new Error("Failed to create address");
       const data = await response.json();
-      console.log("Address created:", data);
     } catch (error) {
       console.error("Error creating address:", error);
       throw error;

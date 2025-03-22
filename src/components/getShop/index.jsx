@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import "./style.scss";
-import { apiLink } from "../../../config/api";
+
 import { useNavigate } from "react-router-dom";
-import { ROUTERS } from "../../../utils";
+import { apiLink } from "../../config/api";
+import { ROUTERS } from "../../utils";
 
 const getRandomShopImage = () =>
   `https://picsum.photos/200?random=${Math.random()}`;
 
-const GetAllShopsPage = () => {
+const GetAllShopsComponents = () => {
   const [shops, setShops] = useState([]);
   const navigate = useNavigate();
 
@@ -25,21 +26,21 @@ const GetAllShopsPage = () => {
   }, []);
 
   return (
-    <div className="shopsPage">
-      <h1 className="title">Danh sách cửa hàng</h1>
-      <div className="shopsGrid">
-        {shops.map((shop) => (
-          <div key={shop.id} className="shopCard">
+    <div className="shopsPageUnique">
+      <h1 className="titleUnique">Danh sách cửa hàng</h1>
+      <div className="shopsGridUnique">
+        {shops.slice(0, 6).map((shop) => (
+          <div key={shop.id} className="shopCardUnique">
             <img
               src={getRandomShopImage()}
               alt={shop.name}
-              className="shopLogo"
+              className="shopLogoUnique"
             />
-            <div className="shopInfo">
-              <h2 className="shopName">{shop.name}</h2>
-              <p className="shopDescription">{shop.description}</p>
+            <div className="shopInfoUnique">
+              <h2 className="shopNameUnique">{shop.name}</h2>
+              <p className="shopDescriptionUnique">{shop.description}</p>
               <button
-                className="visitButton"
+                className="visitButtonUnique"
                 onClick={() =>
                   navigate(ROUTERS.USERS.DETAIL_SHOP, {
                     state: { shopId: shop?._id }
@@ -52,8 +53,17 @@ const GetAllShopsPage = () => {
           </div>
         ))}
       </div>
+
+      {shops.length > 6 && (
+        <button
+          className="viewMoreButtonUnique"
+          onClick={() => navigate(ROUTERS.USERS.GET_SHOP)}
+        >
+          Xem thêm
+        </button>
+      )}
     </div>
   );
 };
 
-export default GetAllShopsPage;
+export default GetAllShopsComponents;

@@ -9,10 +9,10 @@ const AcceptShop = () => {
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        const res = await fetch(apiLink + "/api/shop/unapproved");
+        const res = await fetch(apiLink + "/api/user/get-pending-sellers");
         const data = await res.json();
         console.log(data);
-        setShops(data?.data);
+        setShops(data?.users);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách shop:", error);
       }
@@ -23,7 +23,7 @@ const AcceptShop = () => {
   // Xử lý duyệt shop
   const handleApprove = async (id) => {
     try {
-      await fetch(apiLink + `/api/shop/approve/${id}`, {
+      await fetch(apiLink + `/api/user/upgrade-role/${id}`, {
         method: "PUT"
       });
       setShops((prev) =>

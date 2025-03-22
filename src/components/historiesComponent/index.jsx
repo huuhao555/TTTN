@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ROUTERS } from "../../utils";
 import { Link } from "react-router-dom";
 import "./style.scss";
 
@@ -11,9 +10,11 @@ const HistoriesProductSlide = () => {
   };
 
   const viewedProducts = getViewedProducts();
+  const itemsPerPage = 4; // Số sản phẩm hiển thị mỗi lần
+  const maxIndex = Math.max(0, viewedProducts.length - itemsPerPage);
 
   const handleNext = () => {
-    if (currentIndex < viewedProducts.length - 1) {
+    if (currentIndex < maxIndex) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -25,39 +26,42 @@ const HistoriesProductSlide = () => {
   };
 
   return (
-    <div className="productSlide-wrapper">
-      <h1 className="title">Sản phẩm đã xem</h1>
-      <button className="slider-control prev" onClick={handlePrev}>
-        {"<"}
-      </button>
-      <div
-        className="productSlide-list"
-        style={{ transform: `translateX(-${currentIndex * 310}px)` }}
-      >
-        {viewedProducts.map((product) => {
-          return (
-            <div className="productSlide-item" key={product._id}>
-              <Link
-                to={`/chi-tiet-san-pham/${product._id}`}
-                state={{ productId: product?._id }}
-              >
-                <img
-                  className="add-to-img"
-                  src={product?.imageUrl}
-                  alt={product?.name}
-                />
-                <div className="item-productSlide-bottom">
-                  <h3>{product?.name}</h3>
-                  <p>{product?.prices?.toLocaleString("vi-VN")} ₫</p>
-                </div>
-              </Link>
-            </div>
-          );
-        })}
+    <div className="history-slider">
+      <h2 className="title">Sản phẩm đã xem</h2>
+      <div className="slider-container">
+        <button
+          className="slider-control prev"
+          onClick={handlePrev}
+          disabled={currentIndex === 0}
+        >
+          ❮
+        </button>
+        <div className="product-list">
+          <div
+            className="product-track"
+            style={{ transform: `translateX(-${currentIndex * 220}px)` }}
+          >
+            {viewedProducts.map((product) => (
+              <div className="product-item" key={product._id}>
+                <Link to={`/chi-tiet-san-pham/${product._id}`}>
+                  <img src={product.imageUrl} alt={product.name} />
+                  <div className="product-info">
+                    <h3>{product.name}</h3>
+                    <p>{product.prices?.toLocaleString("vi-VN")} ₫</p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+        <button
+          className="slider-control next"
+          onClick={handleNext}
+          disabled={currentIndex === maxIndex}
+        >
+          ❯
+        </button>
       </div>
-      <button className="slider-control next" onClick={handleNext}>
-        {">"}
-      </button>
     </div>
   );
 };

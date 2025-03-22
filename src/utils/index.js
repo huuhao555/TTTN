@@ -14,12 +14,13 @@ export const ROUTERS = {
     ORDER: "/don-hang",
     ORDER_DETAIL: "/chi-tiet-don-hang",
     PROFILE_PAGE: "/thong-tin-ca-nhan",
-    ORDER_MANAGEMENT: "/quan-ly-don-hang-ca-nhan",
+    ORDER_MANAGER: "/quan-ly-don-hang-ca-nhan",
     VIEW_PRODUCT: "/lich-su-san-pham-da-xem",
     ADRESS_BOOK: "/so-dia-chi",
     GET_SHOP: "/kenh-nguoi-ban",
     DETAIL_SHOP: "/shop",
-    PAYMENT_DETAIL: "/ket-qua-thanh-toan"
+    PAYMENT_DETAIL: "/ket-qua-thanh-toan",
+    PRODUCT_ALL: "/san-pham"
   },
   SHOP: {
     CREATE_SHOP: "/tao-kenh-nguoi-ban",
@@ -27,7 +28,7 @@ export const ROUTERS = {
     DASHBOARD: "/shop-cua-toi",
     CREATE_PRODUCT_SHOP: "/shop-cua-toi-them-san-pham",
     ALL_PRODUCT_SHOP: "/list-san-pham",
-    ORDER_MANAGER: "/quan-li-don-hang"
+    ORDER_MANAGER: "/shop-cua-toi-quan-li-don-hang"
   },
   ADMIN: {
     DASHBOARD: "/admin",
