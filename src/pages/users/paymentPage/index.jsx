@@ -125,7 +125,7 @@ const OrderPage = () => {
     }
   };
 
-  const [orderId, setOrderId] = useState();
+  const [orderIds, setOrderIds] = useState();
   const handlePayment = async () => {
     if (window.confirm("Bạn có chắc chắn đặt hàng không?")) {
       try {
@@ -148,8 +148,8 @@ const OrderPage = () => {
 
         if (!response.ok) throw new Error("Order creation failed.");
         const data = await response.json();
-
-        setOrderId(data?.data?.data?._id);
+        console.log(data);
+        setOrderIds(data?.orders?.map((order) => order._id || []));
       } catch (error) {
         alert("Đặt hàng thất bại");
       }
@@ -180,7 +180,8 @@ const OrderPage = () => {
   };
 
   useEffect(() => {
-    if (!orderId) return;
+    console.log(orderIds);
+    if (!orderIds) return;
     const createPayment = async () => {
       const returnUrl = "http://localhost:3000/ket-qua-thanh-toan";
 
@@ -191,11 +192,11 @@ const OrderPage = () => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            orderId,
+            orderIds,
             returnUrl
           })
         });
-
+        console.log(orderIds, returnUrl);
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
 
@@ -210,7 +211,7 @@ const OrderPage = () => {
     };
 
     createPayment();
-  }, [orderId]);
+  }, [orderIds]);
   const totalPrice = dataOrder
     ? dataOrder.products.reduce(
         (acc, item) =>

@@ -6,27 +6,30 @@ import { apiLink } from "../../../../../config/api";
 
 const ShippingOrders = () => {
   const [orders, setOrders] = useState([]);
-  const { user } = useContext(UserContext) || {};
+  const { dataUser } = useContext(UserContext) || {};
   const [visibleOrders, setVisibleOrders] = useState({});
   const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
+  const shopId = dataUser?.dataUser?.shopId;
+
   useEffect(() => {
     const fetchPendingOrders = async () => {
-      const userId = user?.dataUser?.id;
-      if (!userId) {
+      if (!shopId) {
         console.error("User ID is not available");
         return;
       }
 
       try {
-        const response = await fetch(apiLink + `/api/order/getAll/${userId}`);
+        const response = await fetch(
+          apiLink + `/api/order/getAllByShop/${shopId}`
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
 
         const data = await response.json();
-
+        console.log(data);
         setOrders(data?.data.filter((order) => order.status === "Shipped"));
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -34,7 +37,7 @@ const ShippingOrders = () => {
     };
 
     fetchPendingOrders();
-  }, [user]);
+  }, [dataUser]);
   const handleSubmidOrder = async (id) => {
     try {
       const response = await fetch(apiLink + `/api/order/deliver`, {
@@ -54,7 +57,7 @@ const ShippingOrders = () => {
       setTimeout(() => {
         setTrigger(false);
       }, 1000);
-      const userId = user?.dataUser?.id;
+      const userId = dataUser?.dataUser?.id;
       const updatedOrdersResponse = await fetch(
         apiLink + `/api/order/getAll/${userId}`
       );

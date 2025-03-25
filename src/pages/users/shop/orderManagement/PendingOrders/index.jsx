@@ -12,10 +12,9 @@ const PendingOrders = () => {
   const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
   const [visibleOrders, setVisibleOrders] = useState({});
+  const shopId = dataUser?.dataUser?.shopId;
   useEffect(() => {
     const fetchPendingOrders = async () => {
-      const shopId = dataUser?.dataUser?.shopId;
-      console.log(shopId);
       if (!shopId) {
         console.error("User ID is not available");
         return;
@@ -48,13 +47,14 @@ const PendingOrders = () => {
     }));
   };
   const handleCancelOrder = async (id) => {
+    console.log(shopId);
     try {
       const response = await fetch(apiLink + `/api/order/cancel`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ orderId: id })
+        body: JSON.stringify({ orderId: id, shopId: shopId })
       });
 
       if (!response.ok) {
@@ -66,7 +66,6 @@ const PendingOrders = () => {
       setTimeout(() => {
         setTrigger(false);
       }, 1000);
-      const shopId = dataUser?.dataUser?.id;
       const updatedOrdersResponse = await fetch(
         apiLink + `/api/order/getAll/${shopId}`
       );
@@ -85,12 +84,13 @@ const PendingOrders = () => {
   };
   const handleSubmitOrder = async (id) => {
     try {
-      const response = await fetch(apiLink + `/api/order/cancel`, {
+      const shopId = dataUser?.dataUser?.shopId;
+      const response = await fetch(apiLink + `/api/order/ship`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ orderId: id })
+        body: JSON.stringify({ orderId: id, shopId: shopId })
       });
 
       if (!response.ok) {
@@ -102,7 +102,7 @@ const PendingOrders = () => {
       setTimeout(() => {
         setTrigger(false);
       }, 1000);
-      const shopId = dataUser?.dataUser?.id;
+
       const updatedOrdersResponse = await fetch(
         apiLink + `/api/order/getAll/${shopId}`
       );

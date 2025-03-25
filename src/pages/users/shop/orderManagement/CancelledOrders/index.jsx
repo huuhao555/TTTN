@@ -5,7 +5,7 @@ import { AiOutlineDownCircle } from "react-icons/ai";
 import { apiLink } from "../../../../../config/api";
 const CancelledOrders = () => {
   const [orders, setOrders] = useState([]);
-  const { user } = useContext(UserContext) || {};
+  const { dataUser } = useContext(UserContext) || {};
 
   const [visibleOrders, setVisibleOrders] = useState({});
 
@@ -15,22 +15,26 @@ const CancelledOrders = () => {
       [orderId]: !prev[orderId]
     }));
   };
+  const shopId = dataUser?.dataUser?.shopId;
+
   useEffect(() => {
     const fetchPendingOrders = async () => {
-      const userId = user?.dataUser?.id;
-      if (!userId) {
+      if (!shopId) {
         console.error("User ID is not available");
         return;
       }
 
       try {
-        const response = await fetch(apiLink + `/api/order/getAll/${userId}`);
+        const response = await fetch(
+          apiLink + `/api/order/getAllByShop/${shopId}`
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
 
         const data = await response.json();
+        console.log(data);
         setOrders(data?.data.filter((order) => order.status === "Cancelled"));
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -38,7 +42,7 @@ const CancelledOrders = () => {
     };
 
     fetchPendingOrders();
-  }, [user]);
+  }, [dataUser]);
 
   return (
     <div className="orders-list">
@@ -117,13 +121,17 @@ const CancelledOrders = () => {
                               item?.productId?.promotionPrice ? (
                                 <div className="grp-price">
                                   <p className="prices">
-                                    {`${parseInt(item?.productId?.prices).toLocaleString("vi-VN")} ₫`}
+                                    {`${parseInt(
+                                      item?.productId?.prices
+                                    ).toLocaleString("vi-VN")} ₫`}
                                   </p>
                                 </div>
                               ) : (
                                 <div className="grp-price">
                                   <p className="price-old">
-                                    {`${parseInt(item?.productId?.prices).toLocaleString("vi-VN")} ₫`}
+                                    {`${parseInt(
+                                      item?.productId?.prices
+                                    ).toLocaleString("vi-VN")} ₫`}
                                   </p>
                                   <div className="grp-price-new">
                                     <p className="price-new">
@@ -184,7 +192,9 @@ const CancelledOrders = () => {
                   </p>
                   <p>
                     Tổng cộng:
-                    <span>{`${parseInt(grandTotal).toLocaleString("vi-VN")}  ₫`}</span>
+                    <span>{`${parseInt(grandTotal).toLocaleString(
+                      "vi-VN"
+                    )}  ₫`}</span>
                   </p>
                   <div style={{ borderTop: "solid 2px #ccc" }}>
                     <p>
@@ -193,9 +203,9 @@ const CancelledOrders = () => {
                         {` (-${(
                           (1 - order?.orderTotal / grandTotal) *
                           100
-                        )?.toLocaleString(
-                          "vi-VN"
-                        )}%) -${parseInt(grandTotal - order?.orderTotal)?.toLocaleString("vi-VN")}`}
+                        )?.toLocaleString("vi-VN")}%) -${parseInt(
+                          grandTotal - order?.orderTotal
+                        )?.toLocaleString("vi-VN")}`}
                       </span>
                     </p>
 
