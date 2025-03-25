@@ -10,7 +10,7 @@ import { ROUTERS } from "../../../../utils";
 const CancelledOrders = () => {
   const navigator = useNavigate();
   const [orders, setOrders] = useState([]);
-  const { user } = useContext(UserContext) || {};
+  const { dataUser } = useContext(UserContext) || {};
 
   const [visibleOrders, setVisibleOrders] = useState({});
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -21,7 +21,7 @@ const CancelledOrders = () => {
       return;
     }
 
-    navigator(ROUTERS.USER.ADD_REVIEW, {
+    navigator(ROUTERS.USERS.ADD_REVIEW, {
       state: { productId: selectedProduct }
     });
   };
@@ -33,20 +33,24 @@ const CancelledOrders = () => {
   };
   useEffect(() => {
     const fetchPendingOrders = async () => {
-      const userId = user?.dataUser?.id;
+      const userId = dataUser?.dataUser?.id;
+
       if (!userId) {
         console.error("User ID is not available");
         return;
       }
 
       try {
-        const response = await fetch(apiLink + `/api/order/getAll/${userId}`);
+        const response = await fetch(
+          apiLink + `/api/order/getAllByOrder/${userId}`
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
 
         const data = await response.json();
+        console.log(data);
         setOrders(data?.data.filter((order) => order.status === "Delivered"));
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -54,7 +58,7 @@ const CancelledOrders = () => {
     };
 
     fetchPendingOrders();
-  }, [user]);
+  }, [dataUser]);
 
   return (
     <div className="orders-list">

@@ -1,134 +1,134 @@
 .chatbot-wrapper {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2000;
 
-    .chatbot-icon {
-        font-size: 2.5rem;
-        color: #ffffff;
-        background-color: #d70018;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  .chatbot-icon {
+    font-size: 2.5rem;
+    color: #ffffff;
+    background-color: #d70018;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(215, 0, 24, 0.7);
+
+    &:hover {
+      box-shadow: 0 0 25px rgba(215, 0, 24, 1);
+    }
+  }
+
+  .chatbot-container {
+    width: 350px;
+    height: 450px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .chatbot-header {
+      background: #d70018;
+      color: white;
+      padding: 5px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      flex-shrink: 0;
+
+      .close-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        margin-right: -10px;
+        font-size: 24px;
         cursor: pointer;
-        box-shadow: 0 0 15px rgba(215, 0, 24, 0.7);
 
         &:hover {
-            box-shadow: 0 0 25px rgba(215, 0, 24, 1);
+          color: #ffccd2;
         }
+      }
     }
 
-    .chatbot-container {
-        width: 350px;
-        height: 450px;
-        background: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    .chatbot-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      .chatbot-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 15px;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        gap: 10px;
+        max-height: calc(100% - 80px);
+        scroll-behavior: smooth;
+        position: relative;
 
-        .chatbot-header {
-            background: #d70018;
+        .message {
+          padding: 10px 15px;
+          border-radius: 20px;
+          max-width: 80%;
+          word-wrap: break-word;
+
+          &.user {
+            background-color: #d70018;
             color: white;
-            padding: 5px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            flex-shrink: 0;
+            align-self: flex-end;
+          }
 
-            .close-btn {
-                background: transparent;
-                border: none;
-                color: white;
-                margin-right: -30px;
-                font-size: 24px;
-                cursor: pointer;
+          &.bot {
+            background-color: #f1f1f1;
+            color: black;
+            align-self: flex-start;
+          }
+        }
+      }
 
-                &:hover {
-                    color: #ffccd2;
-                }
-            }
+      .chatbot-input {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        border-top: 1px solid #eee;
+
+        textarea {
+          flex: 1;
+          padding: 10px;
+          border-radius: 20px;
+          border: 1px solid #d70018;
+          resize: none;
+          overflow: hidden;
+
+          line-height: 15px;
+
+          &:focus {
+            outline: none;
+            border-color: #d70018;
+            box-shadow: 0 0 5px rgba(215, 0, 24, 0.5);
+          }
         }
 
-        .chatbot-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+        button {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 20px;
+          background: #ff1b36;
+          color: white;
+          cursor: pointer;
 
-            .chatbot-messages {
-                flex: 1;
-                overflow-y: auto;
-                padding: 15px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                max-height: calc(100% - 80px);
-                scroll-behavior: smooth;
-                position: relative;
-
-                .message {
-                    padding: 10px 15px;
-                    border-radius: 20px;
-                    max-width: 80%;
-                    word-wrap: break-word;
-
-                    &.user {
-                        background-color: #d70018;
-                        color: white;
-                        align-self: flex-end;
-                    }
-
-                    &.bot {
-                        background-color: #f1f1f1;
-                        color: black;
-                        align-self: flex-start;
-                    }
-                }
-            }
-
-            .chatbot-input {
-                display: flex;
-                gap: 10px;
-                padding: 10px;
-                border-top: 1px solid #eee;
-
-                textarea {
-                    flex: 1;
-                    padding: 10px;
-                    border-radius: 20px;
-                    border: 1px solid #d70018;
-                    resize: none;
-                    overflow: hidden;
-
-                    line-height: 15px;
-
-                    &:focus {
-                        outline: none;
-                        border-color: #d70018;
-                        box-shadow: 0 0 5px rgba(215, 0, 24, 0.5);
-                    }
-                }
-
-                button {
-                    padding: 10px 20px;
-                    border: none;
-                    border-radius: 20px;
-                    background: #ff1b36;
-                    color: white;
-                    cursor: pointer;
-
-                    &:hover {
-                        background: #d70018;
-                    }
-                }
-            }
+          &:hover {
+            background: #d70018;
+          }
         }
+      }
     }
+  }
 }

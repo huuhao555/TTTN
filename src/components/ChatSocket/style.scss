@@ -1,0 +1,23 @@
+// SCSS: Chat.scss
+.chat-container {
+  width: 300px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background: #fff;
+  .messages {
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  .input-area {
+    display: flex;
+    input {
+      flex: 1;
+      padding: 5px;
+    }
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  }
+}

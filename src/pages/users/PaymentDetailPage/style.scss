@@ -1,140 +1,113 @@
-@use "sass:map";
-@import "../../../styles/pages/_theme.scss";
-
 .payment-page-detail {
-  width: 100%;
-  padding-top: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f7f7f7;
-  font-family: "Arial", sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
 
-  .payment-card-detail {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  h2 {
     text-align: center;
-    max-width: 800px;
-    width: 100%;
+    color: #27ae60;
+  }
 
-    .payment-status-icon-detail {
-      font-size: 56px;
-      margin-bottom: 15px;
-      .checkmark-detail {
-        color: #28a745;
-        font-size: 56px;
-      }
+  .order-box {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
 
-      .checkmark-detail {
-        color: #28a745;
-      }
-
-      .error-icon-detail {
-        color: #ffd500;
-      }
-    }
-
-    h2 {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .order-summary {
-      position: relative;
-
-      text-align: left;
+    .order-info {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
 
       h3 {
-        color: #ffd500;
-        font-size: 18px;
-        margin-top: 5px;
-        display: inline-block;
-        width: 100%;
-        padding-top: 5px;
+        color: #2980b9;
       }
 
-      .icon-down {
-        position: absolute;
-        top: 240px;
-        left: 150px;
-        font-size: 20px;
-        cursor: pointer;
-        &:hover {
-          fill: map.get($theme-color, "main-color");
+      p {
+        font-size: 14px;
+        margin: 5px 0;
+
+        strong {
+          color: #333;
         }
       }
-      .order-detail,
-      .payment-details {
-        margin-bottom: 20px;
+    }
 
-        p {
-          font-size: 16px;
-          margin: 5px 0;
-          color: #555;
+    .products-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 10px;
 
-          strong {
-            color: #333;
-          }
-        }
-      }
-
-      .products-list {
+      .product-item {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         gap: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
 
-        .product-item {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          background: #f7f7f7;
-          padding: 10px;
-          border-radius: 8px;
+        img {
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          border-radius: 5px;
+          border: 1px solid #ddd;
+        }
 
-          img {
-            width: 150px;
-            height: 150px;
-            border-radius: 5px;
-            object-fit: contain;
-          }
+        .product-info {
+          p {
+            font-size: 14px;
+            margin: 2px 0;
 
-          .product-info {
-            p {
-              margin: 0;
-              font-size: 16px;
-
-              strong {
-                font-size: 16px;
-                color: #ffd500;
-              }
+            strong {
+              color: #333;
             }
           }
         }
       }
-
-      .order-total {
-        font-size: 16px;
-        color: #ffd500;
-        font-weight: bold;
-      }
     }
 
-    .done-button-detail {
-      background: #ffd500;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
+    .payment-details {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
 
-      &:hover {
-        background: #a70013;
+      p {
+        font-size: 14px;
+        margin: 5px 0;
+
+        strong {
+          color: #333;
+        }
       }
+
+      .order-total {
+        font-weight: bold;
+        font-size: 16px;
+        color: #e74c3c;
+      }
+    }
+  }
+
+  .done-button-detail {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #2980b9;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+
+    &:hover {
+      background: #1f6690;
     }
   }
 }

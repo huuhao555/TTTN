@@ -5,10 +5,12 @@ import Footer from "../footer/index";
 import { UserProvider } from "../../../../middleware/UserContext";
 import Breadcrumbs from "../../../../components/breadcrumbs";
 import ChatbotWrapper from "../../../../components/ChatbotAsisstant";
+import ChatComponent from "../../../../components/ChatSocket";
 const UserLayout = (props) => {
   return (
     <UserProvider>
-      <ChatbotWrapper />
+      {/* <ChatComponent />
+      <ChatbotWrapper /> */}
       <div {...props}>
         <Header />
         <Breadcrumbs />

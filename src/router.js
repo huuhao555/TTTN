@@ -37,6 +37,9 @@ import ProductTable from "./pages/users/shop/adminShop/showProduct";
 import ChatPage from "./pages/users/chat";
 import OrderStorageUser from "./pages/users/orderManagement";
 import ProductAll from "./pages/users/getAllproducts";
+import AddReview from "./pages/users/AddReview/index";
+import ShopChat from "./pages/users/shop/chat";
+import EditProductShop from "./pages/users/shop/adminShop/editProduct";
 
 const RouterCustom = () => {
   return (
@@ -68,6 +71,7 @@ const RouterCustom = () => {
           element={<PaymentDetailPage />}
         />
         <Route path={ROUTERS.USERS.PRODUCT_ALL} element={<ProductAll />} />
+        <Route path={ROUTERS.USERS.ADD_REVIEW} element={<AddReview />} />
         <Route
           path={`${ROUTERS.USERS.PRODUCT_DETAIL}/:id`}
           element={<ProductDetails />}
@@ -84,16 +88,22 @@ const RouterCustom = () => {
           element={<CreateCategory />}
         />
         <Route path={ROUTERS.ADMIN.ACCEPT_ROLES} element={<AcceptRoles />} />
+
         <Route path={ROUTERS.ADMIN.ACCEPT_SHOPS} element={<AcceptShop />} />
       </Route>
 
       <Route element={<ShopLayout />}>
         <Route path={ROUTERS.SHOP.DASHBOARD} element={<InfoShop />} />
+        <Route path={ROUTERS.SHOP.CHAT} element={<ShopChat />} />
         <Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderStorage />} />
 
         <Route
           path={ROUTERS.SHOP.CREATE_PRODUCT_SHOP}
           element={<CreateProductShop />}
+        />
+        <Route
+          path={ROUTERS.SHOP.EDIT_PRODUCT_SHOP}
+          element={<EditProductShop />}
         />
         <Route
           path={ROUTERS.SHOP.ALL_PRODUCT_SHOP}

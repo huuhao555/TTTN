@@ -17,7 +17,7 @@ const ChatRealtimeComponent = ({ currentUser, currentShop, receiverId }) => {
   // Kết nối socket khi component được mount
   useEffect(() => {
     const newSocket = io("http://localhost:3001", {
-      withCredentials: true,
+      withCredentials: true
     });
 
     setSocket(newSocket);
@@ -125,13 +125,13 @@ const ChatRealtimeComponent = ({ currentUser, currentShop, receiverId }) => {
     socket.emit("sendMessage", {
       senderId,
       receiverId,
-      message: messageInput,
+      message: messageInput
     });
 
     // Thêm tin nhắn vào state ngay lập tức để UI phản hồi nhanh
     setMessages((prev) => [
       ...prev,
-      { senderId, receiverId, message: messageInput, timestamp: new Date() },
+      { senderId, receiverId, message: messageInput, timestamp: new Date() }
     ]);
 
     setMessageInput("");

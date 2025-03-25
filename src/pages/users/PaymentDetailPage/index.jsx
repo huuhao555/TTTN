@@ -11,28 +11,28 @@ const PaymentDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [orderDetails, setOrderDetails] = useState(null);
-  const [visibleOrders, setVisibleOrders] = useState({});
+  const [, setVisibleOrders] = useState({});
 
   // Lấy tham số từ URL
   const searchParams = new URLSearchParams(location.search);
   const transactionStatus = searchParams.get("vnp_TransactionStatus");
   const orderInfo = searchParams.get("vnp_OrderInfo");
-  const totalOrderPrice = orderDetails?.reduce(
-    (acc, order) => acc + order.orderTotal,
-    0
-  );
-  const totalOrderPriceProduct = orderDetails?.reduce(
-    (acc, order) => acc + order.totalPrice,
-    0
-  );
-  const totalOrderVAT = orderDetails?.reduce(
-    (acc, order) => acc + order.VAT,
-    0
-  );
-  const totalOrderShip = orderDetails?.reduce(
-    (acc, order) => acc + order.shippingFee,
-    0
-  );
+  const totalOrderPrice = Array.isArray(orderDetails)
+    ? orderDetails.reduce((acc, order) => acc + order.orderTotal, 0)
+    : 0;
+
+  const totalOrderPriceProduct = Array.isArray(orderDetails)
+    ? orderDetails.reduce((acc, order) => acc + order.totalPrice, 0)
+    : 0;
+
+  const totalOrderVAT = Array.isArray(orderDetails)
+    ? orderDetails.reduce((acc, order) => acc + order.VAT, 0)
+    : 0;
+
+  const totalOrderShip = Array.isArray(orderDetails)
+    ? orderDetails.reduce((acc, order) => acc + order.shippingFee, 0)
+    : 0;
+
   // Cập nhật trạng thái đơn hàng dựa vào kết quả thanh toán
   const updateOrderStatus = async (isSuccess) => {
     try {
@@ -62,7 +62,7 @@ const PaymentDetailPage = () => {
 
       const data = await response.json();
       console.log(data);
-      setOrderDetails(data.data);
+      setOrderDetails(Array.isArray(data.data) ? data.data : [data.data]);
     } catch (error) {
       alert("Tra cứu đơn hàng thất bại");
     }
@@ -79,6 +79,10 @@ const PaymentDetailPage = () => {
 
     fetchData();
   }, [orderInfo, transactionStatus]);
+
+  useEffect(() => {
+    console.log("Dữ liệu đơn hàng:", orderDetails);
+  }, [orderDetails]);
 
   if (!orderDetails) {
     return <div className="loading">Đang tải thông tin đơn hàng...</div>;
@@ -112,129 +116,86 @@ const PaymentDetailPage = () => {
       <div className="row">
         <div className="col-lg-12">
           <div className="payment-page-detail">
-            <div className="payment-card-detail">
-              <div className="payment-status-icon-detail">
-                {transactionStatus === "00" ? (
-                  <div className="checkmark-detail">
-                    <BsFillCheckCircleFill />
-                  </div>
-                ) : (
-                  <i className="error-icon-detail">❌</i>
-                )}
-              </div>
-              <h2>
-                {transactionStatus === "00"
-                  ? "Thanh toán thành công!"
-                  : "Thanh toán thất bại!"}
-              </h2>
+            <h2>
+              {transactionStatus === "00"
+                ? "Thanh toán thành công!"
+                : "Thanh toán thất bại!"}
+            </h2>
 
-              {/* Thông tin đơn hàng */}
-              <div className="order-summary">
-                <h3>Thông tin đơn hàng</h3>
-                <div className="order-detail">
+            {/* Duyệt từng đơn hàng */}
+            {orderDetails.map((order) => (
+              <div key={order._id} className="order-box">
+                {/* Thông tin đơn hàng */}
+                <div className="order-info">
+                  <h3>Đơn hàng: {order._id}</h3>
                   <p>
-                    <strong>Tên khách hàng:</strong> {name}
+                    <strong>Người nhận:</strong> {order.name} |{" "}
+                    <strong>SDT:</strong> {order.phone}
                   </p>
                   <p>
-                    <strong>Số điện thoại:</strong> {phone}
+                    <strong>Địa chỉ giao hàng:</strong> {order.shippingAddress}
                   </p>
                   <p>
-                    <strong>Email:</strong> {email}
+                    <strong>Trạng thái đơn hàng:</strong> {order.status}
                   </p>
                   <p>
-                    <strong>Mã đơn hàng:</strong> {orderInfo}
-                  </p>
-                  <p>
-                    <strong>Địa chỉ giao hàng:</strong> {shippingAddress}
-                  </p>
-                  <p>
-                    <strong>Trạng thái đơn hàng:</strong> {status}
-                  </p>
-                  <p>
-                    <strong>Tình trạng đơn hàng:</strong>{" "}
-                    {isPaid ? "Đã thanh toán" : "Chưa thanh toán"}
+                    <strong>Tình trạng thanh toán:</strong>{" "}
+                    {order.isPaid ? "Đã thanh toán" : "Chưa thanh toán"}
                   </p>
                 </div>
 
-                {/* Danh sách sản phẩm */}
-                <h3>Sản phẩm đã đặt</h3>
-                <span style={{ fontSize: "16px", fontStyle: "italic" }}>
-                  {` (${orderDetails.length} đơn hàng)`}
-                </span>
-                {orderDetails.map((order) => (
-                  <div key={order._id} className="order-container">
-                    <h3>Đơn hàng: {order._id}</h3>
-                    <p>
-                      <strong>Người nhận:</strong> {order.name} |{" "}
-                      <strong>SDT:</strong> {order.phone}
-                    </p>
-                    <p>
-                      <strong>Địa chỉ:</strong> {order.shippingAddress}
-                    </p>
-                    <p>
-                      <strong>Tổng tiền:</strong>{" "}
-                      {order.orderTotal.toLocaleString("vi-VN")} VND
-                    </p>
-
-                    <div className="products-list">
-                      {order.products.map((product) => {
-                        console.log(product.productId.imageUrls[0]);
-                        return (
-                          <div
-                            key={product.productId._id}
-                            className="product-item"
-                          >
-                            <img
-                              src={product.productId.imageUrls[0]}
-                              alt={product.productId.name}
-                            />
-                            <div className="product-info">
-                              <p>
-                                <strong>{product.productId.name}</strong>
-                              </p>
-                              <p>Số lượng: {product.quantity}</p>
-                              <p>
-                                Giá: {product.price.toLocaleString("vi-VN")} VND
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })}
+                {/* Danh sách sản phẩm trong đơn */}
+                <div className="products-list">
+                  <h4>Sản phẩm đã đặt:</h4>
+                  {order.products.map((product) => (
+                    <div key={product?.productId._id} className="product-item">
+                      <img
+                        src={product?.productId.imageUrls[0]}
+                        alt={product?.productId.name}
+                      />
+                      <div className="product-info">
+                        <p>
+                          <strong>{product?.productId.name}</strong>
+                        </p>
+                        <p>Số lượng: {product?.quantity}</p>
+                        <p>
+                          Giá: {product?.price?.toLocaleString("vi-VN")} VND
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
 
                 {/* Chi tiết thanh toán */}
-                <h3>Chi tiết thanh toán</h3>
                 <div className="payment-details">
+                  <h4>Chi tiết thanh toán</h4>
                   <p>
                     <strong>Tổng tiền sản phẩm:</strong>{" "}
-                    {parseInt(totalOrderPriceProduct)?.toLocaleString("vi-VN")}{" "}
-                    VND
+                    {order.totalPrice?.toLocaleString("vi-VN")} VND
                   </p>
                   <p>
                     <strong>Phí vận chuyển:</strong>{" "}
-                    {parseInt(totalOrderShip)?.toLocaleString("vi-VN")} VND
+                    {order.shippingFee?.toLocaleString("vi-VN")} VND
                   </p>
                   <p>
-                    <strong>VAT:</strong>{" "}
-                    {parseInt(totalOrderVAT)?.toLocaleString("vi-VN")} VND
+                    <strong>VAT:</strong> {order.VAT?.toLocaleString("vi-VN")}{" "}
+                    VND
                   </p>
                   <p className="order-total">
                     <strong>Tổng thanh toán:</strong>{" "}
-                    {parseInt(totalOrderPrice)?.toLocaleString("vi-VN")} VND
+                    {order.orderTotal?.toLocaleString("vi-VN")} VND
                   </p>
                 </div>
               </div>
+            ))}
 
-              {/* Nút quay về trang chủ */}
-              <button
-                className="done-button-detail"
-                onClick={() => navigate(ROUTERS.USERS.HOME)}
-              >
-                Về trang chủ
-              </button>
-            </div>
+            {/* Nút quay về trang chủ */}
+            <button
+              className="done-button-detail"
+              onClick={() => navigate(ROUTERS.USERS.HOME)}
+            >
+              Về trang chủ
+            </button>
           </div>
         </div>
       </div>

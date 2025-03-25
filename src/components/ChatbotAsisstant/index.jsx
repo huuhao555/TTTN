@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./style.scss";
 import { AiFillWechat } from "react-icons/ai";
 
-const ChatbotWrapper = () => {
+const ChatSocket = () => {
   const messagesEndRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -21,7 +21,7 @@ const ChatbotWrapper = () => {
   useEffect(() => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "bot", text: "Tôi có thể giúp gì cho bạn?" },
+      { sender: "bot", text: "Tôi có thể giúp gì cho bạn?" }
     ]);
   }, []);
 
@@ -30,26 +30,26 @@ const ChatbotWrapper = () => {
 
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "user", text: message },
+      { sender: "user", text: message }
     ]);
 
     try {
-      const response = await fetch(" https://localhost:5000/api/get_response", {
+      const response = await fetch(" http://127.0.0.1:5000/api/get_response", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message })
       });
       const data = await response.json();
 
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender: "bot", text: data.response },
+        { sender: "bot", text: data.response }
       ]);
     } catch (error) {
       console.error("Có lỗi xảy ra khi gửi yêu cầu:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender: "bot", text: "Xin lỗi, đã có lỗi xảy ra." },
+        { sender: "bot", text: "Xin lỗi, đã có lỗi xảy ra." }
       ]);
     }
   };
@@ -84,7 +84,7 @@ const ChatbotWrapper = () => {
       {isOpen && (
         <div className="chatbot-container">
           <div className="chatbot-header">
-            <span>HD Tech có thể giúp gì cho bạn?</span>
+            <span> Air có thể giúp gì cho bạn?</span>
             <button className="close-btn" onClick={toggleChatbot}>
               ✖
             </button>
@@ -116,4 +116,4 @@ const ChatbotWrapper = () => {
   );
 };
 
-export default ChatbotWrapper;
+export default ChatSocket;

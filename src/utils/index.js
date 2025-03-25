@@ -20,15 +20,18 @@ export const ROUTERS = {
     GET_SHOP: "/kenh-nguoi-ban",
     DETAIL_SHOP: "/shop",
     PAYMENT_DETAIL: "/ket-qua-thanh-toan",
-    PRODUCT_ALL: "/san-pham"
+    PRODUCT_ALL: "/san-pham",
+    ADD_REVIEW: "/danh-gia-san-pham"
   },
   SHOP: {
     CREATE_SHOP: "/tao-kenh-nguoi-ban",
     VERIFY_SHOP: "/xac-minh-kenh-nguoi-ban",
     DASHBOARD: "/shop-cua-toi",
     CREATE_PRODUCT_SHOP: "/shop-cua-toi-them-san-pham",
+    EDIT_PRODUCT_SHOP: "/shop-cua-toi-sua-san-pham",
     ALL_PRODUCT_SHOP: "/list-san-pham",
-    ORDER_MANAGER: "/shop-cua-toi-quan-li-don-hang"
+    ORDER_MANAGER: "/shop-cua-toi-quan-li-don-hang",
+    CHAT: "/shop-cua-toi-quan-li-tin-nhan"
   },
   ADMIN: {
     DASHBOARD: "/admin",

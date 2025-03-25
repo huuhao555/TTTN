@@ -21,7 +21,7 @@ const CancelledOrders = () => {
       return;
     }
 
-    navigator(ROUTERS.USER.ADD_REVIEW, {
+    navigator(ROUTERS.USERS.ADD_REVIEW, {
       state: { productId: selectedProduct }
     });
   };

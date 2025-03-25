@@ -1,30 +1,148 @@
-.info-shop-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: #f4f4f4;
+.shop-container {
+  max-width: 1200px;
+  margin: auto;
   padding: 20px;
+  font-family: "Arial", sans-serif;
 
-  .info-shop-card {
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    text-align: center;
+  .shop-banner {
+    position: relative;
+    height: 250px;
+    background: url("https://source.unsplash.com/1200x400/?store") no-repeat
+      center/cover;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .shop-name {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
     }
 
-    .shop-description {
-      font-size: 16px;
+    .shop-info {
+      display: flex;
+      align-items: center;
+      z-index: 1;
+      color: #fff;
+      gap: 15px;
+
+      .shop-logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #fff;
+      }
+
+      .shop-details {
+        h2 {
+          font-size: 24px;
+          margin-bottom: 5px;
+        }
+        p {
+          font-size: 14px;
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  .shop-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: bold;
       color: #555;
-      line-height: 1.5;
+
+      svg {
+        font-size: 18px;
+        color: #ff5733;
+      }
+    }
+  }
+
+  .shop-products {
+    margin-top: 30px;
+    h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #333;
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+
+      .product-card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s;
+
+        &:hover {
+          transform: translateY(-5px);
+        }
+
+        img {
+          width: 100%;
+          height: 150px;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+
+        h4 {
+          font-size: 16px;
+          font-weight: bold;
+          margin-top: 10px;
+        }
+
+        .price {
+          font-size: 14px;
+          color: #ff5733;
+          font-weight: bold;
+          margin-top: 5px;
+        }
+
+        .buy-btn {
+          margin-top: 10px;
+          padding: 8px 15px;
+          background: #ff5733;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background 0.3s;
+
+          &:hover {
+            background: #d4411e;
+          }
+        }
+      }
+    }
+
+    .no-products {
+      text-align: center;
+      color: #777;
+      font-size: 16px;
     }
   }
 }

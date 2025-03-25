@@ -6,27 +6,30 @@ import { apiLink } from "../../../../config/api";
 
 const ShippingOrders = () => {
   const [orders, setOrders] = useState([]);
-  const { user } = useContext(UserContext) || {};
+  const { dataUser } = useContext(UserContext) || {};
   const [visibleOrders, setVisibleOrders] = useState({});
   const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
   useEffect(() => {
     const fetchPendingOrders = async () => {
-      const userId = user?.dataUser?.id;
+      const userId = dataUser?.dataUser?.id;
+
       if (!userId) {
         console.error("User ID is not available");
         return;
       }
 
       try {
-        const response = await fetch(apiLink + `/api/order/getAll/${userId}`);
+        const response = await fetch(
+          apiLink + `/api/order/getAllByOrder/${userId}`
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
         }
 
         const data = await response.json();
-
+        console.log(data);
         setOrders(data?.data.filter((order) => order.status === "Shipped"));
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -34,7 +37,7 @@ const ShippingOrders = () => {
     };
 
     fetchPendingOrders();
-  }, [user]);
+  }, [dataUser]);
   const handleSubmidOrder = async (id) => {
     try {
       const response = await fetch(apiLink + `/api/order/deliver`, {
@@ -42,19 +45,23 @@ const ShippingOrders = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ orderId: id })
+        body: JSON.stringify({
+          orderId: id,
+          shopId: 1
+        })
       });
 
       if (!response.ok) {
         throw new Error("Failed to deliver order");
       }
-      setMessage("Nhận hành thành công");
+      console.log(response);
+      setMessage("Nhận hàng thành công");
       setTrigger(true);
       await response.json();
       setTimeout(() => {
         setTrigger(false);
       }, 1000);
-      const userId = user?.dataUser?.id;
+      const userId = dataUser?.dataUser?.id;
       const updatedOrdersResponse = await fetch(
         apiLink + `/api/order/getAll/${userId}`
       );
