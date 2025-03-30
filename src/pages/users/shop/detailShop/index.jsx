@@ -10,11 +10,12 @@ import {
   FaCommentDots
 } from "react-icons/fa";
 import { apiLink } from "../../../../config/api";
-
+import ChatBoxComponent from "../../../../components/chatShop/index";
 const DetailShop = () => {
-  const { dataUser } = useContext(UserContext);
+  const { dataUser, updateCartCount } = useContext(UserContext);
   const location = useLocation();
   const { shopId } = location.state || {};
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const [shop, setShop] = useState(null);
   const [products, setProducts] = useState([]);
@@ -37,7 +38,13 @@ const DetailShop = () => {
 
       if (!response.ok) throw new Error("Lỗi khi thêm sản phẩm vào giỏ hàng!");
 
-      alert("Sản phẩm đã được thêm vào giỏ hàng!");
+      const dataCart = await response.json();
+
+      const totalProducts = Object.values(dataCart?.data?.groupedByShop).reduce(
+        (total, shop) => total + shop.length,
+        0
+      );
+      updateCartCount(totalProducts);
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -84,6 +91,12 @@ const DetailShop = () => {
           <div className="shop-details">
             <h2>{shop?.data?.name}</h2>
             <p>{shop?.data?.description || "Chưa có mô tả"}</p>
+          </div>
+          <div className="shop-actions">
+            <button className="follow-btn">+ Theo dõi</button>
+            <button className="chat-btn" onClick={() => setIsChatOpen(true)}>
+              <i className="fas fa-comment-dots"></i> Chat
+            </button>
           </div>
         </div>
       </div>
@@ -155,6 +168,12 @@ const DetailShop = () => {
           )}
         </div>
       </div>
+      {isChatOpen && (
+        <ChatBoxComponent
+          shopId={shop?.data?._id}
+          onClose={() => setIsChatOpen(false)}
+        />
+      )}
     </div>
   );
 };

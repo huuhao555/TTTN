@@ -12,6 +12,7 @@ const OrderPage = () => {
   const location = useLocation();
   const { selectedProducts } = location.state || {};
   console.log(selectedProducts);
+
   const [voucher, setVoucher] = useState(null);
 
   const { dataUser } = useContext(UserContext) || {};
@@ -44,13 +45,10 @@ const OrderPage = () => {
 
       const data = await response.json();
       console.log(data);
-
-      setCartId(data?.cartId);
+      setCartId(data?.data?.cartId);
 
       // Chuyển object `groupedByShop` thành mảng sản phẩm
-      const allProducts = Object.values(data?.groupedByShop || {}).flat(); // Loại bỏ mảng lồng nhau, tạo danh sách sản phẩm
-
-      console.log(allProducts);
+      const allProducts = Object.values(data?.data?.groupedByShop || {}).flat(); // Loại bỏ mảng lồng nhau, tạo danh sách sản phẩm
 
       // Lọc sản phẩm theo `selectedProducts`
       const filteredData = allProducts.filter(
@@ -148,7 +146,7 @@ const OrderPage = () => {
 
         if (!response.ok) throw new Error("Order creation failed.");
         const data = await response.json();
-        console.log(data);
+
         setOrderIds(data?.orders?.map((order) => order._id || []));
       } catch (error) {
         alert("Đặt hàng thất bại");
@@ -180,7 +178,6 @@ const OrderPage = () => {
   };
 
   useEffect(() => {
-    console.log(orderIds);
     if (!orderIds) return;
     const createPayment = async () => {
       const returnUrl = "http://localhost:3000/ket-qua-thanh-toan";
@@ -196,7 +193,7 @@ const OrderPage = () => {
             returnUrl
           })
         });
-        console.log(orderIds, returnUrl);
+
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
 

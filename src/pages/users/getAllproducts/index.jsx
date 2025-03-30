@@ -4,7 +4,7 @@ import { apiLink } from "../../../config/api";
 import { UserContext } from "../../../middleware/UserContext";
 
 const ProductAll = () => {
-  const { dataUser } = useContext(UserContext);
+  const { dataUser, updateCartCount } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [visibleCount, setVisibleCount] = useState(20); // Hiển thị 20 sản phẩm ban đầu
 
@@ -45,13 +45,13 @@ const ProductAll = () => {
         })
       });
 
-      const result = await response.json();
-      console.log(result);
-      if (result.status === "OK") {
-        alert("Sản phẩm đã được thêm vào giỏ hàng!");
-      } else {
-        alert("Lỗi khi thêm vào giỏ hàng!");
-      }
+      const dataCart = await response.json();
+
+      const totalProducts = Object.values(dataCart?.data?.groupedByShop).reduce(
+        (total, shop) => total + shop.length,
+        0
+      );
+      updateCartCount(totalProducts);
     } catch (error) {
       console.error("Lỗi khi mua sản phẩm:", error);
       alert("Lỗi khi thêm vào giỏ hàng!");

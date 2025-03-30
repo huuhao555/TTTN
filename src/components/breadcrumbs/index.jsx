@@ -18,29 +18,21 @@ const Breadcrumbs = () => {
     "dang-nhap": "Đăng nhập",
     "dang-ky": "Đăng ký",
     "quen-mat-khau": "Quên mật khẩu",
-    "chi-tiet-san-pham": "Chi tiết sản phẩm",
+    "chi-tiet-san-pham": "Chi tiết sản phẩm"
   };
 
-  const extraBreadcrumbItems = pathnames.map((path, index) => {
-    const url = `/${pathnames.slice(0, index + 1).join("/")}`;
-    const name = breadcrumbNameMap[path] || path;
-
-    return (
-      <Breadcrumb.Item key={url}>
-        <Link to={url}>{name}</Link>
-      </Breadcrumb.Item>
-    );
-  });
-
   const breadcrumbItems = [
-    <Breadcrumb.Item key="home">
-      <Link to="/">Trang chủ</Link>
-    </Breadcrumb.Item>,
-  ].concat(extraBreadcrumbItems);
+    { title: <Link to="/">Trang chủ</Link>, key: "home" },
+    ...pathnames.map((path, index) => {
+      const url = `/${pathnames.slice(0, index + 1).join("/")}`;
+      const name = breadcrumbNameMap[path] || path;
+      return { title: <Link to={url}>{name}</Link>, key: url };
+    })
+  ];
 
   return (
     <div className="breadcrumbs-container">
-      <Breadcrumb>{breadcrumbItems}</Breadcrumb>
+      <Breadcrumb items={breadcrumbItems} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { UserContext } from "../../../../middleware/UserContext";
 import { apiLink } from "../../../../config/api";
 
 const InfoUserPage = () => {
-  const { dataUser } = useContext(UserContext);
+  const { dataUser, logout } = useContext(UserContext);
   console.log(dataUser);
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -15,7 +15,7 @@ const InfoUserPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    email: "",
+    email: ""
   });
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const InfoUserPage = () => {
       setFormData({
         name: dataUser?.dataUser?.name || "",
         phone: dataUser?.dataUser?.phone || "",
-        email: dataUser?.dataUser?.email || "",
+        email: dataUser?.dataUser?.email || ""
       });
     }
   }, [dataUser]);
@@ -34,15 +34,15 @@ const InfoUserPage = () => {
 
   const handleChangeInfo = async (e) => {
     e.preventDefault();
-    // const id = dataUser?.dataUser?.id;
-    const id = 123;
+    const id = dataUser?.dataUser?.id;
     try {
       const response = await fetch(apiLink + `/api/user/update-user/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          token: `Bearer ${dataUser?.access_token}}`
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       });
 
       if (!response.ok) {
@@ -53,7 +53,8 @@ const InfoUserPage = () => {
       }
 
       alert("Chỉnh sửa tài khoản thành công");
-      window.location.reload();
+      logout();
+      // window.location.reload();
     } catch (error) {
       console.error(error);
       alert("Đã xảy ra lỗi. Vui lòng thử lại.");

@@ -1,97 +1,42 @@
-@import "../../styles/pages/responsive";
-
 .history-slider {
-  max-width: 900px;
-  margin: auto;
+  max-width: 900px; // Đảm bảo vừa 4 sản phẩm
+  margin: 40px auto;
   padding: 20px;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 
   .title {
     font-size: 24px;
-    font-weight: 600;
+    font-weight: bold;
+    text-align: center;
     color: #333;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
   }
 
   .slider-container {
     position: relative;
-    overflow: hidden;
-
-    .product-list {
-      display: flex;
-      overflow: hidden;
-    }
-
-    .product-track {
-      display: flex;
-      transition: transform 0.4s ease-in-out;
-      gap: 10px;
-    }
-
-    .product-item {
-      min-width: 200px;
-      background: #f9f9f9;
-      border-radius: 10px;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-      transition: 0.3s;
-
-      &:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-      }
-
-      a {
-        display: block;
-        text-decoration: none;
-        color: inherit;
-      }
-
-      img {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 10px 10px 0 0;
-      }
-
-      .product-info {
-        padding: 10px;
-        h3 {
-          font-size: 14px;
-          font-weight: 600;
-          margin: 5px 0;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        p {
-          font-size: 13px;
-          color: #e74c3c;
-          font-weight: 700;
-        }
-      }
-    }
+    display: flex;
+    align-items: center;
 
     .slider-control {
-      z-index: 1000;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       background: rgba(0, 0, 0, 0.6);
       color: #fff;
       border: none;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      font-size: 20px;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: 0.3s;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 2;
 
       &:hover {
         background: rgba(0, 0, 0, 0.8);
@@ -101,37 +46,73 @@
         opacity: 0.3;
         cursor: not-allowed;
       }
+    }
 
-      &.prev {
-        left: -10px;
+    .prev {
+      left: -20px;
+    }
+
+    .next {
+      right: -20px;
+    }
+
+    .product-list {
+      width: 840px; // 4 sản phẩm x 210px (bao gồm margin)
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .product-item {
+      flex: 0 0 200px; // Để vừa 4 sản phẩm
+      margin: 0 5px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f9f9f9;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
 
-      &.next {
-        right: -10px;
+      a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
       }
-    }
-  }
-}
 
-// Responsive
-@media (max-width: 768px) {
-  .history-slider {
-    max-width: 100%;
-    .product-item {
-      min-width: 180px;
-    }
+      img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+      }
 
-    .slider-control {
-      width: 30px;
-      height: 30px;
-    }
-  }
-}
+      .product-info {
+        padding: 10px;
+        text-align: center;
 
-@media (max-width: 480px) {
-  .history-slider {
-    .product-item {
-      min-width: 150px;
+        h3 {
+          font-size: 16px;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 5px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: bold;
+          color: #e44d26;
+        }
+      }
     }
   }
 }

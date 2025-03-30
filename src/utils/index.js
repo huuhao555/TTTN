@@ -14,14 +14,15 @@ export const ROUTERS = {
     ORDER: "/don-hang",
     ORDER_DETAIL: "/chi-tiet-don-hang",
     PROFILE_PAGE: "/thong-tin-ca-nhan",
-    ORDER_MANAGER: "/quan-ly-don-hang-ca-nhan",
+
     VIEW_PRODUCT: "/lich-su-san-pham-da-xem",
     ADRESS_BOOK: "/so-dia-chi",
     GET_SHOP: "/kenh-nguoi-ban",
     DETAIL_SHOP: "/shop",
     PAYMENT_DETAIL: "/ket-qua-thanh-toan",
     PRODUCT_ALL: "/san-pham",
-    ADD_REVIEW: "/danh-gia-san-pham"
+    ADD_REVIEW: "/danh-gia-san-pham",
+    ORDER_LOOKUP: "/kiem-tra-don-hang"
   },
   SHOP: {
     CREATE_SHOP: "/tao-kenh-nguoi-ban",

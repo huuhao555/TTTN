@@ -6,7 +6,7 @@ import { UserContext } from "../../middleware/UserContext";
 import { ROUTERS } from "../../utils";
 
 const ProductList = () => {
-  const { dataUser } = useContext(UserContext);
+  const { dataUser, updateCartCount } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [visibleCount, setVisibleCount] = useState(12);
   const navigate = useNavigate();
@@ -16,6 +16,8 @@ const ProductList = () => {
       try {
         const response = await fetch(apiLink + "/api/product/getAllProduct");
         const data = await response.json();
+
+        console.log(data);
         setProducts(data?.data || []);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách sản phẩm:", error);
@@ -52,12 +54,13 @@ const ProductList = () => {
         })
       });
 
-      const result = await response.json();
-      if (result.status === "OK") {
-        alert("Sản phẩm đã được thêm vào giỏ hàng!");
-      } else {
-        alert("Lỗi khi thêm vào giỏ hàng!");
-      }
+      const dataCart = await response.json();
+      console.log(dataCart);
+      const totalProducts = Object.values(dataCart?.data?.groupedByShop).reduce(
+        (total, shop) => total + shop.length,
+        0
+      );
+      updateCartCount(totalProducts);
     } catch (error) {
       console.error("Lỗi khi mua sản phẩm:", error);
       alert("Lỗi khi thêm vào giỏ hàng!");

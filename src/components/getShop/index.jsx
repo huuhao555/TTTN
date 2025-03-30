@@ -30,7 +30,7 @@ const GetAllShopsComponents = () => {
       <h1 className="titleUnique">Danh sách cửa hàng</h1>
       <div className="shopsGridUnique">
         {shops.slice(0, 6).map((shop) => (
-          <div key={shop.id} className="shopCardUnique">
+          <div key={shop._id} className="shopCardUnique">
             <img
               src={getRandomShopImage()}
               alt={shop.name}

@@ -40,6 +40,7 @@ import ProductAll from "./pages/users/getAllproducts";
 import AddReview from "./pages/users/AddReview/index";
 import ShopChat from "./pages/users/shop/chat";
 import EditProductShop from "./pages/users/shop/adminShop/editProduct";
+import OrderLookup from "./pages/users/orderLoockup";
 
 const RouterCustom = () => {
   return (
@@ -55,6 +56,7 @@ const RouterCustom = () => {
         <Route path={ROUTERS.USERS.CART} element={<CartPage />} />
         <Route path={ROUTERS.USERS.LOOKUP} element={<LookupPage />} />
         <Route path={ROUTERS.USERS.VERIFY} element={<VerifyOTP />} />
+        <Route path={ROUTERS.USERS.ORDER_LOOKUP} element={<OrderLookup />} />
         <Route
           path={`${ROUTERS.USERS.PRODUCT}/:id`}
           element={<ProductPage />}
@@ -120,10 +122,17 @@ const RouterCustom = () => {
         />
         <Route
           path={ROUTERS.USERPROFILE.ORDER_MANAGERMENT}
-          element={<OrderManagement />}
+          element={<OrderStorageUser />}
         />
-        <Route path={ROUTERS.USERS.VIEW_PRODUCT} element={<ViewHistories />} />
-        <Route path={ROUTERS.USERS.ADRESS_BOOK} element={<AddressBook />} />
+
+        <Route
+          path={ROUTERS.USERPROFILE.VIEW_PRODUCTS}
+          element={<ViewHistories />}
+        />
+        <Route
+          path={ROUTERS.USERPROFILE.ADDRESS_BOOK}
+          element={<AddressBook />}
+        />
       </Route>
     </Routes>
   );

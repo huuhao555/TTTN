@@ -12,9 +12,11 @@ import { apiLink } from "../../../config/api";
 import img from "../../../assets/users/product/image.png";
 import { UserContext } from "../../../middleware/UserContext";
 import { ROUTERS } from "../../../utils";
+import ChatBoxComponent from "../../../components/chatShop";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,27 +25,35 @@ const ProductDetails = () => {
   const location = useLocation();
   const { pathname } = location;
   const { id } = useParams();
-  const { dataUser } = useContext(UserContext);
-  const [shop, setShop] = useState(null);
 
+  const { dataUser, updateCartCount } = useContext(UserContext);
+  const [shop, setShop] = useState(null);
   const addToHistory = (product) => {
+    console.log(product);
     if (!product) return;
 
     try {
       let history = JSON.parse(sessionStorage.getItem("viewedProducts")) || [];
-      history = history.filter((item) => item._id !== product._id);
+
+      const exists = history.some((item) => item.id === product._id);
+      if (exists) return;
+
       history.unshift({
-        _id: product._id,
+        id: product._id,
         name: product.name,
         imageUrl: product.imageUrls,
         prices: product.prices
       });
+
       history = history.slice(0, 10);
+
       sessionStorage.setItem("viewedProducts", JSON.stringify(history));
     } catch (error) {
       console.error("Error updating history:", error);
     }
   };
+  const getRandomShopImage = () =>
+    `https://picsum.photos/200?random=${Math.random()}`;
 
   const getDetails = async () => {
     try {
@@ -80,14 +90,6 @@ const ProductDetails = () => {
         throw new Error("Thông tin sản phẩm hoặc người dùng không hợp lệ!");
       }
 
-      // Log dữ liệu trước khi gửi đi để kiểm tra
-      console.log("Sending data:", {
-        userId: dataUser?.dataUser?.id,
-        productId: product?._id,
-        quantity: 1,
-        prices: product?.prices
-      });
-
       const response = await fetch(`${apiLink}/api/cart/add-update`, {
         method: "POST",
         headers: {
@@ -97,17 +99,20 @@ const ProductDetails = () => {
         body: JSON.stringify({
           userId: dataUser?.dataUser?.id,
           productId: product?._id,
-          quantity: 1 // Đảm bảo đây là số
+          quantity: 1
         })
       });
-
+      const dataCart = await response.json();
+      const totalProducts = Object.values(dataCart?.data?.groupedByShop).reduce(
+        (total, shop) => total + shop.length,
+        0
+      );
+      updateCartCount(totalProducts);
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error response:", errorData);
-        throw new Error("Lỗi khi thêm sản phẩm vào giỏ hàng!");
+        throw new Error("Lỗi khi thêm sản phẩm vào giỏ hàng!F");
       }
-
-      alert("Sản phẩm đã được thêm vào giỏ hàng!");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -115,108 +120,100 @@ const ProductDetails = () => {
   };
   console.log(shop);
   return (
-    <div className="container">
-      <div className="product-details ">
-        <div className="product-container">
-          <div className="product-image-section">
-            <img
-              className="main-image"
-              src={selectedImage}
-              alt={product?.name}
-            />
-            {product?.imageUrls?.length > 1 && (
-              <div className="thumbnail-list">
-                {product.imageUrls.map((url, index) => (
-                  <img
-                    key={index}
-                    src={url}
-                    alt={product.name}
-                    className={`thumbnail ${
-                      selectedImage === url ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedImage(url)}
-                  />
-                ))}
-              </div>
-            )}
+    <div className="product-detail">
+      <div className="product-detail__image">
+        <img src={selectedImage} alt={product?.name} className="main-image" />
+        {product?.imageUrls?.length > 1 && (
+          <div className="thumbnail-list">
+            {product.imageUrls.map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt={product.name}
+                className={`thumbnail ${
+                  selectedImage === url ? "selected" : ""
+                }`}
+                onClick={() => setSelectedImage(url)}
+              />
+            ))}
           </div>
-          <div className="product-info-section">
-            <h1 className="product-title">{product?.name}</h1>
-            <p className="product-price">
-              {product?.prices?.toLocaleString() || 0} đ
-            </p>
-            <p className="product-description">
-              {product?.description || "Không có mô tả"}
-            </p>
-            <div className="product-actions">
-              <button
-                onClick={() => handleAddToCart(product)}
-                className="add-to-cart"
-              >
-                Thêm vào giỏ hàng
-              </button>
-              <button className="buy-now">Mua ngay</button>
-            </div>
-          </div>
+        )}
+      </div>
+
+      <div className="product-detail__info">
+        <h1 className="product-title">{product?.name}</h1>
+        <p className="product-price">{product?.prices?.toLocaleString()} đ</p>
+        <p className="product-description">
+          {product?.description || "Không có mô tả"}
+        </p>
+
+        <div className="product-actions">
+          <button
+            onClick={() => handleAddToCart(product)}
+            className="add-to-cart"
+          >
+            🛒 Thêm vào giỏ hàng
+          </button>
         </div>
       </div>
-      <div className="shop-info-card">
-        <div className="shop-avatar">
-          <img src="https://via.placeholder.com/80" alt="Shop Avatar" />
-        </div>
-        <div className="shop-details">
-          <h3 className="shop-name">{product?.shopId?.name}</h3>
-          <p className="shop-status">Online 5 Giờ Trước</p>
-          <div className="shop-actions">
-            <button className="chat-button">💬 Chat Ngay</button>
-            <button
-              className="view-shop-button"
-              onClick={() =>
-                navigate(ROUTERS.USERS.DETAIL_SHOP, {
-                  state: { shopId: product?.shopId?._id }
-                })
-              }
-            >
-              🏪 Xem Shop
-            </button>
+
+      <div className="shop-card">
+        <div className="shop-card__header">
+          <img
+            src={getRandomShopImage()}
+            alt="Shop Avatar"
+            className="shop-avatar"
+          />
+          <div>
+            <h3 className="shop-name">{product?.shopId?.name}</h3>
+            <p className="shop-status">🟢 Online 5 giờ trước</p>
           </div>
         </div>
-        <div className="shop-stats">
+
+        <div className="shop-card__stats">
           <div className="stat-item">
-            <FaBox />{" "}
-            <span>
-              Sản Phẩm: <b>{product?.length || 0}</b>
-            </span>
+            <FaBox /> Sản phẩm: <b>{shop?.products || 0}</b>
           </div>
           <div className="stat-item">
-            <FaUsers />{" "}
-            <span>
-              Người Theo Dõi: <b>{shop?.followers || "0"}</b>
-            </span>
+            <FaUsers /> Người theo dõi: <b>{shop?.followers || 0}</b>
           </div>
           <div className="stat-item">
-            <FaUserCheck />{" "}
-            <span>
-              Đang Theo: <b>{shop?.following || 0}</b>
-            </span>
+            <FaUserCheck /> Đang theo: <b>{shop?.following || 0}</b>
           </div>
           <div className="stat-item">
-            <FaStar />{" "}
-            <span>
-              Đánh Giá:{" "}
-              <b>
-                {shop?.rating || "0"} ({shop?.reviews || 0} đánh giá)
-              </b>
-            </span>
+            <FaStar /> Đánh giá:{" "}
+            <b>
+              {shop?.rating || 0} ({shop?.reviews || 0} đánh giá)
+            </b>
           </div>
           <div className="stat-item">
-            <FaCommentDots />{" "}
-            <span>
-              Tỉ Lệ Phản Hồi Chat: <b>{shop?.chatResponse || "0%"}</b>
-            </span>
+            <FaCommentDots /> Tỉ lệ phản hồi chat:{" "}
+            <b>{shop?.chatResponse || "0%"}</b>
           </div>
+        </div>
+
+        <div className="shop-card__actions">
+          <button onClick={() => setIsChatOpen(true)} className="chat-button">
+            💬 Chat ngay
+          </button>
+          <button
+            className="view-shop-button"
+            onClick={() =>
+              navigate(ROUTERS.USERS.DETAIL_SHOP, {
+                state: { shopId: product?.shopId?._id }
+              })
+            }
+          >
+            🏪 Xem Shop
+          </button>
         </div>
       </div>
+      {isChatOpen && (
+        <ChatBoxComponent
+          shopId={product?.shopId?._id}
+          onClose={() => setIsChatOpen(false)}
+        />
+      )}
     </div>
   );
 };

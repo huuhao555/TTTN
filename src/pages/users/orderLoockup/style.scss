@@ -1,0 +1,155 @@
+.order-lookup {
+  max-width: 750px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+
+  h2 {
+    color: #222;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 65%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+
+    &:focus {
+      border-color: #ff5a5f;
+      box-shadow: 0 0 8px rgba(255, 90, 95, 0.4);
+    }
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 16px;
+    color: white;
+    background: #ff5a5f;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: 12px;
+    transition: background 0.3s ease-in-out;
+
+    &:hover {
+      background: #d0484c;
+    }
+  }
+}
+
+.order-details {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 10px;
+  // background: #fef6f6;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  text-align: left;
+
+  h3 {
+    color: #ff5a5f;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 6px 0;
+
+    strong {
+      color: #444;
+    }
+  }
+}
+
+.order-products {
+  margin-top: 25px;
+
+  .shop-group {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+
+    h4 {
+      color: #ff5a5f;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+  }
+
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+
+    th,
+    td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 2px solid #eee;
+    }
+
+    th {
+      background: #ff5a5f;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    td {
+      img {
+        width: 70px;
+        height: auto;
+        border-radius: 6px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .grp-price {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .price-old {
+        text-decoration: line-through;
+        color: #999;
+      }
+
+      .grp-price-new {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        .price-new {
+          font-size: 16px;
+          font-weight: bold;
+          color: #ff3b3f;
+        }
+
+        .discount {
+          background: #ff3b3f;
+          color: white;
+          font-size: 14px;
+          padding: 4px 8px;
+          border-radius: 5px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

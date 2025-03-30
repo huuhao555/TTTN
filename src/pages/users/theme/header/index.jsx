@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useRef, useState } from "react";
 import "./style.scss";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -24,8 +24,41 @@ import { apiLink } from "../../../../config/api";
 import { UserContext } from "../../../../middleware/UserContext";
 
 const Header = () => {
-  const { dataUser } = useContext(UserContext);
+  const { dataUser, countCart } = useContext(UserContext);
   const [nameUser, setNameUser] = useState("");
+
+  const [valueSearch, setValueSearch] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [products, setProducts] = useState([]);
+  console.log(suggestions);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(apiLink + "/api/product/getAllProduct");
+        const data = await response.json();
+
+        setProducts(data?.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy sản phẩm:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+  useEffect(() => {
+    if (valueSearch.trim() === "") {
+      setSuggestions([]);
+    } else {
+      const filteredProducts = products?.filter(
+        (product) =>
+          product?.name?.toLowerCase().includes(valueSearch?.toLowerCase()) ||
+          product?.company?.toLowerCase().includes(valueSearch?.toLowerCase())
+      );
+      setSuggestions(filteredProducts);
+    }
+  }, [products, valueSearch]);
+
   const navigate = useNavigate();
   const handleCategoryClick = (idCategory) => {
     navigate(`${ROUTERS.USERS.PRODUCT}/${idCategory}`, {
@@ -39,7 +72,6 @@ const Header = () => {
     }
   }, [dataUser]);
 
-  // Danh sách category có icon
   const menuCategories = [
     { name: "Điện Thoại", icon: <BsPhone /> },
     { name: "Laptop", icon: <AiOutlineLaptop /> },
@@ -73,7 +105,6 @@ const Header = () => {
     fetchCategories();
   }, []);
 
-  // Kết hợp danh mục API với icon
   const mergedCategories = categories.map((category) => {
     const matchedCategory = menuCategories.find(
       (item) => item.name === category.name
@@ -81,11 +112,15 @@ const Header = () => {
     return {
       id: category._id,
       name: category.name,
-      icon: matchedCategory ? matchedCategory.icon : <FaChessKing /> // Icon mặc định nếu không có trong danh sách
+      icon: matchedCategory ? matchedCategory.icon : <FaChessKing />
     };
   });
-  console.log(mergedCategories);
-
+  const searchRef = useRef(null);
+  const handleBlur = () => {
+    setTimeout(() => {
+      setValueSearch("");
+    }, 200);
+  };
   return (
     <div className="header">
       <div className="container">
@@ -99,13 +134,43 @@ const Header = () => {
             </Link>
           </div>
 
-          <div className="col-lg-3 input-search">
+          <div className="col-lg-3 input-search" ref={searchRef}>
             <AiOutlineSearch />
-            <input
-              type="text"
-              className="input"
-              placeholder="Bạn cần tìm gì..."
-            />
+            <div className="search-container">
+              <input
+                type="text"
+                value={valueSearch}
+                onChange={(e) => setValueSearch(e.target.value)}
+                placeholder="Tìm kiếm sản phẩm..."
+                className="search-input"
+                onBlur={handleBlur}
+              />
+              {suggestions.length > 0 && (
+                <ul className="suggestions show">
+                  {suggestions.map((product) => (
+                    <Link
+                      to={`${ROUTERS.USERS.PRODUCT_DETAIL}/${product._id}`}
+                      key={product._id}
+                      onClick={() => setValueSearch("")}
+                    >
+                      <li className="suggestion-item">
+                        <img
+                          src={product.imageUrls[0]}
+                          alt={product.name}
+                          className="product-img"
+                        />
+                        <div className="product-info">
+                          <span className="product-name">{product.name}</span>
+                          <span className="product-price">
+                            {product?.prices?.toLocaleString("vi-VN")} VNĐ
+                          </span>
+                        </div>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
 
           <div className="col-lg-6 header__top__user">
@@ -124,12 +189,13 @@ const Header = () => {
               </Link>
             )}
 
-            <Link to={ROUTERS.USERS.CART} className="user-option">
+            <Link to={ROUTERS.USERS.CART} className="user-option user-cart">
               <AiOutlineShoppingCart />
               <span>Giỏ hàng</span>
+              <span className="count-cart">{countCart}</span>
             </Link>
 
-            <Link to={ROUTERS.USERS.LOOKUP} className="user-option">
+            <Link to={ROUTERS.USERS.ORDER_LOOKUP} className="user-option">
               <AiOutlineFileSearch />
               <span>Tra cứu</span>
             </Link>

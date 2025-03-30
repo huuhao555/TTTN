@@ -12,27 +12,22 @@ import { ROUTERS } from "../../../utils";
 
 const CartPage = () => {
   const [cart, setCart] = useState(null);
-
   const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
-
+  console.log(cart);
   const { dataUser, updateCartCount } = useContext(UserContext);
 
   const [selectedProducts, setSelectedProducts] = useState([]);
+  console.log(selectedProducts);
   const navigator = useNavigate();
   const { pathname } = useLocation();
-  useEffect(
-    () => {
-      if (cart && cart.products) {
-        const allProductIds = cart?.products.map((item) => item?.productId._id);
-        setSelectedProducts(allProductIds);
-      }
-      window.scrollTo(0, 0);
-    },
-
-    [cart],
-    [pathname]
-  );
+  useEffect(() => {
+    if ((cart || {})?.products && Array.isArray((cart || {}).products)) {
+      const allProductIds = cart.map((item) => item?.productId?._id);
+      setSelectedProducts(allProductIds);
+    }
+    window.scrollTo(0, 0);
+  }, [cart, pathname]);
 
   const getAllCart = useCallback(async () => {
     if (!dataUser || !dataUser.dataUser) return;
@@ -43,9 +38,13 @@ const CartPage = () => {
       );
       if (!response.ok) throw new Error(response.statusText);
       const dataCart = await response.json();
+      setCart(dataCart?.data?.groupedByShop);
+      const totalProducts = Object.values(dataCart?.data?.groupedByShop).reduce(
+        (total, shop) => total + shop.length,
+        0
+      );
 
-      setCart(dataCart?.groupedByShop);
-      console.log(dataCart);
+      updateCartCount(totalProducts);
     } catch (error) {
       console.error("Failed to fetch count for users:", error);
     }
@@ -59,7 +58,6 @@ const CartPage = () => {
       state: { selectedProducts }
     });
   };
-
   const removeFromCart = async (productId, userID) => {
     try {
       const response = await fetch(
@@ -72,15 +70,18 @@ const CartPage = () => {
           }
         }
       );
+
       if (!response.ok) {
         throw new Error(response.statusText);
       }
+
       setMessage("Xoá sản phẩm thành công");
       setTrigger(true);
       await getAllCart();
-      const dataProduct = await response.json();
 
-      // updateCartCount(dataProduct.data.products.length);
+      const data = await response.json();
+      updateCartCount(data?.data?.products?.length);
+
       setTimeout(() => {
         setTrigger(false);
       }, 1000);
@@ -142,9 +143,13 @@ const CartPage = () => {
 
       const dataCart = await response.json();
 
-      // const updatedCount = dataCart.data.products.length;
-      // updateCartCount(updatedCount);
-      setCart(dataCart?.data);
+      const totalProducts = Object.values(dataCart?.data?.groupedByShop).reduce(
+        (total, shop) => total + shop.length,
+        0
+      );
+
+      updateCartCount(totalProducts);
+      setCart(dataCart?.data?.groupedByShop);
     } catch (error) {
       console.error("Failed to add product to cart:", error);
     }
@@ -168,17 +173,11 @@ const CartPage = () => {
       }
       const dataCart = await response.json();
 
-      // const updatedCount = dataCart.data.products.length;
-      // updateCartCount(updatedCount);
-      setCart(dataCart?.data);
+      setCart(dataCart?.data?.groupedByShop);
     } catch (error) {
       console.error("Failed to add product to cart:", error);
     }
   };
-
-  // if (!user) {
-  //   return <LoadingSpinner />;
-  // }
 
   const handleCheckboxChange = (productId) => {
     setSelectedProducts((prev) =>
@@ -188,23 +187,38 @@ const CartPage = () => {
     );
   };
 
-  const calculateTotal = () => {
-    if (!cart || !cart.products) return 0;
-    return cart.products
-      .filter((item) => selectedProducts.includes(item?.productId._id))
-      .reduce(
-        (total, item) =>
-          total + item?.productId.promotionPrice * item?.quantity,
-        0
-      );
+  const [selectAll, setSelectAll] = useState(false);
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedProducts([]); // Bỏ chọn tất cả
+    } else {
+      const allProductIds = Object.values(cart || {})
+        .flat()
+        .map((item) => item?.productId._id);
+      setSelectedProducts(allProductIds);
+    }
+    setSelectAll(!selectAll);
   };
+
   return (
     <div>
+      <div className="select-all-container">
+        <input type="checkbox" checked={selectAll} onChange={handleSelectAll} />
+        <label onClick={handleSelectAll}>
+          {selectAll ? "Bỏ chọn tất cả" : "Chọn tất cả"}
+        </label>
+      </div>
+
       {Object.entries(cart || {})?.map(([shopId, products]) => {
-        console.log(shopId, products);
+        if (!products || !Array.isArray(products)) {
+          console.error(`Dữ liệu của shop ${shopId} không hợp lệ:`, products);
+          return null;
+        }
+
         return (
           <div key={shopId} className="shop-section">
-            <h2 className="shop-title">Cửa hàng: {shopId}</h2>
+            <h2 className="shop-title">Cửa hàng: {products[0]?.shopName}</h2>
             <table>
               <thead>
                 <tr>

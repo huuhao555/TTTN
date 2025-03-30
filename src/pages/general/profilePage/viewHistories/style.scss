@@ -1,0 +1,117 @@
+// Mixin hiệu ứng hover đẹp
+@mixin hover-effect {
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Biến màu sắc chính
+$primary-color: #ff5a5f;
+$secondary-color: #f8f8f8;
+$text-color: #333;
+$price-color: #e44d26;
+$border-radius: 12px;
+
+// Container chính
+.view-histories-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: $border-radius;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: $primary-color;
+    margin-bottom: 20px;
+  }
+
+  .empty-message {
+    font-size: 18px;
+    color: #888;
+    padding: 20px;
+  }
+
+  // Grid hiển thị sản phẩm
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+    justify-content: flex-start;
+
+    // Sản phẩm
+    .product-card {
+      background: $secondary-color;
+      border-radius: $border-radius;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      @include hover-effect;
+
+      // Ảnh sản phẩm
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      // Thông tin sản phẩm
+      .product-info {
+        padding: 15px;
+        text-align: left;
+
+        .product-name {
+          font-size: 18px;
+          font-weight: bold;
+          color: $text-color;
+          margin-bottom: 8px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .product-price {
+          font-size: 16px;
+          font-weight: bold;
+          color: $price-color;
+        }
+      }
+
+      // Nút "Mua ngay"
+      .buy-now {
+        display: block;
+        text-align: center;
+        background: $primary-color;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 0 0 $border-radius $border-radius;
+        transition: background 0.3s ease-in-out;
+
+        &:hover {
+          background: darken($primary-color, 10%);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .product-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}

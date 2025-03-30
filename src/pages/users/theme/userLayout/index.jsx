@@ -9,8 +9,8 @@ import ChatComponent from "../../../../components/ChatSocket";
 const UserLayout = (props) => {
   return (
     <UserProvider>
-      {/* <ChatComponent />
-      <ChatbotWrapper /> */}
+      {/* <ChatComponent /> */}
+      {/*<ChatbotWrapper /> */}
       <div {...props}>
         <Header />
         <Breadcrumbs />
