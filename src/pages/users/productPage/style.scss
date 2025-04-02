@@ -1,191 +1,146 @@
-@use "sass:map";
-@import "../../../styles/pages/responsive";
-@import "../../../styles/pages/theme";
-
 .product-container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: auto;
+  padding: 40px 15px;
+  font-family: "Poppins", sans-serif;
+  background: #f8f9fa;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.brands,
+.sort-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+}
 
-  .filter-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.brand-list,
+.sort-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 
-    .brands,
-    .sort-section {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+.brand-item,
+.sort-buttons button {
+  padding: 8px 14px;
+  border: none;
+  background: #e0e0e0;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 13px;
+  color: #333;
+}
 
-      h4 {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
+.brand-item.active,
+.sort-buttons button.active {
+  background: #ff7043;
+  color: white;
+  box-shadow: 0 3px 8px rgba(255, 87, 34, 0.3);
+}
 
-      .brand-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding-top: 15px;
+}
 
-        .brand-item {
-          background: #fff;
-          padding: 6px 12px;
-          border-radius: 5px;
-          border: 1px solid #ddd;
-          cursor: pointer;
-          transition: all 0.3s ease;
+.product-item {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+  text-align: center;
+  position: relative;
+}
 
-          &:hover {
-            background: #e0e0e0;
-          }
-        }
-      }
+.product-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
 
-      .sort-buttons {
-        display: flex;
-        gap: 10px;
+.product-item img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+}
 
-        button {
-          background: #fff;
-          padding: 8px 12px;
-          border-radius: 5px;
-          border: 1px solid #ddd;
-          cursor: pointer;
-          transition: all 0.3s ease;
+.product-item h3 {
+  font-size: 14px;
+  margin: 8px 0;
+  color: #222;
+  max-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
 
-          &.active {
-            background: #ff4d4f;
-            color: #fff;
-            border-color: #ff4d4f;
-          }
+.product-item p {
+  font-size: 13px;
+  color: #666;
+}
 
-          &:hover {
-            background: #e0e0e0;
-          }
-        }
-      }
+.buy-button {
+  width: 100%;
+  padding: 8px;
+  background: #ff7043;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  transition: 0.3s;
+}
 
-      .dropdown {
-        position: relative;
+.buy-button:hover {
+  background: #e64a19;
+}
 
-        .dropdown-button {
-          background: #fff;
-          padding: 8px 12px;
-          border-radius: 5px;
-          border: 1px solid #ddd;
-          cursor: pointer;
-          width: 100%;
-          text-align: left;
+.load-more {
+  display: block;
+  width: 180px;
+  margin: 30px auto;
+  padding: 10px;
+  background: #222;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
 
-          &:hover {
-            background: #e0e0e0;
-          }
-        }
+.load-more:hover {
+  background: #444;
+}
 
-        .dropdown-menu {
-          position: absolute;
-          width: 100%;
-          background: #fff;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          border-radius: 5px;
-          margin-top: 5px;
-          overflow: hidden;
-          z-index: 10;
-
-          button {
-            width: 100%;
-            padding: 8px;
-            border: none;
-            background: #fff;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.3s ease;
-
-            &:hover {
-              background: #f0f0f0;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-
-    .product-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-      border-radius: 8px;
-      background: #fff;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      text-decoration: none;
-      color: #333;
-
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      }
-
-      img {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 10px;
-      }
-
-      h3 {
-        font-size: 14px;
-        font-weight: bold;
-        text-align: center;
-        margin: 5px 0;
-      }
-
-      p {
-        font-size: 14px;
-        color: #ff4d4f;
-      }
-    }
-  }
-
-  .load-more {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 15px;
-    background: #ff4d4f;
-    color: white;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: #e04346;
-    }
-  }
-
-  .loading,
-  .error-message,
-  .no-products {
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #666;
-  }
+.no-products,
+.loading,
+.error-message {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  padding: 15px;
+  font-weight: bold;
 }

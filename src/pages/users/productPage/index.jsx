@@ -23,7 +23,11 @@ const ProductPage = () => {
 
   const options = ["Thấp đến Cao", "Cao đến Thấp"];
   const { dataUser } = useContext(UserContext);
-  console.log(dataUser);
+
+  useEffect(() => {
+    setSelectedBrandId(null);
+  }, [idCategory]);
+
   const handleAddToCart = async (product) => {
     try {
       const response = await fetch(`${apiLink}/api/cart/add-update`, {
@@ -108,7 +112,9 @@ const ProductPage = () => {
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
     } else if (activeFilter === "bestseller") {
-      sortedProducts.sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
+      sortedProducts.sort(
+        (a, b) => (b.soldQuantity || 0) - (a.soldQuantity || 0)
+      );
     }
 
     setProducts(sortedProducts);
