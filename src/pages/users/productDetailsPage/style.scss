@@ -56,7 +56,44 @@
       font-weight: bold;
       margin-bottom: 10px;
     }
+    .average-rating {
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
 
+      .rating-value {
+        margin-right: 10px;
+        font-weight: bold;
+      }
+
+      .rating-stars {
+        display: flex;
+
+        .star {
+          width: 20px;
+          height: 20px;
+          margin-right: 4px;
+          clip-path: polygon(
+            50% 0%,
+            61% 35%,
+            98% 35%,
+            68% 57%,
+            79% 91%,
+            50% 70%,
+            21% 91%,
+            32% 57%,
+            2% 35%,
+            39% 35%
+          );
+          background: #ddd;
+
+          &.filled {
+            background-color: #ffcc00;
+          }
+        }
+      }
+    }
     .product-price {
       font-size: 22px;
       color: #ff6600;

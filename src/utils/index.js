@@ -42,6 +42,7 @@ export const ROUTERS = {
     CREATE_PRODUCT: "/admin/them-san-pham",
     CREATE_CATEGORY: "/admin/them-loai-san-pham",
     ACCEPT_ROLES: "/duyet-trang-thai-kenh-nguoi-ban",
+    MANAGER_USER: "/admin-quan-ly-nguoi-dung",
     ACCEPT_SHOPS: "/duyet-shop-kenh-nguoi-ban"
   },
   USERPROFILE: {

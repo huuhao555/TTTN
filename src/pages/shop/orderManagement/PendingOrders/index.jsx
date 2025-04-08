@@ -4,6 +4,7 @@ import "../style.scss";
 import { AiOutlineDownCircle } from "react-icons/ai";
 import { UserContext } from "../../../../middleware/UserContext";
 import { apiLink } from "../../../../config/api";
+import SuccessAnimation from "../../../../components/Success";
 
 const PendingOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -71,7 +72,7 @@ const PendingOrders = () => {
       }, 1000);
       const shopId = dataUser?.dataUser?.shopId;
       const updatedOrdersResponse = await fetch(
-        apiLink + `/api/order/getAll/${shopId}`
+        apiLink + `/api/order/getAllByShop/${shopId}`
       );
 
       if (!updatedOrdersResponse.ok) {
@@ -110,7 +111,7 @@ const PendingOrders = () => {
       }, 1000);
       const shopId = dataUser?.dataUser?.id;
       const updatedOrdersResponse = await fetch(
-        apiLink + `/api/order/getAll/${shopId}`
+        apiLink + `/api/order/getAllByShop/${shopId}`
       );
 
       if (!updatedOrdersResponse.ok) {
@@ -265,7 +266,7 @@ const PendingOrders = () => {
       ) : (
         <p className="no-orders">Không có đơn hàng nào đang xử lý.</p>
       )}
-      {/* <SuccessAnimation message={message} trigger={trigger} /> */}
+      <SuccessAnimation message={message} trigger={trigger} />
     </div>
   );
 };

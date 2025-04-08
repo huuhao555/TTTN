@@ -172,10 +172,10 @@
           background: #f1f3f5;
 
           img {
-            width: 60px;
-            height: 60px;
+            width: 100px;
+            height: 100px;
             border-radius: 5px;
-            object-fit: cover;
+            object-fit: contain;
           }
 
           .product-info {

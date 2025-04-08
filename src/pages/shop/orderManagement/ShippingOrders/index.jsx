@@ -4,12 +4,12 @@ import "../style.scss";
 import { AiOutlineDownCircle } from "react-icons/ai";
 
 import { apiLink } from "../../../../config/api";
-import UserContext from "../../../../middleware/UserContext";
+import { UserContext } from "../../../../middleware/UserContext";
 
 const ShippingOrders = () => {
   const [orders, setOrders] = useState([]);
   const { dataUser } = useContext(UserContext) || {};
-  console.log(dataUser);
+
   const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState(false);
   const [visibleOrders, setVisibleOrders] = useState({});
@@ -48,81 +48,7 @@ const ShippingOrders = () => {
       [orderId]: !prev[orderId]
     }));
   };
-  const handleCancelOrder = async (id) => {
-    try {
-      const response = await fetch(apiLink + `/api/order/cancel`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ orderId: id })
-      });
 
-      if (!response.ok) {
-        throw new Error("Failed to cancel order");
-      }
-      setMessage("Huỷ đơn hàng thành công");
-      setTrigger(true);
-      await response.json();
-      setTimeout(() => {
-        setTrigger(false);
-      }, 1000);
-      const shopId = dataUser?.dataUser?.shopId;
-      const updatedOrdersResponse = await fetch(
-        apiLink + `/api/order/getAll/${shopId}`
-      );
-
-      if (!updatedOrdersResponse.ok) {
-        throw new Error("Failed to fetch updated orders");
-      }
-
-      const updatedOrders = await updatedOrdersResponse.json();
-      setOrders(
-        updatedOrders?.data.filter((order) => order.status === "Pending")
-      );
-    } catch (error) {
-      console.error("Error cancelling order:", error);
-    }
-  };
-  const handleConfirmOrder = async (id) => {
-    try {
-      const response = await fetch(apiLink + `/api/order/ship`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          orderId: id,
-          shopId: dataUser?.dataUser?.shopId
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to cancel order");
-      }
-      setMessage("Xác nhận đơn hàng thành công");
-      setTrigger(true);
-      await response.json();
-      setTimeout(() => {
-        setTrigger(false);
-      }, 1000);
-      const shopId = dataUser?.dataUser?.id;
-      const updatedOrdersResponse = await fetch(
-        apiLink + `/api/order/getAll/${shopId}`
-      );
-
-      if (!updatedOrdersResponse.ok) {
-        throw new Error("Failed to fetch updated orders");
-      }
-
-      const updatedOrders = await updatedOrdersResponse.json();
-      setOrders(
-        updatedOrders?.data.filter((order) => order.status === "Pending")
-      );
-    } catch (error) {
-      console.error("Error cancelling order:", error);
-    }
-  };
   return (
     <div className="order-list-container">
       {orders.length > 0 ? (

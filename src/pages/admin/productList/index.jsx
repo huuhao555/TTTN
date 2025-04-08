@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.scss";
-import { apiLink } from "../../config/api";
-import { UserContext } from "../../middleware/UserContext";
-import { ROUTERS } from "../../utils";
 import { BsStarFill } from "react-icons/bs";
+import { apiLink } from "../../../config/api";
+import { UserContext } from "../../../middleware/UserContext";
+import { ROUTERS } from "../../../utils";
 
-const ProductList = () => {
+const ProductListAdmin = () => {
   const { dataUser, updateCartCount } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [visibleCount, setVisibleCount] = useState(12);
@@ -28,77 +28,45 @@ const ProductList = () => {
   }, []);
 
   const handleLoadMore = () => {
-    if (visibleCount + 15 >= products.length) {
+    if (visibleCount + 9 >= products.length) {
       navigate(ROUTERS.USERS.PRODUCT_ALL);
     } else {
-      setVisibleCount((prev) => prev + 15);
-    }
-  };
-
-  const handleBuyProduct = async (product) => {
-    if (!dataUser) {
-      alert("Bạn cần đăng nhập để mua hàng!");
-      return;
-    }
-
-    try {
-      const response = await fetch(`${apiLink}/api/cart/add-update`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token: `Bearer ${dataUser.access_token}`
-        },
-        body: JSON.stringify({
-          userId: dataUser?.dataUser?.id,
-          productId: product?._id,
-          quantity: 1
-        })
-      });
-
-      const dataCart = await response.json();
-      console.log(dataCart);
-      const totalProducts = Object.values(dataCart?.data?.groupedByShop).reduce(
-        (total, shop) => total + shop.length,
-        0
-      );
-      updateCartCount(totalProducts);
-    } catch (error) {
-      console.error("Lỗi khi mua sản phẩm:", error);
-      alert("Lỗi khi thêm vào giỏ hàng!");
+      setVisibleCount((prev) => prev + 9);
     }
   };
 
   return (
     <div className="container">
       <div className="row">
-        <div className="product-list-page">
-          <h1 className="product-title">Tất cả sản phẩm</h1>
-          <div className="product-grid">
+        <div className="admin-product-list-page">
+          <div className="admin-product-grid">
             {products.slice(0, visibleCount).map((product) => (
-              <div key={product?._id} className="product-card">
+              <div key={product?._id} className="admin-product-card">
                 <Link
                   to={`${ROUTERS.USERS.PRODUCT_DETAIL}/${product?._id}`}
-                  className="product-link"
+                  className="admin-product-link"
                 >
-                  <div className="product-shop">{product?.shopId?.name}</div>
+                  <div className="admin-product-shop">
+                    {product?.shopId?.name}
+                  </div>
                   <img
                     src={product?.imageUrls[0]}
                     alt={product?.name}
-                    className="product-image"
+                    className="admin-product-image"
                   />
-                  <div className="product-info">
-                    <h2 className="product-name">{product?.name}</h2>
-                    <div className="product-pricing">
-                      <span className="new-price">
+                  <div className="admin-product-info">
+                    <h2 className="admin-product-name">{product?.name}</h2>
+                    <div className="admin-product-pricing">
+                      <span className="admin-new-price">
                         {product?.promotionPrice?.toLocaleString("vi-VN")} VND
                       </span>
                       {product?.promotionPrice &&
                         product?.promotionPrice < product?.prices && (
                           <>
-                            <span className="old-price">
+                            <span className="admin-old-price">
                               {product?.prices?.toLocaleString("vi-VN")} VND
                             </span>
-                            <span className="discount">
+                            <span className="admin-discount">
                               -
                               {Math.round(
                                 ((product.prices - product.promotionPrice) /
@@ -112,21 +80,18 @@ const ProductList = () => {
                     </div>
                   </div>
                 </Link>
-                <div className="icon-star">
+                <div className="admin-icon-star">
                   <span>{(product?.averageRating).toFixed(1)}</span>
                   <BsStarFill />
                 </div>
-                <button
-                  className="product-buy-button"
-                  onClick={() => handleBuyProduct(product)}
-                >
-                  Mua ngay
-                </button>
               </div>
             ))}
           </div>
           {visibleCount < products.length && (
-            <button className="product-load-more" onClick={handleLoadMore}>
+            <button
+              className="admin-product-load-more"
+              onClick={handleLoadMore}
+            >
               Xem thêm
             </button>
           )}
@@ -136,4 +101,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default ProductListAdmin;

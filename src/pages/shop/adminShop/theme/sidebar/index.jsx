@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaShoppingCart,
   FaChartBar,
@@ -40,9 +40,18 @@ const menuItems = [
 ];
 
 const AdminSidebar = () => {
+  const navigator = useNavigate();
+
   return (
     <aside className="sidebar">
-      <h2 className="sidebar__title">Admin Shop</h2>
+      <h2
+        className="sidebar__title"
+        onClick={() => {
+          navigator(ROUTERS.USERS.HOME);
+        }}
+      >
+        Admin Shop
+      </h2>
       <nav className="sidebar__menu">
         {menuItems.map((item, index) => (
           <Link key={index} to={item.path} className="sidebar__menu-item">

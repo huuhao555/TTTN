@@ -1,0 +1,83 @@
+.user-management {
+  padding: 40px 24px;
+  background-color: #f4f6fa;
+  min-height: 100vh;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #2c3e50;
+  }
+
+  p {
+    font-size: 16px;
+    color: #7f8c8d;
+  }
+
+  .user-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .user-card {
+    background: #ffffff;
+    border-left: 6px solid #2980b9;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #34495e;
+    }
+
+    p {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #444;
+
+      strong {
+        color: #2d3436;
+        margin-right: 6px;
+      }
+    }
+
+    .roles {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      background-color: #ecf0f1;
+      color: #2c3e50;
+
+      .__0 {
+        background-color: #ffe6e6;
+        color: #c0392b;
+        border: 1px solid #e74c3c;
+      }
+
+      .roles2 {
+        background-color: #e6f3ff;
+        color: #2980b9;
+        border: 1px solid #3498db;
+      }
+
+      .roles1 {
+        background-color: #e9fbe9;
+        color: #27ae60;
+        border: 1px solid #2ecc71;
+      }
+    }
+  }
+}

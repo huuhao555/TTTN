@@ -4,11 +4,13 @@ import { UserContext } from "../../../../middleware/UserContext";
 import { apiLink } from "../../../../config/api";
 import "./style.scss";
 import { ROUTERS } from "../../../../utils";
+import SuccessAnimation from "../../../../components/Success";
 
 const CreateShop = () => {
   const navigate = useNavigate();
   const { dataUser } = useContext(UserContext);
-
+  const [message, setMessage] = useState("");
+  const [trigger, setTrigger] = useState(false);
   const [verificationData, setVerificationData] = useState({
     upgradeReason: "",
     businessPlan: ""
@@ -21,7 +23,6 @@ const CreateShop = () => {
 
   const [imageFiles, setImageFiles] = useState([]);
 
-  // ✅ Đưa useEffect ra ngoài JSX
   useEffect(() => {
     if (dataUser?.dataUser?.roles === 1 && dataUser?.dataUser?.shopId) {
       navigate(ROUTERS.SHOP.DASHBOARD);
@@ -50,8 +51,8 @@ const CreateShop = () => {
 
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
+
       const data = await response.json();
-      console.log("Phản hồi từ server:", data);
     } catch (error) {
       console.error("Lỗi khi tạo shop:", error);
     }
@@ -84,8 +85,13 @@ const CreateShop = () => {
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
 
-      const data = await response.json();
-      console.log("Phản hồi từ server:", data);
+      setMessage("Gửi xác minh Shop thành công");
+      setTrigger(true);
+      await response.json();
+      setTimeout(() => {
+        navigate(ROUTERS.USERS.HOME);
+        setTrigger(false);
+      }, 1000);
     } catch (error) {
       console.error("Lỗi khi gửi xác minh:", error);
     }
@@ -160,6 +166,7 @@ const CreateShop = () => {
           ) : null}
         </div>
       </div>
+      <SuccessAnimation message={message} trigger={trigger} />
     </div>
   );
 };

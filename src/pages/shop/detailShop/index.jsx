@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./style.scss";
 import { UserContext } from "../../../middleware/UserContext";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   FaBox,
   FaUsers,
@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { apiLink } from "../../../config/api";
 import ChatBoxComponent from "../../../components/chatShop/index";
+import { ROUTERS } from "../../../utils";
 const DetailShop = () => {
   const { dataUser, updateCartCount } = useContext(UserContext);
   const location = useLocation();
@@ -143,24 +144,52 @@ const DetailShop = () => {
           {products.length > 0 ? (
             products.map((product) => (
               <div key={product?._id} className="product-card">
-                <img
-                  src={
-                    product?.imageUrls[0] || "https://via.placeholder.com/200"
-                  }
-                  alt={product?.name}
-                />
-                <h4>{product?.name}</h4>
-                <p className="price">
-                  {product?.prices?.toLocaleString("VN-vi")} đ
-                </p>
-                <button
-                  className="buy-btn"
-                  onClick={() => {
-                    handleAddToCart(product);
-                  }}
+                <Link
+                  to={`${ROUTERS.USERS.PRODUCT_DETAIL}/${product?._id}`}
+                  className="product-link"
+                  style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  Mua ngay
-                </button>
+                  <img
+                    src={
+                      product?.imageUrls[0] || "https://via.placeholder.com/200"
+                    }
+                    alt={product?.name}
+                  />
+                  <h4>{product?.name}</h4>
+
+                  <div className="price-section">
+                    <span className="current-price">
+                      {product?.promotionPrice?.toLocaleString("vi-VN")} đ
+                    </span>
+
+                    {product?.prices &&
+                      product?.prices > product?.promotionPrice && (
+                        <>
+                          <span className="old-price">
+                            {product?.prices?.toLocaleString("vi-VN")} đ
+                          </span>
+                          <span className="discount">
+                            -
+                            {Math.round(
+                              ((product.prices - product.promotionPrice) /
+                                product.prices) *
+                                100
+                            )}
+                            %
+                          </span>
+                        </>
+                      )}
+                  </div>
+
+                  <button
+                    className="buy-btn"
+                    onClick={() => {
+                      handleAddToCart(product);
+                    }}
+                  >
+                    Mua ngay
+                  </button>
+                </Link>
               </div>
             ))
           ) : (

@@ -2,11 +2,16 @@ import { useState, useEffect, useContext } from "react";
 import "./style.scss";
 import { apiLink } from "../../../config/api";
 import { UserContext } from "../../../middleware/UserContext";
+import SuccessAnimation from "../../../components/Success";
+import { ROUTERS } from "../../../utils";
+import { useNavigate } from "react-router-dom";
 
 const UpgradeRequests = () => {
   const [users, setUsers] = useState([]);
   const { dataUser } = useContext(UserContext);
-
+  const [message, setMessage] = useState("");
+  const [trigger, setTrigger] = useState(false);
+  const navigator = useNavigate();
   useEffect(() => {
     const fetchUpgradeRequests = async () => {
       try {
@@ -32,14 +37,13 @@ const UpgradeRequests = () => {
         body: JSON.stringify({ userId })
       });
 
-      const result = await response.json();
-
-      if (result.status === "OK") {
-        alert(`Đã xác minh cho ${userId}`);
-        setUsers(users.filter((user) => user._id !== userId)); // Xóa khỏi danh sách sau khi xác minh
-      } else {
-        alert("Xác minh thất bại!");
-      }
+      setMessage("Xác minh shop thành công");
+      setTrigger(true);
+      await response.json();
+      setTimeout(() => {
+        navigator(ROUTERS.ADMIN.DASHBOARD);
+        setTrigger(false);
+      }, 1000);
     } catch (error) {
       console.error("Lỗi khi xác minh:", error);
     }
@@ -78,6 +82,7 @@ const UpgradeRequests = () => {
           ))}
         </ul>
       )}
+      <SuccessAnimation message={message} trigger={trigger} />
     </div>
   );
 };

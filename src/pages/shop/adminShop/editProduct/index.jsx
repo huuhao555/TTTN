@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { apiLink } from "../../../../config/api";
 import { UserContext } from "../../../../middleware/UserContext";
 import SuccessAnimation from "../../../../components/Success";
+import { ROUTERS } from "../../../../../src/utils/index";
 
 const EditProductShop = () => {
   const [categories, setCategories] = useState([]);
@@ -128,6 +129,7 @@ const EditProductShop = () => {
         description: ""
       });
       setTimeout(() => {
+        navigate(ROUTERS.SHOP.ALL_PRODUCT_SHOP);
         setTrigger(false);
       }, 1000);
 

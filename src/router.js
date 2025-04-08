@@ -44,6 +44,7 @@ import OrderLookup from "./pages/users/orderLoockup";
 import TurnOver from "./pages/shop/adminShop/turnOverChart";
 import RevenueStatistics from "./pages/shop/adminShop/RevenueStatistics/index";
 import ProductDetail from "./pages/shop/adminShop/detailProduct";
+import UserManagement from "./pages/admin/managerUser";
 
 const RouterCustom = () => {
   return (
@@ -93,6 +94,7 @@ const RouterCustom = () => {
           element={<CreateCategory />}
         />
         <Route path={ROUTERS.ADMIN.ACCEPT_ROLES} element={<AcceptRoles />} />
+        <Route path={ROUTERS.ADMIN.MANAGER_USER} element={<UserManagement />} />
 
         <Route path={ROUTERS.ADMIN.ACCEPT_SHOPS} element={<AcceptShop />} />
       </Route>

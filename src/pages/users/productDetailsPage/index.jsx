@@ -13,6 +13,7 @@ import img from "../../../assets/users/product/image.png";
 import { UserContext } from "../../../middleware/UserContext";
 import { ROUTERS } from "../../../utils";
 import ChatBoxComponent from "../../../components/chatShop";
+import ReviewSection from "../../../components/ReviewProduct";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const ProductDetails = () => {
   const { dataUser, updateCartCount } = useContext(UserContext);
   const [shop, setShop] = useState(null);
   const addToHistory = (product) => {
-    console.log(product);
+    console.log(dataUser);
     if (!product) return;
 
     try {
@@ -142,6 +143,29 @@ const ProductDetails = () => {
 
       <div className="product-detail__info">
         <h1 className="product-title">{product?.name}</h1>
+        <div className="average-rating">
+          <div className="rating-stars">
+            {Array.from({ length: 5 }, (_, index) => {
+              const filledPercentage = Math.min(
+                Math.max((product?.averageRating - index) * 100, 0),
+                100
+              );
+              return (
+                <div
+                  key={index}
+                  className="star"
+                  style={{
+                    background: `linear-gradient(
+                                      to right,
+                                      #ffcc00 ${filledPercentage}%,
+                                      #ddd ${filledPercentage}%
+                                    )`
+                  }}
+                ></div>
+              );
+            })}
+          </div>
+        </div>
         <p className="product-price">{product?.prices?.toLocaleString()} đ</p>
         <p className="product-description">
           {product?.description || "Không có mô tả"}
@@ -214,6 +238,7 @@ const ProductDetails = () => {
           onClose={() => setIsChatOpen(false)}
         />
       )}
+      <ReviewSection productId={product?._id} shopId={product?.shopId?._id} />
     </div>
   );
 };
