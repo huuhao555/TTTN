@@ -19,28 +19,31 @@ import ProductPage from "./pages/users/productPage";
 import ProductDetails from "./pages/users/productDetailsPage";
 import ProfileLayout from "./pages/general/profilePage/theme/profileLayout";
 import InfoUserPage from "./pages/general/profilePage/infoUser";
-import VerifyShop from "./pages/users/shop/registerShop/verifyShop";
-import CreateShop from "./pages/users/shop/registerShop/createShop";
+import VerifyShop from "./pages/shop/registerShop/verifyShop";
+import CreateShop from "./pages/shop/registerShop/createShop";
 import AcceptRoles from "./pages/admin/acceptRoles";
 import AcceptShop from "./pages/admin/acceptShop";
 import GetAllShopsPage from "./pages/users/getAllShop";
-import ShopLayout from "./pages/users/shop/adminShop/theme/shopLayout";
-import InfoShop from "./pages/users/shop/adminShop/infoShop";
-import CreateProductShop from "./pages/users/shop/adminShop/createProduct";
-// import ProductTable from "./pages/users/shop/adminShop/showProduct/showProduct";
-// import OrderManager from "./pages/users/shop/adminShop/orderManager";
-import DetailShop from "./pages/users/shop/detailShop";
+import ShopLayout from "./pages/shop/adminShop/theme/shopLayout";
+import InfoShop from "./pages/shop/adminShop/infoShop";
+import CreateProductShop from "./pages/shop/adminShop/createProduct";
+// import ProductTable from "./pages/shop/adminShop/showProduct/showProduct";
+// import OrderManager from "./pages/shop/adminShop/orderManager";
+import DetailShop from "./pages/shop/detailShop";
 import OrderPage from "./pages/users/paymentPage";
 import PaymentDetailPage from "./pages/users/PaymentDetailPage";
-import OrderStorage from "./pages/users/shop/orderManagement";
-import ProductTable from "./pages/users/shop/adminShop/showProduct";
+import OrderStorage from "./pages/shop/orderManagement";
+import ProductTable from "./pages/shop/adminShop/showProduct";
 import ChatPage from "./pages/users/chat";
 import OrderStorageUser from "./pages/users/orderManagement";
 import ProductAll from "./pages/users/getAllproducts";
 import AddReview from "./pages/users/AddReview/index";
-import ShopChat from "./pages/users/shop/chat";
-import EditProductShop from "./pages/users/shop/adminShop/editProduct";
+import ShopChat from "./pages/shop/chat";
+import EditProductShop from "./pages/shop/adminShop/editProduct";
 import OrderLookup from "./pages/users/orderLoockup";
+import TurnOver from "./pages/shop/adminShop/turnOverChart";
+import RevenueStatistics from "./pages/shop/adminShop/RevenueStatistics/index";
+import ProductDetail from "./pages/shop/adminShop/detailProduct";
 
 const RouterCustom = () => {
   return (
@@ -97,6 +100,10 @@ const RouterCustom = () => {
       <Route element={<ShopLayout />}>
         <Route path={ROUTERS.SHOP.DASHBOARD} element={<InfoShop />} />
         <Route path={ROUTERS.SHOP.CHAT} element={<ShopChat />} />
+        <Route
+          path={`${ROUTERS.SHOP.PRODUCT_DETAIL_SHOP}/:id`}
+          element={<ProductDetail />}
+        />
         <Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderStorage />} />
 
         <Route
@@ -111,6 +118,11 @@ const RouterCustom = () => {
           path={ROUTERS.SHOP.ALL_PRODUCT_SHOP}
           element={<ProductTable />}
         />
+        <Route
+          path={ROUTERS.SHOP.REVENUE_STATS}
+          element={<RevenueStatistics />}
+        />
+        <Route path={ROUTERS.SHOP.TURNOVER} element={<TurnOver />} />
         {/*<Route path={ROUTERS.SHOP.ORDER_MANAGER} element={<OrderManager />} /> */}
       </Route>
       <Route element={<ProfileLayout />}>

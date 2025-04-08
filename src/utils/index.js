@@ -30,9 +30,12 @@ export const ROUTERS = {
     DASHBOARD: "/shop-cua-toi",
     CREATE_PRODUCT_SHOP: "/shop-cua-toi-them-san-pham",
     EDIT_PRODUCT_SHOP: "/shop-cua-toi-sua-san-pham",
-    ALL_PRODUCT_SHOP: "/list-san-pham",
+    ALL_PRODUCT_SHOP: "/danh-sach-san-pham",
+    PRODUCT_DETAIL_SHOP: "/danh-sach-san-pham",
     ORDER_MANAGER: "/shop-cua-toi-quan-li-don-hang",
-    CHAT: "/shop-cua-toi-quan-li-tin-nhan"
+    CHAT: "/shop-cua-toi-quan-li-tin-nhan",
+    TURNOVER: "/shop-cua-toi-tong-doanh-thu",
+    REVENUE_STATS: "/shop-cua-toi-quan-li-doanh-thu"
   },
   ADMIN: {
     DASHBOARD: "/admin",

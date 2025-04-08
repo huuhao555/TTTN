@@ -1,0 +1,139 @@
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .total-revenue {
+    color: #ffd500;
+    background: linear-gradient(to right, #ff512f, #dd2476);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+}
+
+.chart-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 28px;
+    color: #333;
+  }
+
+  .filters {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+
+    .select-timePeriod {
+      padding: 5px 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
+}
+
+.chart {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.statistics-info {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  padding: 0 20px;
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+
+    span {
+      color: #555;
+    }
+
+    .value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+}
+
+.react-datepicker__day--today {
+  background-color: #ff6347 !important;
+  color: white !important;
+}
+
+.react-datepicker__day {
+  &:hover {
+    background-color: #ffeb3b;
+    color: black;
+  }
+}
+.purchase-table-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .purchase-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background: #fff;
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+      color: #555;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .product-info {
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      .product-name {
+        font-weight: 500;
+        color: #444;
+      }
+    }
+  }
+}
